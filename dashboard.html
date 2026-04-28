@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropFlow AI — Client Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { theme: { extend: { colors: { brown: { 50:'#fdf6f0',100:'#f5e6d3',200:'#e8c9a0',300:'#d4a46a',400:'#c08a5a',500:'#a86c3c',600:'#8a5530',700:'#6b3f24',800:'#4e2c15',900:'#2d1a0a' } } } } }</script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fdf6f0; }
+  .card { background: white; border-radius: 16px; border: 1px solid #f5e6d3; padding: 24px; }
+  .stat-card { background: white; border-radius: 12px; border: 1px solid #f5e6d3; padding: 20px; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-open { background: #fef3c7; color: #92400e; }
+  .badge-emergency { background: #fee2e2; color: #991b1b; }
+  .badge-completed { background: #d1fae5; color: #065f46; }
+  .badge-new { background: #dbeafe; color: #1e40af; }
+  .pulse { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  #login-screen { position: fixed; inset: 0; background: #fdf6f0; z-index: 50; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="text-center">
+    <div class="flex items-center justify-center gap-3 mb-8">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div style="font-family:Georgia,serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:9px;font-weight:500;letter-spacing:4px;color:#a86c3c;margin-top:2px">CAPITAL</div></div>
+    </div>
+    <h1 class="text-2xl font-bold text-brown-900 mb-2">PropFlow AI Dashboard</h1>
+    <p class="text-brown-500 text-sm mb-8">Enter your Client ID to access your AI workforce</p>
+    <div class="bg-white rounded-2xl border border-brown-100 p-8 w-80 text-left shadow-lg">
+      <label class="block text-xs font-semibold text-brown-700 uppercase tracking-wider mb-2">Client ID</label>
+      <input id="client-id-input" type="text" placeholder="e.g. abc123..." class="w-full border border-brown-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brown-500 mb-4" />
+      <button onclick="login()" class="w-full bg-brown-800 text-white font-semibold py-3 rounded-xl hover:bg-brown-700 transition-colors text-sm">Access Dashboard</button>
+      <p id="login-error" class="text-red-500 text-xs mt-3 hidden">Invalid Client ID. Please try again.</p>
+    </div>
+    <p class="text-brown-400 text-xs mt-6">Need your Client ID? Contact <a href="mailto:infonoone@noonecapital.net" class="text-brown-600 underline">infonoone@noonecapital.net</a></p>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard" class="hidden">
+  <!-- Nav -->
+  <nav class="bg-white border-b border-brown-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+    <div class="flex items-center gap-3">
+      <svg width="32" height="32" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg2)"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div style="font-family:Georgia,serif;font-size:13px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:7px;font-weight:500;letter-spacing:4px;color:#a86c3c">CAPITAL</div></div>
+    </div>
+    <div class="flex items-center gap-6">
+      <button onclick="showTab('overview')" id="tab-overview" class="text-sm font-semibold text-brown-800 border-b-2 border-brown-800 pb-1">Overview</button>
+      <button onclick="showTab('interactions')" id="tab-interactions" class="text-sm font-medium text-brown-400 hover:text-brown-700 pb-1">Activity</button>
+      <button onclick="showTab('workorders')" id="tab-workorders" class="text-sm font-medium text-brown-400 hover:text-brown-700 pb-1">Work Orders</button>
+      <button onclick="showTab('chat')" id="tab-chat" class="text-sm font-medium text-brown-400 hover:text-brown-700 pb-1">Test Agents</button>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="flex items-center gap-1.5 text-xs text-green-600 font-semibold"><span class="w-2 h-2 bg-green-500 rounded-full pulse"></span>8 Agents Live</span>
+      <button onclick="logout()" class="text-xs text-brown-400 hover:text-brown-600">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-6 py-8">
+
+    <!-- Overview Tab -->
+    <div id="tab-overview-content">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-brown-900">Good morning 👋</h1>
+        <p class="text-brown-500 text-sm mt-1">Your AI workforce is active and handling operations 24/7.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="stat-card">
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Active Tenants</div>
+          <div id="stat-tenants" class="text-3xl font-bold text-brown-900">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">New Prospects</div>
+          <div id="stat-prospects" class="text-3xl font-bold text-brown-900">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Open Work Orders</div>
+          <div id="stat-workorders" class="text-3xl font-bold text-brown-900">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Interactions Today</div>
+          <div id="stat-interactions" class="text-3xl font-bold text-brown-900">—</div>
+        </div>
+      </div>
+
+      <!-- Agents status -->
+      <div class="card mb-6">
+        <h2 class="text-base font-bold text-brown-900 mb-4">Your AI Workforce</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          ${['Leasing Agent','Receptionist','Maintenance Coordinator','Rent Collection Agent','Tenant Relations Agent','Lease Renewal Agent','Owner Relations Agent','Marketing & Vacancy Agent'].map(a=>`
+          <div class="flex items-center gap-2 bg-brown-50 rounded-xl px-3 py-2.5">
+            <span class="w-2 h-2 bg-green-500 rounded-full pulse flex-shrink-0"></span>
+            <span class="text-xs font-medium text-brown-700">${a}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base font-bold text-brown-900">Recent Activity</h2>
+          <button onclick="showTab('interactions')" class="text-xs text-brown-500 hover:text-brown-800">View all →</button>
+        </div>
+        <div id="recent-activity">
+          <div class="text-brown-400 text-sm text-center py-8">Loading activity...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Tab -->
+    <div id="tab-interactions-content" class="hidden">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-brown-900">Agent Activity</h1>
+        <button onclick="loadInteractions()" class="text-sm text-brown-500 hover:text-brown-800">↻ Refresh</button>
+      </div>
+      <div id="interactions-list" class="space-y-3">
+        <div class="text-brown-400 text-sm text-center py-8">Loading interactions...</div>
+      </div>
+    </div>
+
+    <!-- Work Orders Tab -->
+    <div id="tab-workorders-content" class="hidden">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-brown-900">Work Orders</h1>
+        <button onclick="loadWorkOrders()" class="text-sm text-brown-500 hover:text-brown-800">↻ Refresh</button>
+      </div>
+      <div id="workorders-list" class="space-y-3">
+        <div class="text-brown-400 text-sm text-center py-8">Loading work orders...</div>
+      </div>
+    </div>
+
+    <!-- Chat / Test Agents Tab -->
+    <div id="tab-chat-content" class="hidden">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold text-brown-900">Test Your Agents</h1>
+        <p class="text-brown-500 text-sm mt-1">Send a message and watch your AI workforce respond in real time.</p>
+      </div>
+      <div class="card">
+        <div class="flex gap-3 mb-4">
+          <select id="agent-select" class="border border-brown-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-brown-500">
+            <option value="route">Auto-Route (AI picks best agent)</option>
+            <option value="leasing">Leasing Agent</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="maintenance">Maintenance Coordinator</option>
+            <option value="rent-collection">Rent Collection Agent</option>
+            <option value="tenant-relations">Tenant Relations Agent</option>
+            <option value="lease-renewal">Lease Renewal Agent</option>
+            <option value="owner-relations">Owner Relations Agent</option>
+            <option value="marketing">Marketing & Vacancy Agent</option>
+          </select>
+        </div>
+        <div id="chat-messages" class="bg-brown-50 rounded-xl p-4 h-80 overflow-y-auto mb-4 space-y-3">
+          <div class="text-center text-brown-400 text-sm pt-8">Send a message to test your agents</div>
+        </div>
+        <div class="flex gap-3">
+          <input id="chat-input" type="text" placeholder="e.g. My AC stopped working..." class="flex-1 border border-brown-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brown-500" onkeydown="if(event.key==='Enter') sendChat()" />
+          <button onclick="sendChat()" class="bg-brown-800 text-white font-semibold px-6 py-3 rounded-xl hover:bg-brown-700 transition-colors text-sm">Send</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API = 'https://propflow-backend-production-bfed.up.railway.app';
+let CLIENT_ID = '';
+let chatHistory = [];
+
+function login() {
+  const id = document.getElementById('client-id-input').value.trim();
+  if (!id) return;
+  CLIENT_ID = id;
+  localStorage.setItem('propflow_client_id', id);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').classList.remove('hidden');
+  loadAll();
+}
+
+function logout() {
+  localStorage.removeItem('propflow_client_id');
+  location.reload();
+}
+
+function showTab(tab) {
+  ['overview','interactions','workorders','chat'].forEach(t => {
+    document.getElementById(`tab-${t}-content`).classList.add('hidden');
+    const btn = document.getElementById(`tab-${t}`);
+    btn.classList.remove('text-brown-800','border-b-2','border-brown-800');
+    btn.classList.add('text-brown-400');
+  });
+  document.getElementById(`tab-${tab}-content`).classList.remove('hidden');
+  const active = document.getElementById(`tab-${tab}`);
+  active.classList.add('text-brown-800','border-b-2','border-brown-800');
+  active.classList.remove('text-brown-400');
+
+  if (tab === 'interactions') loadInteractions();
+  if (tab === 'workorders') loadWorkOrders();
+}
+
+async function loadAll() {
+  await loadStats();
+  await loadRecentActivity();
+}
+
+async function loadStats() {
+  try {
+    const res = await fetch(`${API}/dashboard/${CLIENT_ID}/stats`);
+    if (!res.ok) { setPlaceholderStats(); return; }
+    const data = await res.json();
+    document.getElementById('stat-tenants').textContent = data.tenants?.active ?? '—';
+    document.getElementById('stat-prospects').textContent = data.prospects?.new ?? '—';
+    document.getElementById('stat-workorders').textContent = data.work_orders?.open ?? '—';
+    document.getElementById('stat-interactions').textContent = data.interactions_today ?? '—';
+  } catch { setPlaceholderStats(); }
+}
+
+function setPlaceholderStats() {
+  ['stat-tenants','stat-prospects','stat-workorders','stat-interactions'].forEach(id => {
+    document.getElementById(id).textContent = '0';
+  });
+}
+
+async function loadRecentActivity() {
+  try {
+    const res = await fetch(`${API}/dashboard/${CLIENT_ID}/interactions?limit=5`);
+    const el = document.getElementById('recent-activity');
+    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet. Start by testing your agents.</div>'; return; }
+    const data = await res.json();
+    if (!data.interactions?.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet. Start by testing your agents.</div>'; return; }
+    el.innerHTML = data.interactions.map(i => renderInteraction(i)).join('');
+  } catch { document.getElementById('recent-activity').innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet.</div>'; }
+}
+
+async function loadInteractions() {
+  try {
+    const res = await fetch(`${API}/dashboard/${CLIENT_ID}/interactions?limit=50`);
+    const el = document.getElementById('interactions-list');
+    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No interactions yet.</div>'; return; }
+    const data = await res.json();
+    if (!data.interactions?.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No interactions yet.</div>'; return; }
+    el.innerHTML = data.interactions.map(i => renderInteraction(i)).join('');
+  } catch { document.getElementById('interactions-list').innerHTML = '<div class="text-red-400 text-sm text-center py-8">Error loading interactions.</div>'; }
+}
+
+async function loadWorkOrders() {
+  try {
+    const res = await fetch(`${API}/dashboard/${CLIENT_ID}/work-orders`);
+    const el = document.getElementById('workorders-list');
+    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders yet.</div>'; return; }
+    const data = await res.json();
+    if (!data.work_orders?.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders yet.</div>'; return; }
+    el.innerHTML = data.work_orders.map(w => `
+      <div class="card flex items-start justify-between gap-4">
+        <div>
+          <div class="font-semibold text-brown-900 text-sm">${w.issue_description}</div>
+          <div class="text-brown-400 text-xs mt-1">${w.tenants?.name || 'Unknown tenant'} · ${new Date(w.created_at).toLocaleDateString()}</div>
+          ${w.vendor ? `<div class="text-brown-500 text-xs mt-1">Vendor: ${w.vendor}</div>` : ''}
+        </div>
+        <div class="flex flex-col gap-1 items-end flex-shrink-0">
+          <span class="badge ${w.priority === 'emergency' ? 'badge-emergency' : 'badge-open'}">${w.priority}</span>
+          <span class="badge ${w.status === 'completed' ? 'badge-completed' : 'badge-open'}">${w.status}</span>
+        </div>
+      </div>`).join('');
+  } catch { document.getElementById('workorders-list').innerHTML = '<div class="text-red-400 text-sm text-center py-8">Error loading work orders.</div>'; }
+}
+
+function renderInteraction(i) {
+  return `
+    <div class="flex items-start gap-3 py-3 border-b border-brown-50 last:border-0">
+      <div class="w-8 h-8 bg-brown-100 rounded-full flex items-center justify-center text-xs font-bold text-brown-600 flex-shrink-0">${(i.agent_name||'A')[0]}</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-brown-700">${i.agent_name || 'Agent'}</span>
+          <span class="text-xs text-brown-300">${new Date(i.created_at).toLocaleTimeString()}</span>
+          ${i.channel ? `<span class="badge badge-new">${i.channel}</span>` : ''}
+        </div>
+        <div class="text-sm text-brown-600 mt-0.5 truncate">${i.summary || i.message || '—'}</div>
+        ${i.outcome ? `<div class="text-xs text-brown-400 mt-0.5">${i.outcome}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const messagesEl = document.getElementById('chat-messages');
+  messagesEl.innerHTML += `<div class="flex justify-end"><div class="bg-brown-800 text-white text-sm px-4 py-2.5 rounded-2xl rounded-br-sm max-w-xs">${msg}</div></div>`;
+  messagesEl.innerHTML += `<div id="typing" class="flex items-center gap-2"><div class="w-6 h-6 bg-brown-100 rounded-full flex items-center justify-center text-xs">AI</div><div class="bg-white border border-brown-100 text-brown-400 text-sm px-4 py-2.5 rounded-2xl rounded-bl-sm">Thinking...</div></div>`;
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  const agentSelect = document.getElementById('agent-select').value;
+  const endpoint = agentSelect === 'route' ? `${API}/agents/route` : `${API}/agents/${agentSelect}/chat`;
+
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg, client_id: CLIENT_ID, conversation_history: chatHistory }),
+    });
+    const data = await res.json();
+    chatHistory = data.conversation_history || chatHistory;
+
+    document.getElementById('typing')?.remove();
+    const agentName = data.agent || 'Agent';
+    const routedTo = data.routed_to ? ` (routed to ${data.routed_to})` : '';
+    messagesEl.innerHTML += `
+      <div class="flex items-start gap-2">
+        <div class="w-6 h-6 bg-brown-800 rounded-full flex items-center justify-center text-xs text-white font-bold flex-shrink-0">${agentName[0]}</div>
+        <div>
+          <div class="text-xs text-brown-400 mb-1">${agentName}${routedTo}</div>
+          <div class="bg-white border border-brown-100 text-brown-800 text-sm px-4 py-2.5 rounded-2xl rounded-tl-sm max-w-sm">${data.response}</div>
+        </div>
+      </div>`;
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  } catch (e) {
+    document.getElementById('typing')?.remove();
+    messagesEl.innerHTML += `<div class="text-red-400 text-xs text-center">Error connecting to agent</div>`;
+  }
+}
+
+// Auto-login if saved
+const saved = localStorage.getItem('propflow_client_id');
+if (saved) {
+  document.getElementById('client-id-input').value = saved;
+  login();
+}
+</script>
+</body>
+</html>
