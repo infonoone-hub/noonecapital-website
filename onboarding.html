@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropFlow AI — Client Onboarding</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{brown:{50:'#fdf6f0',100:'#f5e6d3',200:'#e8c9a0',300:'#d4a46a',400:'#c08a5a',500:'#a86c3c',600:'#8a5530',700:'#6b3f24',800:'#4e2c15',900:'#2d1a0a'}}}}}</script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fdf6f0;}
+.card{background:white;border-radius:20px;border:1px solid #f5e6d3;padding:32px;}
+input,select,textarea{width:100%;border:1px solid #e8c9a0;border-radius:12px;padding:12px 16px;font-size:14px;outline:none;font-family:inherit;background:white;}
+input:focus,select:focus,textarea:focus{border-color:#4e2c15;}
+label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.step{display:none;} .step.active{display:block;}
+.progress-bar{height:4px;background:#e8c9a0;border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:#4e2c15;transition:width 0.4s;}
+</style>
+</head>
+<body>
+<div class="max-w-2xl mx-auto px-4 py-12">
+
+  <!-- Header -->
+  <div class="text-center mb-10">
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#og1)"/><defs><linearGradient id="og1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div style="font-family:Georgia,serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:9px;font-weight:500;letter-spacing:4px;color:#a86c3c;margin-top:2px">CAPITAL</div></div>
+    </div>
+    <h1 class="text-3xl font-bold text-brown-900 mb-2">Set Up Your AI Workforce</h1>
+    <p class="text-brown-500">Takes about 5 minutes. Your agents go live immediately after.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="mb-8">
+    <div class="flex justify-between text-xs font-semibold text-brown-400 mb-2">
+      <span id="step-label">Step 1 of 3 — Company Info</span>
+      <span id="step-pct">33%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:33%"></div></div>
+  </div>
+
+  <form id="onboarding-form">
+    <input type="hidden" id="client_id" name="client_id" value="" />
+
+    <!-- Step 1: Company Info -->
+    <div class="step active" id="step-1">
+      <div class="card">
+        <h2 class="text-lg font-bold text-brown-900 mb-6">Company Information</h2>
+        <div class="space-y-5">
+          <div><label>Company Name</label><input name="company_name" placeholder="Blake Realty Group" required /></div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label>Your Name</label><input name="contact_name" placeholder="Sandra Blake" required /></div>
+            <div><label>Your Phone</label><input name="contact_phone" placeholder="612-555-0001" /></div>
+          </div>
+          <div><label>Your Email</label><input name="contact_email" type="email" placeholder="sandra@blakerealty.com" required /></div>
+          <div><label>Office Hours</label><input name="office_hours" placeholder="Mon-Fri 9am-5pm" /></div>
+          <div><label>Maintenance Emergency Line</label><input name="emergency_phone" placeholder="612-555-9999" /></div>
+        </div>
+      </div>
+      <button type="button" onclick="nextStep(2)" class="w-full mt-4 bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Continue →</button>
+    </div>
+
+    <!-- Step 2: Policies -->
+    <div class="step" id="step-2">
+      <div class="card">
+        <h2 class="text-lg font-bold text-brown-900 mb-6">Property Policies</h2>
+        <div class="space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div><label>Late Fee</label><input name="late_fee" placeholder="5% of rent" /></div>
+            <div><label>Grace Period (days)</label><input name="grace_period" placeholder="5" /></div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label>Rent Due Date</label><input name="rent_due_date" placeholder="1st of month" /></div>
+            <div><label>Move-Out Notice (days)</label><input name="move_out_notice" placeholder="30" /></div>
+          </div>
+          <div><label>Pet Policy</label><input name="pet_policy" placeholder="Allowed, max 2 pets, $50/month pet rent" /></div>
+          <div><label>Lease Terms Offered</label><input name="lease_terms" placeholder="6 months, 12 months, month-to-month (+$150)" /></div>
+          <div><label>Accepted Payment Methods</label><input name="payment_methods" placeholder="Online portal, check, money order" /></div>
+          <div><label>Vendors (name + phone, one per line)</label><textarea name="vendors" rows="3" placeholder="Mike's Plumbing — 612-555-0001&#10;CoolAir HVAC — 612-555-0002&#10;QuickLock — 612-555-0003"></textarea></div>
+          <div><label>Additional Notes for Agents</label><textarea name="additional_notes" rows="2" placeholder="Any specific instructions, rules, or things agents should know..."></textarea></div>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-4">
+        <button type="button" onclick="nextStep(1)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
+        <button type="button" onclick="nextStep(3)" class="flex-2 flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Data Import -->
+    <div class="step" id="step-3">
+      <div class="card">
+        <h2 class="text-lg font-bold text-brown-900 mb-2">Import Your Data</h2>
+        <p class="text-brown-500 text-sm mb-6">Your agents need to know your tenants and properties. Choose how to import.</p>
+
+        <div class="space-y-3 mb-6">
+          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors" id="opt-csv-label">
+            <input type="radio" name="import_type" value="csv" class="mt-0.5 w-auto" onchange="showImport('csv')" />
+            <div>
+              <div class="font-semibold text-brown-900 text-sm">Upload CSV</div>
+              <div class="text-brown-500 text-xs mt-0.5">Export your tenant list from any software as a spreadsheet and upload it here</div>
+            </div>
+          </label>
+          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors" id="opt-crm-label">
+            <input type="radio" name="import_type" value="crm" class="w-auto mt-0.5" onchange="showImport('crm')" />
+            <div>
+              <div class="font-semibold text-brown-900 text-sm">Connect Your Property Management Software</div>
+              <div class="text-brown-500 text-xs mt-0.5">AppFolio, Buildium, DoorLoop, or any software with an API — we'll import everything automatically</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- CSV upload -->
+        <div id="import-csv" class="hidden space-y-4">
+          <div>
+            <label>Tenant List (CSV)</label>
+            <input type="file" name="tenant_csv" accept=".csv" id="tenant_csv" />
+            <p class="text-xs text-brown-400 mt-1">Columns: name, email, phone, unit, lease_start, lease_end, rent, balance</p>
+          </div>
+          <a href="#" onclick="downloadTemplate()" class="text-xs text-brown-600 underline">Download CSV template</a>
+        </div>
+
+        <!-- CRM connect -->
+        <div id="import-crm" class="hidden space-y-4">
+          <div>
+            <label>Software Name</label>
+            <select name="crm_name">
+              <option value="">Select your software</option>
+              <option value="AppFolio">AppFolio</option>
+              <option value="Buildium">Buildium</option>
+              <option value="DoorLoop">DoorLoop</option>
+              <option value="Propertyware">Propertyware</option>
+              <option value="RentManager">RentManager</option>
+              <option value="Yardi">Yardi</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div><label>API Base URL</label><input name="crm_base_url" placeholder="https://api.yourcrm.com/v1" /></div>
+          <div><label>API Key</label><input name="crm_api_key" type="password" placeholder="Your API key" /></div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label>Client ID (if required)</label><input name="crm_client_id" placeholder="Optional" /></div>
+            <div><label>Client Secret (if required)</label><input name="crm_client_secret" type="password" placeholder="Optional" /></div>
+          </div>
+          <div class="bg-brown-50 rounded-xl p-3 text-xs text-brown-600">
+            🔒 Your credentials are used one-time to import your data and are never stored. We only store the imported tenant and property records.
+          </div>
+        </div>
+      </div>
+
+      <div id="submit-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mt-4 text-red-700 text-sm"></div>
+
+      <div class="flex gap-3 mt-4">
+        <button type="button" onclick="nextStep(2)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
+        <button type="button" onclick="submitForm()" id="submit-btn" class="flex-2 flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Go Live →</button>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="step" id="step-success">
+      <div class="card text-center py-12">
+        <div class="text-5xl mb-4">🎉</div>
+        <h2 class="text-2xl font-bold text-brown-900 mb-3">Your AI Workforce Is Live</h2>
+        <p class="text-brown-500 mb-8">Check your email for your dashboard access and setup instructions.</p>
+        <div class="bg-brown-50 rounded-xl p-4 text-left mb-6">
+          <div class="text-xs font-semibold text-brown-500 uppercase tracking-wider mb-2">Your Client ID</div>
+          <div id="success-client-id" class="font-mono text-sm text-brown-800 break-all"></div>
+        </div>
+        <a id="dashboard-link" href="/dashboard.html" class="inline-block bg-brown-800 text-white font-semibold px-8 py-4 rounded-xl hover:bg-brown-700 transition-colors">Open Dashboard →</a>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+const API = 'https://propflow-backend-production-bfed.up.railway.app';
+let currentStep = 1;
+
+// Get client_id from URL param
+const params = new URLSearchParams(window.location.search);
+const clientId = params.get('client_id') || '';
+document.getElementById('client_id').value = clientId;
+document.getElementById('success-client-id').textContent = clientId;
+
+function nextStep(n) {
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  currentStep = n;
+  document.getElementById(`step-${n}`).classList.add('active');
+  const pcts = {1:'33%',2:'66%',3:'100%'};
+  const labels = {1:'Step 1 of 3 — Company Info',2:'Step 2 of 3 — Policies',3:'Step 3 of 3 — Import Data'};
+  document.getElementById('progress-fill').style.width = pcts[n] || '100%';
+  document.getElementById('step-pct').textContent = pcts[n] || '100%';
+  document.getElementById('step-label').textContent = labels[n] || '';
+  window.scrollTo(0,0);
+}
+
+function showImport(type) {
+  document.getElementById('import-csv').classList.toggle('hidden', type !== 'csv');
+  document.getElementById('import-crm').classList.toggle('hidden', type !== 'crm');
+}
+
+function downloadTemplate() {
+  const csv = 'name,email,phone,unit,lease_start,lease_end,rent,balance\nJames Carter,james@example.com,612-555-0001,204B,2024-09-01,2025-08-31,1800,0\n';
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'tenant_template.csv';
+  a.click();
+}
+
+async function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Setting up your agents...';
+  btn.disabled = true;
+  document.getElementById('submit-error').classList.add('hidden');
+
+  const form = document.getElementById('onboarding-form');
+  const importType = form.querySelector('input[name="import_type"]:checked')?.value;
+
+  if (!importType) {
+    showError('Please choose an import method.');
+    btn.textContent = 'Go Live →'; btn.disabled = false; return;
+  }
+
+  const fd = new FormData(form);
+
+  try {
+    const endpoint = importType === 'crm' ? `${API}/onboarding/crm` : `${API}/onboarding/csv`;
+    if (importType === 'csv') {
+      const fileInput = document.getElementById('tenant_csv');
+      if (fileInput.files[0]) fd.append('tenant_csv', fileInput.files[0]);
+    }
+    const res = await fetch(endpoint, { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Setup failed');
+
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById('step-success').classList.add('active');
+    document.getElementById('progress-fill').style.width = '100%';
+  } catch(e) {
+    showError(e.message);
+    btn.textContent = 'Go Live →'; btn.disabled = false;
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('submit-error');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+</script>
+</body>
+</html>
