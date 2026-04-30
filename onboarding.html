@@ -15,12 +15,12 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
 .step{display:none;} .step.active{display:block;}
 .progress-bar{height:4px;background:#e8c9a0;border-radius:2px;overflow:hidden;}
 .progress-fill{height:100%;background:#4e2c15;transition:width 0.4s;}
+.copy-box{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:10px;padding:10px 14px;font-family:monospace;font-size:13px;word-break:break-all;color:#2d1a0a;}
 </style>
 </head>
 <body>
 <div class="max-w-2xl mx-auto px-4 py-12">
 
-  <!-- Header -->
   <div class="text-center mb-10">
     <div class="flex items-center justify-center gap-3 mb-6">
       <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#og1)"/><defs><linearGradient id="og1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -30,13 +30,12 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
     <p class="text-brown-500">Takes about 5 minutes. Your agents go live immediately after.</p>
   </div>
 
-  <!-- Progress -->
   <div class="mb-8">
     <div class="flex justify-between text-xs font-semibold text-brown-400 mb-2">
-      <span id="step-label">Step 1 of 3 — Company Info</span>
-      <span id="step-pct">33%</span>
+      <span id="step-label">Step 1 of 4 — Company Info</span>
+      <span id="step-pct">25%</span>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:33%"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:25%"></div></div>
   </div>
 
   <form id="onboarding-form">
@@ -77,39 +76,37 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
           <div><label>Lease Terms Offered</label><input name="lease_terms" placeholder="6 months, 12 months, month-to-month (+$150)" /></div>
           <div><label>Accepted Payment Methods</label><input name="payment_methods" placeholder="Online portal, check, money order" /></div>
           <div><label>Vendors (name + phone, one per line)</label><textarea name="vendors" rows="3" placeholder="Mike's Plumbing — 612-555-0001&#10;CoolAir HVAC — 612-555-0002&#10;QuickLock — 612-555-0003"></textarea></div>
-          <div><label>Additional Notes for Agents</label><textarea name="additional_notes" rows="2" placeholder="Any specific instructions, rules, or things agents should know..."></textarea></div>
+          <div><label>Additional Notes for Agents</label><textarea name="additional_notes" rows="2" placeholder="Any specific instructions or things agents should know..."></textarea></div>
         </div>
       </div>
       <div class="flex gap-3 mt-4">
         <button type="button" onclick="nextStep(1)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
-        <button type="button" onclick="nextStep(3)" class="flex-2 flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Continue →</button>
+        <button type="button" onclick="nextStep(3)" class="flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Continue →</button>
       </div>
     </div>
 
     <!-- Step 3: Data Import -->
     <div class="step" id="step-3">
       <div class="card">
-        <h2 class="text-lg font-bold text-brown-900 mb-2">Import Your Data</h2>
-        <p class="text-brown-500 text-sm mb-6">Your agents need to know your tenants and properties. Choose how to import.</p>
-
+        <h2 class="text-lg font-bold text-brown-900 mb-2">Import Your Tenants</h2>
+        <p class="text-brown-500 text-sm mb-6">Your agents need to know your tenants and properties.</p>
         <div class="space-y-3 mb-6">
-          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors" id="opt-csv-label">
+          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors">
             <input type="radio" name="import_type" value="csv" class="mt-0.5 w-auto" onchange="showImport('csv')" />
             <div>
               <div class="font-semibold text-brown-900 text-sm">Upload CSV</div>
-              <div class="text-brown-500 text-xs mt-0.5">Export your tenant list from any software as a spreadsheet and upload it here</div>
+              <div class="text-brown-500 text-xs mt-0.5">Export your tenant list from any software and upload it here</div>
             </div>
           </label>
-          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors" id="opt-crm-label">
+          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors">
             <input type="radio" name="import_type" value="crm" class="w-auto mt-0.5" onchange="showImport('crm')" />
             <div>
-              <div class="font-semibold text-brown-900 text-sm">Connect Your Property Management Software</div>
-              <div class="text-brown-500 text-xs mt-0.5">AppFolio, Buildium, DoorLoop, or any software with an API — we'll import everything automatically</div>
+              <div class="font-semibold text-brown-900 text-sm">Connect Property Management Software</div>
+              <div class="text-brown-500 text-xs mt-0.5">AppFolio, Buildium, DoorLoop, or any software with an API</div>
             </div>
           </label>
         </div>
 
-        <!-- CSV upload -->
         <div id="import-csv" class="hidden space-y-4">
           <div>
             <label>Tenant List (CSV)</label>
@@ -119,19 +116,13 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
           <a href="#" onclick="downloadTemplate()" class="text-xs text-brown-600 underline">Download CSV template</a>
         </div>
 
-        <!-- CRM connect -->
         <div id="import-crm" class="hidden space-y-4">
           <div>
             <label>Software Name</label>
             <select name="crm_name">
               <option value="">Select your software</option>
-              <option value="AppFolio">AppFolio</option>
-              <option value="Buildium">Buildium</option>
-              <option value="DoorLoop">DoorLoop</option>
-              <option value="Propertyware">Propertyware</option>
-              <option value="RentManager">RentManager</option>
-              <option value="Yardi">Yardi</option>
-              <option value="Other">Other</option>
+              <option>AppFolio</option><option>Buildium</option><option>DoorLoop</option>
+              <option>Propertyware</option><option>RentManager</option><option>Yardi</option><option>Other</option>
             </select>
           </div>
           <div><label>API Base URL</label><input name="crm_base_url" placeholder="https://api.yourcrm.com/v1" /></div>
@@ -140,9 +131,7 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
             <div><label>Client ID (if required)</label><input name="crm_client_id" placeholder="Optional" /></div>
             <div><label>Client Secret (if required)</label><input name="crm_client_secret" type="password" placeholder="Optional" /></div>
           </div>
-          <div class="bg-brown-50 rounded-xl p-3 text-xs text-brown-600">
-            🔒 Your credentials are used one-time to import your data and are never stored. We only store the imported tenant and property records.
-          </div>
+          <div class="bg-brown-50 rounded-xl p-3 text-xs text-brown-600">Your credentials are used one-time to import data and never stored.</div>
         </div>
       </div>
 
@@ -150,7 +139,63 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
 
       <div class="flex gap-3 mt-4">
         <button type="button" onclick="nextStep(2)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
-        <button type="button" onclick="submitForm()" id="submit-btn" class="flex-2 flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Go Live →</button>
+        <button type="button" onclick="submitForm()" id="submit-btn" class="flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Go Live →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Email Forwarding -->
+    <div class="step" id="step-4">
+      <div class="card">
+        <h2 class="text-lg font-bold text-brown-900 mb-2">Connect Your Property Email</h2>
+        <p class="text-brown-500 text-sm mb-6">Forward your property inbox to your AI agents. This is what lets them respond to your tenants automatically.</p>
+
+        <div class="bg-brown-50 rounded-xl p-4 mb-6">
+          <div class="text-xs font-semibold text-brown-500 uppercase tracking-wider mb-2">Your AI Intake Address</div>
+          <div class="copy-box" id="intake-address"></div>
+          <button type="button" onclick="copyIntake()" class="mt-2 text-xs text-brown-600 underline">Copy address</button>
+        </div>
+
+        <div class="space-y-5 text-sm text-brown-700">
+
+          <div class="border border-brown-100 rounded-xl p-5">
+            <div class="font-semibold text-brown-900 mb-3">Gmail</div>
+            <ol class="space-y-2 text-brown-600 text-xs leading-relaxed list-decimal list-inside">
+              <li>Open Gmail and click the gear icon → <strong>See all settings</strong></li>
+              <li>Go to the <strong>Forwarding and POP/IMAP</strong> tab</li>
+              <li>Click <strong>Add a forwarding address</strong> and paste your intake address above</li>
+              <li>Gmail will send a confirmation email — click the link in that email to verify</li>
+              <li>Back in settings, select <strong>Forward a copy of incoming mail</strong> and choose your intake address</li>
+              <li>Click <strong>Save Changes</strong></li>
+            </ol>
+          </div>
+
+          <div class="border border-brown-100 rounded-xl p-5">
+            <div class="font-semibold text-brown-900 mb-3">Outlook / Microsoft 365</div>
+            <ol class="space-y-2 text-brown-600 text-xs leading-relaxed list-decimal list-inside">
+              <li>Go to <strong>Settings</strong> → <strong>View all Outlook settings</strong></li>
+              <li>Click <strong>Mail</strong> → <strong>Forwarding</strong></li>
+              <li>Toggle <strong>Enable forwarding</strong> on</li>
+              <li>Paste your intake address into the <strong>Forward my email to</strong> field</li>
+              <li>Click <strong>Save</strong></li>
+            </ol>
+          </div>
+
+          <div class="border border-brown-100 rounded-xl p-5">
+            <div class="font-semibold text-brown-900 mb-3">Other Email Providers</div>
+            <p class="text-brown-600 text-xs leading-relaxed">Most email providers support forwarding. Look for <strong>Settings → Forwarding</strong> or <strong>Rules → Auto-forward</strong>. If you can't find it, search "[your provider] how to forward email" — it usually takes under 2 minutes.</p>
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800">
+            <strong>Tip:</strong> You can forward multiple inboxes (info@, maintenance@, rentals@) to the same intake address — all handled by the same AI team.
+          </div>
+
+          <p class="text-xs text-brown-400 text-center">Stuck? Email us at <a href="mailto:infonoone@noonecapital.net" class="underline text-brown-600">infonoone@noonecapital.net</a> and we'll set it up for you.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-4">
+        <button type="button" onclick="nextStep(3)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
+        <button type="button" onclick="goToDashboard()" class="flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Go to Dashboard →</button>
       </div>
     </div>
 
@@ -175,22 +220,42 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
 const API = 'https://propflow-backend-production-bfed.up.railway.app';
 let currentStep = 1;
 
-// Get client_id from URL param
-const params = new URLSearchParams(window.location.search);
-const clientId = params.get('client_id') || '';
+// Auto-generate client ID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+const clientId = generateUUID();
 document.getElementById('client_id').value = clientId;
 document.getElementById('success-client-id').textContent = clientId;
+document.getElementById('intake-address').textContent = `client-${clientId}@intake.noonecapital.net`;
+
+function copyIntake() {
+  navigator.clipboard.writeText(`client-${clientId}@intake.noonecapital.net`);
+  event.target.textContent = 'Copied!';
+  setTimeout(() => event.target.textContent = 'Copy address', 2000);
+}
+
+const STEPS = {
+  1: {pct:'25%', label:'Step 1 of 4 — Company Info'},
+  2: {pct:'50%', label:'Step 2 of 4 — Policies'},
+  3: {pct:'75%', label:'Step 3 of 4 — Import Data'},
+  4: {pct:'100%', label:'Step 4 of 4 — Connect Email'},
+};
 
 function nextStep(n) {
   document.getElementById(`step-${currentStep}`).classList.remove('active');
   currentStep = n;
-  document.getElementById(`step-${n}`).classList.add('active');
-  const pcts = {1:'33%',2:'66%',3:'100%'};
-  const labels = {1:'Step 1 of 3 — Company Info',2:'Step 2 of 3 — Policies',3:'Step 3 of 3 — Import Data'};
-  document.getElementById('progress-fill').style.width = pcts[n] || '100%';
-  document.getElementById('step-pct').textContent = pcts[n] || '100%';
-  document.getElementById('step-label').textContent = labels[n] || '';
-  window.scrollTo(0,0);
+  const el = document.getElementById(`step-${n}`);
+  if (el) el.classList.add('active');
+  if (STEPS[n]) {
+    document.getElementById('progress-fill').style.width = STEPS[n].pct;
+    document.getElementById('step-pct').textContent = STEPS[n].pct;
+    document.getElementById('step-label').textContent = STEPS[n].label;
+  }
+  window.scrollTo(0, 0);
 }
 
 function showImport(type) {
@@ -221,24 +286,32 @@ async function submitForm() {
   }
 
   const fd = new FormData(form);
+  if (importType === 'csv') {
+    const fileInput = document.getElementById('tenant_csv');
+    if (fileInput.files[0]) fd.append('tenant_csv', fileInput.files[0]);
+  }
 
   try {
     const endpoint = importType === 'crm' ? `${API}/onboarding/crm` : `${API}/onboarding/csv`;
-    if (importType === 'csv') {
-      const fileInput = document.getElementById('tenant_csv');
-      if (fileInput.files[0]) fd.append('tenant_csv', fileInput.files[0]);
-    }
     const res = await fetch(endpoint, { method: 'POST', body: fd });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Setup failed');
-
+    // Move to email forwarding step
     document.getElementById(`step-${currentStep}`).classList.remove('active');
-    document.getElementById('step-success').classList.add('active');
+    currentStep = 4;
+    document.getElementById('step-4').classList.add('active');
     document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('step-pct').textContent = '100%';
+    document.getElementById('step-label').textContent = 'Step 4 of 4 — Connect Email';
+    window.scrollTo(0, 0);
   } catch(e) {
     showError(e.message);
     btn.textContent = 'Go Live →'; btn.disabled = false;
   }
+}
+
+function goToDashboard() {
+  window.location.href = `/dashboard.html?client_id=${clientId}`;
 }
 
 function showError(msg) {

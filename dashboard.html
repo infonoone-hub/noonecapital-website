@@ -286,8 +286,9 @@ function renderInteraction(i) {
   '</div>';
 }
 
-// Auto-login if saved
-var saved = localStorage.getItem('propflow_client_id');
+// Auto-login from URL param or localStorage
+var urlId = new URLSearchParams(window.location.search).get('client_id');
+var saved = urlId || localStorage.getItem('propflow_client_id');
 if (saved) {
   document.getElementById('client-id-input').value = saved;
   login();
