@@ -124,11 +124,16 @@ input[type=range]{accent-color:#4e2c15;}
     <!-- Approvals Tab -->
     <div id="panel-pending" class="hidden">
       <div class="card">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-2">
           <h2 class="font-bold text-brown-900">Pending Approvals</h2>
           <button onclick="loadPending()" class="text-xs text-brown-500 hover:text-brown-800">Refresh</button>
         </div>
         <p class="text-xs text-brown-500 mb-4">Review AI-drafted responses before they're sent to tenants.</p>
+        <div id="bulk-actions" class="hidden flex gap-2 mb-4">
+          <button onclick="bulkApprove()" class="flex-1 bg-green-600 text-white text-xs font-semibold py-2 rounded-lg hover:bg-green-700">✓ Approve All</button>
+          <button onclick="bulkApproveType('maintenance')" class="flex-1 bg-green-100 text-green-800 text-xs font-semibold py-2 rounded-lg hover:bg-green-200">Approve All Maintenance</button>
+          <button onclick="bulkApproveType('rent-collection')" class="flex-1 bg-blue-100 text-blue-800 text-xs font-semibold py-2 rounded-lg hover:bg-blue-200">Approve All Rent</button>
+        </div>
         <div id="pending-list" class="space-y-4">
           <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
         </div>
@@ -277,14 +282,34 @@ async function loadActivity() {
   list.innerHTML = data.map(renderInteraction).join('');
 }
 
+let pendingData = [];
+
+async function bulkApprove(agentFilter) {
+  const toApprove = agentFilter
+    ? pendingData.filter(p => (p.agent_name || '').toLowerCase().includes(agentFilter))
+    : pendingData;
+  if (!toApprove.length) return;
+  if (!confirm(`Approve and send ${toApprove.length} response(s)?`)) return;
+  await fetch(`${API}/respond/bulk-approve`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Client-ID': clientId},
+    body: JSON.stringify({ids: toApprove.map(p => p.id)}),
+  });
+  loadPending();
+}
+
+function bulkApproveType(type) { bulkApprove(type); }
+
 async function loadPending() {
   try {
     const res = await fetch(`${API}/dashboard/${clientId}/pending`, { headers: { 'X-Client-ID': clientId } });
     const data = await res.json();
+    pendingData = data;
     const count = data.length;
     document.getElementById('stat-pending').textContent = count;
     const badge = document.getElementById('pending-badge');
     if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
+    if (count > 1) document.getElementById('bulk-actions').classList.remove('hidden');
     const list = document.getElementById('pending-list');
     if (!count) { list.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No pending approvals.</div>'; return; }
     list.innerHTML = data.map(renderPending).join('');
