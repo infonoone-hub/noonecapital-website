@@ -143,6 +143,7 @@ input[type=range]{accent-color:#4e2c15;}
       <button class="tab-btn whitespace-nowrap" onclick="switchTab('pending')" id="tab-pending">Approvals <span id="pending-badge" class="bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded-full ml-1 hidden">0</span></button>
       <button class="tab-btn whitespace-nowrap" onclick="switchTab('workorders')" id="tab-workorders">Work Orders</button>
       <button class="tab-btn whitespace-nowrap" onclick="switchTab('tenants')" id="tab-tenants">Tenants</button>
+      <button class="tab-btn whitespace-nowrap" onclick="switchTab('referrals')" id="tab-referrals">Referrals 💰</button>
       <button class="tab-btn whitespace-nowrap" onclick="switchTab('settings')" id="tab-settings">Settings</button>
     </div>
 
@@ -200,6 +201,39 @@ input[type=range]{accent-color:#4e2c15;}
         </div>
         <div id="tenants-list" class="space-y-2">
           <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referrals Tab -->
+    <div id="panel-referrals" class="hidden">
+      <div class="card">
+        <h2 class="font-bold text-brown-900 mb-1">Refer a Business — Earn $1,000/Month</h2>
+        <p class="text-xs text-brown-500 mb-5">Every business you refer that signs up gets you $1,000 off your bill for 6 months. Share your link — they get a world-class AI workforce, you get paid.</p>
+
+        <div class="bg-brown-50 rounded-xl p-4 mb-5">
+          <div class="text-xs font-semibold text-brown-500 uppercase tracking-wider mb-2">Your Referral Link</div>
+          <div id="referral-link-display" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800 break-all mb-2">Loading...</div>
+          <button onclick="copyReferralLink()" class="text-xs text-brown-600 underline">Copy link</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-5">
+          <div class="bg-white border border-brown-100 rounded-xl p-4 text-center">
+            <div id="ref-total" class="text-2xl font-bold text-brown-900">—</div>
+            <div class="text-xs text-brown-500 mt-1">Total Referrals</div>
+          </div>
+          <div class="bg-white border border-brown-100 rounded-xl p-4 text-center">
+            <div id="ref-converted" class="text-2xl font-bold text-brown-900">—</div>
+            <div class="text-xs text-brown-500 mt-1">Converted</div>
+          </div>
+          <div class="bg-white border border-green-100 rounded-xl p-4 text-center">
+            <div id="ref-credits" class="text-2xl font-bold text-green-700">—</div>
+            <div class="text-xs text-brown-500 mt-1">Monthly Credit</div>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800">
+          <strong>Partner Program:</strong> If you're an accountant, business coach, or agency — you can earn 15% of the first-year contract value for every client you refer. Email <a href="mailto:infonoone@noonecapital.net" class="underline">infonoone@noonecapital.net</a> to get set up.
         </div>
       </div>
     </div>
@@ -525,13 +559,42 @@ function renderTenant(t) {
 }
 
 function switchTab(tab) {
-  ['activity','pending','workorders','tenants','settings'].forEach(t => {
+  ['activity','pending','workorders','tenants','referrals','settings'].forEach(t => {
     document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== tab);
     document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
   });
   if (tab === 'pending') loadPending();
   if (tab === 'workorders') loadWorkOrders();
   if (tab === 'tenants') loadTenants();
+  if (tab === 'referrals') loadReferrals();
+}
+
+let referralLink = '';
+
+async function loadReferrals() {
+  try {
+    const res = await fetch(`${API}/referrals/link/${clientId}`);
+    const data = await res.json();
+    referralLink = data.referral_link || '';
+    document.getElementById('referral-link-display').textContent = referralLink;
+
+    const statsRes = await fetch(`${API}/referrals/stats/${clientId}`);
+    const stats = await statsRes.json();
+    document.getElementById('ref-total').textContent = stats.total_referrals ?? '0';
+    document.getElementById('ref-converted').textContent = stats.converted ?? '0';
+    document.getElementById('ref-credits').textContent = stats.active_monthly_credits > 0
+      ? `$${stats.active_monthly_credits.toLocaleString()}/mo`
+      : '$0';
+  } catch(e) {
+    document.getElementById('referral-link-display').textContent = 'Unable to load — refresh to retry';
+  }
+}
+
+function copyReferralLink() {
+  if (!referralLink) return;
+  navigator.clipboard.writeText(referralLink);
+  event.target.textContent = 'Copied!';
+  setTimeout(() => event.target.textContent = 'Copy link', 2000);
 }
 
 async function toggleAutoSend() {
