@@ -71,31 +71,61 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
             <div><label>Your Phone</label><input name="contact_phone" placeholder="612-555-0001" /></div>
           </div>
           <div><label>Your Email</label><input name="contact_email" type="email" placeholder="sandra@blakerealty.com" required /></div>
+          <div>
+            <label>Industry / Business Type</label>
+            <select name="industry" id="industry-select">
+              <option value="general">General / Other</option>
+              <option value="property management">Property Management</option>
+              <option value="law firm">Law Firm</option>
+              <option value="medical / dental">Medical / Dental</option>
+              <option value="hvac">HVAC / Home Services</option>
+              <option value="real estate">Real Estate</option>
+              <option value="insurance">Insurance</option>
+              <option value="financial services">Financial Services</option>
+              <option value="auto dealer">Auto Dealer</option>
+              <option value="restaurant">Restaurant / Hospitality</option>
+            </select>
+          </div>
           <div><label>Office Hours</label><input name="office_hours" placeholder="Mon-Fri 9am-5pm" /></div>
-          <div><label>Maintenance Emergency Line</label><input name="emergency_phone" placeholder="612-555-9999" /></div>
         </div>
       </div>
       <button type="button" onclick="nextStep(2)" class="w-full mt-4 bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Continue →</button>
     </div>
 
-    <!-- Step 2: Policies -->
+    <!-- Step 2: Train Your Agents -->
     <div class="step" id="step-2">
       <div class="card">
-        <h2 class="text-lg font-bold text-brown-900 mb-6">Property Policies</h2>
+        <h2 class="text-lg font-bold text-brown-900 mb-1">Train Your Agents</h2>
+        <p class="text-brown-500 text-sm mb-6">The more context you give, the smarter your agents get. This is what makes them sound like YOUR business.</p>
         <div class="space-y-5">
-          <div class="grid grid-cols-2 gap-4">
-            <div><label>Late Fee</label><input name="late_fee" placeholder="5% of rent" /></div>
-            <div><label>Grace Period (days)</label><input name="grace_period" placeholder="5" /></div>
+          <div>
+            <label>Describe Your Business</label>
+            <textarea name="business_description" rows="3" placeholder="We're a property management company managing 200+ units across Minneapolis. We handle leasing, maintenance, and tenant relations for residential property owners."></textarea>
+            <p class="text-xs text-brown-400 mt-1">Who are you, what do you do, who are your customers?</p>
           </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div><label>Rent Due Date</label><input name="rent_due_date" placeholder="1st of month" /></div>
-            <div><label>Move-Out Notice (days)</label><input name="move_out_notice" placeholder="30" /></div>
+          <div>
+            <label>Your Workflows &amp; Processes</label>
+            <textarea name="workflows" rows="3" placeholder="New leads: qualify then schedule a showing. Maintenance: log request, dispatch vendor within 24 hours, follow up when done. Billing: rent due 1st, late fee after 5-day grace period."></textarea>
+            <p class="text-xs text-brown-400 mt-1">How do you handle common situations? Walk agents through your process.</p>
           </div>
-          <div><label>Pet Policy</label><input name="pet_policy" placeholder="Allowed, max 2 pets, $50/month pet rent" /></div>
-          <div><label>Lease Terms Offered</label><input name="lease_terms" placeholder="6 months, 12 months, month-to-month (+$150)" /></div>
-          <div><label>Accepted Payment Methods</label><input name="payment_methods" placeholder="Online portal, check, money order" /></div>
-          <div><label>Vendors (name + phone, one per line)</label><textarea name="vendors" rows="3" placeholder="Mike's Plumbing — 612-555-0001&#10;CoolAir HVAC — 612-555-0002&#10;QuickLock — 612-555-0003"></textarea></div>
-          <div><label>Additional Notes for Agents</label><textarea name="additional_notes" rows="2" placeholder="Any specific instructions or things agents should know..."></textarea></div>
+          <div>
+            <label>Common Questions &amp; Answers</label>
+            <textarea name="common_questions" rows="4" placeholder="Q: What are your hours? A: Mon-Fri 9am-5pm, emergencies 24/7.&#10;Q: How do I pay rent? A: Online portal at yourbiz.com/pay or check by mail.&#10;Q: How do I request maintenance? A: Email or call — we dispatch within 24 hours."></textarea>
+            <p class="text-xs text-brown-400 mt-1">Paste real FAQs from your website, or write new ones. One Q&amp;A per line.</p>
+          </div>
+          <div>
+            <label>Keywords Your Agents Handle (comma-separated)</label>
+            <input name="handles_keywords" placeholder="appointment, quote, inquiry, pricing, schedule, emergency, billing, repair" />
+            <p class="text-xs text-brown-400 mt-1">Topics and intents your agents should respond to automatically.</p>
+          </div>
+          <div>
+            <label>Escalate to a Human When... (comma-separated)</label>
+            <input name="escalation_triggers" placeholder="legal threat, emergency, complaint, anything over $500, upset client" />
+          </div>
+          <div>
+            <label>Any Other Instructions for Your Agents</label>
+            <textarea name="agent_instructions" rows="2" placeholder="Always be friendly and professional. Never quote prices without checking with us first. Always offer to schedule a callback."></textarea>
+          </div>
         </div>
       </div>
       <div class="flex gap-3 mt-4">
@@ -104,53 +134,35 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
       </div>
     </div>
 
-    <!-- Step 3: Data Import -->
+    <!-- Step 3: Go Live -->
     <div class="step" id="step-3">
       <div class="card">
-        <h2 class="text-lg font-bold text-brown-900 mb-2">Import Your Tenants</h2>
-        <p class="text-brown-500 text-sm mb-6">Your agents need to know your tenants and properties.</p>
+        <h2 class="text-lg font-bold text-brown-900 mb-2">Review &amp; Go Live</h2>
+        <p class="text-brown-500 text-sm mb-6">Your agents are ready. Click below to activate them — they'll be live within seconds.</p>
+
         <div class="space-y-3 mb-6">
-          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors">
-            <input type="radio" name="import_type" value="csv" class="mt-0.5 w-auto" onchange="showImport('csv')" />
-            <div>
-              <div class="font-semibold text-brown-900 text-sm">Upload CSV</div>
-              <div class="text-brown-500 text-xs mt-0.5">Export your tenant list from any software and upload it here</div>
-            </div>
-          </label>
-          <label class="flex items-start gap-3 p-4 border-2 border-brown-200 rounded-xl cursor-pointer hover:border-brown-500 transition-colors">
-            <input type="radio" name="import_type" value="crm" class="w-auto mt-0.5" onchange="showImport('crm')" />
-            <div>
-              <div class="font-semibold text-brown-900 text-sm">Connect Property Management Software</div>
-              <div class="text-brown-500 text-xs mt-0.5">AppFolio, Buildium, DoorLoop, or any software with an API</div>
-            </div>
-          </label>
+          <div class="flex items-center gap-3 p-3 bg-green-50 border border-green-200 rounded-xl">
+            <span class="text-green-600 text-lg">✓</span>
+            <div class="text-sm text-green-800 font-medium">Business profile configured</div>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-green-50 border border-green-200 rounded-xl">
+            <span class="text-green-600 text-lg">✓</span>
+            <div class="text-sm text-green-800 font-medium">Agents trained on your workflows</div>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-brown-50 border border-brown-200 rounded-xl">
+            <span class="text-brown-400 text-lg">→</span>
+            <div class="text-sm text-brown-700 font-medium">Connect email &amp; phone (next steps)</div>
+          </div>
         </div>
 
-        <div id="import-csv" class="hidden space-y-4">
-          <div>
-            <label>Tenant List (CSV)</label>
-            <input type="file" name="tenant_csv" accept=".csv" id="tenant_csv" />
-            <p class="text-xs text-brown-400 mt-1">Columns: name, email, phone, unit, lease_start, lease_end, rent, balance</p>
-          </div>
-          <a href="#" onclick="downloadTemplate()" class="text-xs text-brown-600 underline">Download CSV template</a>
-        </div>
-
-        <div id="import-crm" class="hidden space-y-4">
-          <div>
-            <label>Software Name</label>
-            <select name="crm_name">
-              <option value="">Select your software</option>
-              <option>AppFolio</option><option>Buildium</option><option>DoorLoop</option>
-              <option>Propertyware</option><option>RentManager</option><option>Yardi</option><option>Other</option>
-            </select>
-          </div>
-          <div><label>API Base URL</label><input name="crm_base_url" placeholder="https://api.yourcrm.com/v1" /></div>
-          <div><label>API Key</label><input name="crm_api_key" type="password" placeholder="Your API key" /></div>
-          <div class="grid grid-cols-2 gap-4">
-            <div><label>Client ID (if required)</label><input name="crm_client_id" placeholder="Optional" /></div>
-            <div><label>Client Secret (if required)</label><input name="crm_client_secret" type="password" placeholder="Optional" /></div>
-          </div>
-          <div class="bg-brown-50 rounded-xl p-3 text-xs text-brown-600">Your credentials are used one-time to import data and never stored.</div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+          <p class="text-xs text-amber-800 leading-relaxed">
+            <strong>Consent Notice:</strong> By activating your AI agents, you acknowledge that: (1) AI agents will respond to inbound contacts on your behalf, (2) calls may be recorded for quality assurance, (3) your agents will disclose they are AI when directly asked. You are responsible for ensuring your use complies with applicable laws including TCPA.
+          </p>
+          <label class="flex items-start gap-2 mt-3 cursor-pointer">
+            <input type="checkbox" id="tcpa-consent" class="w-auto mt-0.5" />
+            <span class="text-xs text-amber-800 font-semibold">I understand and agree to the above</span>
+          </label>
         </div>
       </div>
 
@@ -158,7 +170,7 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
 
       <div class="flex gap-3 mt-4">
         <button type="button" onclick="nextStep(2)" class="flex-1 border-2 border-brown-200 text-brown-700 font-semibold py-4 rounded-xl hover:bg-brown-50 transition-colors">← Back</button>
-        <button type="button" onclick="submitForm()" id="submit-btn" class="flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Go Live →</button>
+        <button type="button" onclick="submitForm()" id="submit-btn" class="flex-grow bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">Activate My Agents →</button>
       </div>
     </div>
 
@@ -343,8 +355,8 @@ function copyPhone() {
 
 const STEPS = {
   1: {pct:'20%', label:'Step 1 of 5 — Company Info'},
-  2: {pct:'40%', label:'Step 2 of 5 — Policies'},
-  3: {pct:'60%', label:'Step 3 of 5 — Import Data'},
+  2: {pct:'40%', label:'Step 2 of 5 — Train Your Agents'},
+  3: {pct:'60%', label:'Step 3 of 5 — Activate'},
   4: {pct:'80%', label:'Step 4 of 5 — Connect Email'},
   5: {pct:'100%', label:'Step 5 of 5 — Connect Phone'},
 };
@@ -402,23 +414,17 @@ async function submitForm() {
   btn.disabled = true;
   document.getElementById('submit-error').classList.add('hidden');
 
+  // TCPA consent required
+  if (!document.getElementById('tcpa-consent').checked) {
+    showError('Please acknowledge the consent notice to continue.');
+    btn.textContent = 'Activate My Agents →'; btn.disabled = false; return;
+  }
+
   const form = document.getElementById('onboarding-form');
-  const importType = form.querySelector('input[name="import_type"]:checked')?.value;
-
-  if (!importType) {
-    showError('Please choose an import method.');
-    btn.textContent = 'Go Live →'; btn.disabled = false; return;
-  }
-
   const fd = new FormData(form);
-  if (importType === 'csv') {
-    const fileInput = document.getElementById('tenant_csv');
-    if (fileInput.files[0]) fd.append('tenant_csv', fileInput.files[0]);
-  }
 
   try {
-    const endpoint = importType === 'crm' ? `${API}/onboarding/crm` : `${API}/onboarding/csv`;
-    const res = await fetch(endpoint, { method: 'POST', body: fd });
+    const res = await fetch(`${API}/onboarding/setup`, { method: 'POST', body: fd });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Setup failed');
 
@@ -426,16 +432,16 @@ async function submitForm() {
     const companyName = form.querySelector('[name="company_name"]').value;
     provisionVapi(companyName); // fire and forget — backend reads KB from Supabase
 
-    // Go to email step
+    // Go to email forwarding step
     nextStep(4);
   } catch(e) {
     showError(e.message);
-    btn.textContent = 'Go Live →'; btn.disabled = false;
+    btn.textContent = 'Activate My Agents →'; btn.disabled = false;
   }
 }
 
 function goToDashboard() {
-  window.location.href = `/dashboard.html?client_id=${clientId}`;
+  window.location.href = `/dashboard.html`;
 }
 
 function showError(msg) {

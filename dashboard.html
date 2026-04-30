@@ -33,15 +33,28 @@ input[type=range]{accent-color:#4e2c15;}
       <svg width="40" height="40" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <div><div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:8px;font-weight:500;letter-spacing:4px;color:#a86c3c;margin-top:2px">CAPITAL</div></div>
     </div>
-    <h1 class="text-2xl font-bold text-brown-900 mb-1">PropFlow AI</h1>
-    <p class="text-brown-500 text-sm mb-6">Enter your Client ID to access your dashboard</p>
-    <div class="bg-white rounded-2xl border border-brown-100 p-6 shadow-sm text-left">
-      <label class="block text-xs font-semibold text-brown-700 uppercase tracking-wider mb-2">Client ID</label>
-      <input id="client-id-input" type="text" placeholder="Paste your Client ID..." class="w-full border border-brown-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brown-500 mb-4" onkeydown="if(event.key==='Enter')login()" />
-      <button onclick="login()" class="w-full bg-brown-800 text-white font-semibold py-3 rounded-xl hover:bg-brown-700 text-sm">Access Dashboard</button>
-      <p id="login-error" class="text-red-500 text-xs mt-3 hidden">Invalid Client ID. Please try again.</p>
+
+    <!-- Email login panel (default) -->
+    <div id="login-email-panel">
+      <h1 class="text-2xl font-bold text-brown-900 mb-1">Your AI Dashboard</h1>
+      <p class="text-brown-500 text-sm mb-6">Enter your email and we'll send you a login link</p>
+      <div class="bg-white rounded-2xl border border-brown-100 p-6 shadow-sm text-left">
+        <label class="block text-xs font-semibold text-brown-700 uppercase tracking-wider mb-2">Email Address</label>
+        <input id="login-email-input" type="email" placeholder="you@yourbusiness.com" class="w-full border border-brown-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brown-500 mb-4" onkeydown="if(event.key==='Enter')requestMagicLink()" />
+        <button onclick="requestMagicLink()" id="magic-link-btn" class="w-full bg-brown-800 text-white font-semibold py-3 rounded-xl hover:bg-brown-700 text-sm">Send Login Link →</button>
+        <p id="login-error" class="text-red-500 text-xs mt-3 hidden">Email not found. Check your spelling or contact support.</p>
+      </div>
+      <p class="text-brown-400 text-xs mt-5">Use the email address you signed up with</p>
     </div>
-    <p class="text-brown-400 text-xs mt-5">Check your welcome email from agents@noonecapital.net</p>
+
+    <!-- Sent confirmation panel -->
+    <div id="login-sent-panel" class="hidden">
+      <div class="text-5xl mb-4">📬</div>
+      <h2 class="text-xl font-bold text-brown-900 mb-2">Check Your Email</h2>
+      <p class="text-brown-500 text-sm mb-4">We sent a login link to <strong id="sent-email-display"></strong>. Click it to open your dashboard.</p>
+      <p class="text-brown-400 text-xs">Link expires in 30 minutes. <button onclick="showEmailPanel()" class="underline text-brown-600">Use a different email</button></p>
+    </div>
+
   </div>
 </div>
 
@@ -63,10 +76,35 @@ input[type=range]{accent-color:#4e2c15;}
         <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
         <span class="text-green-700 text-xs font-semibold">Live</span>
       </div>
+      <button onclick="logout()" class="text-xs text-brown-400 hover:text-brown-700 ml-1">Sign out</button>
     </div>
   </nav>
 
   <div class="max-w-5xl mx-auto px-4 py-6 space-y-5">
+
+    <!-- ROI Banner -->
+    <div id="roi-banner" class="hidden">
+      <div style="background:linear-gradient(135deg,#4e2c15,#8a5530);border-radius:16px;padding:20px 24px;" class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <div class="text-white font-bold text-base mb-0.5">Your agents are saving you money 💰</div>
+          <div class="text-brown-200 text-xs" id="roi-subtitle">Calculating your savings...</div>
+        </div>
+        <div class="flex gap-4 flex-wrap">
+          <div class="text-center">
+            <div class="text-white font-bold text-xl" id="roi-interactions">—</div>
+            <div class="text-brown-300 text-xs">Interactions</div>
+          </div>
+          <div class="text-center">
+            <div class="text-white font-bold text-xl" id="roi-hours">—</div>
+            <div class="text-brown-300 text-xs">Hours Saved</div>
+          </div>
+          <div class="text-center">
+            <div class="text-green-300 font-bold text-xl" id="roi-money">—</div>
+            <div class="text-brown-300 text-xs">Staff Cost Saved</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Urgent Alerts -->
     <div id="alerts-section" class="hidden">
@@ -228,13 +266,67 @@ input[type=range]{accent-color:#4e2c15;}
 const API = 'https://propflow-backend-production-bfed.up.railway.app';
 let clientId = '';
 
-// Auto-login from URL
-const urlId = new URLSearchParams(window.location.search).get('client_id');
-if (urlId) { document.getElementById('client-id-input').value = urlId; login(); }
+// ─── Magic Link Auth Flow ────────────────────────────────────────────────────
 
-async function login() {
-  const id = document.getElementById('client-id-input').value.trim();
-  if (!id) return;
+async function requestMagicLink() {
+  const email = document.getElementById('login-email-input').value.trim();
+  const btn = document.getElementById('magic-link-btn');
+  const errEl = document.getElementById('login-error');
+  if (!email) return;
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  errEl.classList.add('hidden');
+  try {
+    await fetch(`${API}/auth/request-login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email }),
+    });
+    // Always show "check your email" regardless (security — don't reveal if email exists)
+    document.getElementById('sent-email-display').textContent = email;
+    document.getElementById('login-email-panel').classList.add('hidden');
+    document.getElementById('login-sent-panel').classList.remove('hidden');
+  } catch(e) {
+    errEl.classList.remove('hidden');
+    btn.textContent = 'Send Login Link →'; btn.disabled = false;
+  }
+}
+
+function showEmailPanel() {
+  document.getElementById('login-email-panel').classList.remove('hidden');
+  document.getElementById('login-sent-panel').classList.add('hidden');
+  const btn = document.getElementById('magic-link-btn');
+  btn.textContent = 'Send Login Link →'; btn.disabled = false;
+}
+
+// Handle magic link redirect: /dashboard.html?client=UUID&auth=1
+// Or stored session from localStorage
+async function tryAutoLogin() {
+  const params = new URLSearchParams(window.location.search);
+  const urlClient = params.get('client');
+  const urlAuth = params.get('auth');
+
+  // Came from magic link redirect
+  if (urlClient && urlAuth === '1') {
+    localStorage.setItem('nc_client_id', urlClient);
+    // Clean URL
+    history.replaceState({}, '', '/dashboard.html');
+    await openDashboard(urlClient);
+    return;
+  }
+
+  // Check stored session
+  const stored = localStorage.getItem('nc_client_id');
+  if (stored) {
+    try {
+      const res = await fetch(`${API}/auth/verify?client_id=${stored}`);
+      const data = await res.json();
+      if (data.valid) { await openDashboard(stored); return; }
+    } catch(e) {}
+    localStorage.removeItem('nc_client_id');
+  }
+}
+
+async function openDashboard(id) {
   try {
     const res = await fetch(`${API}/dashboard/${id}`, { headers: { 'X-Client-ID': id } });
     if (!res.ok) throw new Error();
@@ -252,16 +344,39 @@ async function login() {
     loadActivity();
     loadPending();
     checkAlerts(data.stats);
+    loadRoiBanner();
   } catch {
-    document.getElementById('login-error').classList.remove('hidden');
+    localStorage.removeItem('nc_client_id');
   }
 }
+
+function logout() {
+  localStorage.removeItem('nc_client_id');
+  window.location.reload();
+}
+
+// Run on page load
+tryAutoLogin();
 
 function renderStats(stats) {
   if (!stats) return;
   document.getElementById('stat-interactions').textContent = stats.interactions_today ?? '—';
   document.getElementById('stat-tenants').textContent = stats.tenants?.active ?? '—';
   document.getElementById('stat-work-orders').textContent = stats.work_orders?.open ?? '—';
+}
+
+async function loadRoiBanner() {
+  try {
+    const res = await fetch(`${API}/checkin/roi/${clientId}`);
+    if (!res.ok) return;
+    const d = await res.json();
+    if (!d.total_interactions) return;
+    document.getElementById('roi-interactions').textContent = d.total_interactions.toLocaleString();
+    document.getElementById('roi-hours').textContent = `${d.hours_saved}h`;
+    document.getElementById('roi-money').textContent = `$${(d.money_saved || 0).toLocaleString()}`;
+    document.getElementById('roi-subtitle').textContent = `${d.days_active} days active · agents handling your calls, emails & follow-ups`;
+    document.getElementById('roi-banner').classList.remove('hidden');
+  } catch(e) {}
 }
 
 function checkAlerts(stats) {
