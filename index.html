@@ -406,7 +406,7 @@
   </section>
 
   <!-- ============================================================
-       CONTACT / CTA — Twilio Compliant Opt-In Form
+       CONTACT / CTA
   ============================================================ -->
   <section id="contact" class="py-28 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -448,7 +448,7 @@
           </div>
         </div>
 
-        <!-- Right — Twilio-compliant contact/opt-in form -->
+        <!-- Right — Contact form -->
         <div class="bg-cream rounded-2xl border border-brown-100 p-8 reveal reveal-delay-1">
           <h3 class="font-semibold text-brown-900 text-xl mb-6">Schedule a Strategy Session</h3>
           <form id="contact-form" class="space-y-4" onsubmit="handleSubmit(event)">
@@ -468,12 +468,6 @@
               <input type="email" name="email" required class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent" placeholder="james@email.com" />
             </div>
 
-            <!-- TWILIO COMPLIANT: Phone field with explicit SMS opt-in -->
-            <div>
-              <label class="block text-xs font-medium text-brown-600 mb-1.5">Mobile Phone Number *</label>
-              <input type="tel" name="phone" required class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent" placeholder="612-220-0860" />
-            </div>
-
             <div>
               <label class="block text-xs font-medium text-brown-600 mb-1.5">Number of Units Managed</label>
               <select name="units" class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent">
@@ -488,18 +482,6 @@
             <div>
               <label class="block text-xs font-medium text-brown-600 mb-1.5">Message</label>
               <textarea name="message" rows="3" class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent resize-none" placeholder="Tell us about your portfolio and goals..."></textarea>
-            </div>
-
-            <!-- ===================================================
-                 TWILIO A2P 10DLC COMPLIANT SMS OPT-IN
-            =================================================== -->
-            <div class="bg-white border-2 border-brown-200 rounded-xl p-4">
-              <label class="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" name="sms_consent" id="sms_consent" class="mt-0.5 w-4 h-4 rounded border-brown-300 text-brown-600 focus:ring-brown-400" />
-                <span class="text-xs text-brown-600 leading-relaxed">
-                  By checking this box, I provide my express written consent to receive recurring automated text messages (SMS/MMS) from <strong class="text-brown-800">Noone Capital LLC</strong> at the mobile number provided above. Messages may include appointment reminders, portfolio performance updates, maintenance alerts, rent collection notices, and other property management communications. <strong>Message frequency varies (typically 2–6 msgs/month).</strong> Message &amp; data rates may apply. Text <strong>STOP</strong> to cancel at any time. Text <strong>HELP</strong> for assistance or contact infonoone@noonecapital.net. This consent is not a condition of any purchase or service. View our <a href="/privacy-policy.html" class="text-brown-700 underline hover:text-brown-900">Privacy Policy</a> and <a href="/sms-terms.html" class="text-brown-700 underline hover:text-brown-900">SMS Terms</a>.
-                </span>
-              </label>
             </div>
 
             <button type="submit" class="btn-primary w-full text-white font-semibold py-4 rounded-xl text-base">
@@ -579,34 +561,24 @@
           <ul class="space-y-2 text-sm">
             <li><a href="/privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
             <li><a href="/terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="/sms-terms.html" class="hover:text-white transition-colors">SMS Terms</a></li>
             <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
           </ul>
         </div>
       </div>
 
-      <!-- TWILIO COMPLIANCE FOOTER DISCLOSURE -->
       <div class="border-t border-brown-800 pt-8">
-        <p class="text-xs text-brown-500 leading-relaxed mb-4">
-          <strong class="text-brown-400">SMS Program Disclosure:</strong> Noone Capital LLC operates an SMS messaging program for clients and prospects who have provided express written consent. By opting in, you agree to receive recurring automated SMS/MMS messages including appointment reminders, portfolio updates, maintenance alerts, and property management notifications. Message frequency varies (typically 2–6 messages/month). Message &amp; data rates may apply. Text <strong class="text-brown-400">STOP</strong> to cancel at any time. Text <strong class="text-brown-400">HELP</strong> for support or email infonoone@noonecapital.net. Carriers are not liable for delayed or undelivered messages. Consent is not a condition of any purchase or service. We do not share your mobile number with third parties for their marketing purposes. See our <a href="/privacy-policy.html" class="underline hover:text-brown-300">Privacy Policy</a> and <a href="/sms-terms.html" class="underline hover:text-brown-300">SMS Terms</a>.
-        </p>
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-brown-600">
           <div>© 2025 Noone Capital LLC. All rights reserved. | Noone Capital LLC is not a registered investment advisor.</div>
           <div class="flex gap-6">
             <a href="/privacy-policy.html" class="hover:text-brown-400 transition-colors">Privacy Policy</a>
             <a href="/terms.html" class="hover:text-brown-400 transition-colors">Terms</a>
-            <a href="/sms-terms.html" class="hover:text-brown-400 transition-colors">SMS Terms</a>
           </div>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- ============================================================
-       PRIVACY POLICY PAGE (separate file — linked above)
-       SMS TERMS PAGE (separate file — linked above)
-       See: /privacy-policy.html and /sms-terms.html
-  ============================================================ -->
+  <!-- See: /privacy-policy.html for Privacy Policy -->
 
   <script>
     // Scroll reveal
