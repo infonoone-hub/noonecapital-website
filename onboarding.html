@@ -311,12 +311,12 @@ function downloadTemplate() {
   a.click();
 }
 
-async function provisionVapi(companyName, knowledgeBase) {
+async function provisionVapi(companyName) {
   try {
     const res = await fetch(`${API}/vapi/provision`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({client_id: clientId, company_name: companyName, knowledge_base: knowledgeBase})
+      body: JSON.stringify({client_id: clientId, company_name: companyName})
     });
     const data = await res.json();
     if (data.phone_number) {
@@ -360,8 +360,7 @@ async function submitForm() {
 
     // Provision Vapi in background while client sets up email
     const companyName = form.querySelector('[name="company_name"]').value;
-    const knowledgeBase = `Company: ${companyName}`;
-    provisionVapi(companyName, knowledgeBase); // fire and forget
+    provisionVapi(companyName); // fire and forget — backend reads KB from Supabase
 
     // Go to email step
     nextStep(4);
