@@ -41,6 +41,25 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
   <form id="onboarding-form">
     <input type="hidden" id="client_id" name="client_id" value="" />
 
+    <!-- Step 0: Email lookup (shown only when no client_id in URL) -->
+    <div class="step" id="step-0">
+      <div class="card">
+        <div class="text-center mb-6">
+          <div class="text-4xl mb-3">🎉</div>
+          <h2 class="text-xl font-bold text-brown-900 mb-1">Payment Received — Welcome!</h2>
+          <p class="text-brown-500 text-sm">Enter the email you used at checkout to load your account and get started.</p>
+        </div>
+        <div class="space-y-4">
+          <div><label>Email Address</label><input id="lookup-email" type="email" placeholder="you@yourcompany.com" /></div>
+          <div id="lookup-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-3 text-red-700 text-sm"></div>
+        </div>
+      </div>
+      <button type="button" onclick="lookupAccount()" id="lookup-btn" class="w-full mt-4 bg-brown-800 text-white font-semibold py-4 rounded-xl hover:bg-brown-700 transition-colors">
+        Load My Account →
+      </button>
+      <p class="text-center text-xs text-brown-400 mt-3">Didn't get a confirmation email? <a href="mailto:infonoone@noonecapital.net" class="underline text-brown-600">Contact us</a></p>
+    </div>
+
     <!-- Step 1: Company Info -->
     <div class="step active" id="step-1">
       <div class="card">
@@ -249,7 +268,7 @@ label{display:block;font-size:12px;font-weight:600;color:#6b3f24;text-transform:
 
 <script>
 const API = 'https://propflow-backend-production-bfed.up.railway.app';
-let currentStep = 1;
+let currentStep = 0;
 let vapiPhoneNumber = '';
 
 function generateUUID() {
@@ -259,11 +278,56 @@ function generateUUID() {
   });
 }
 
-// Check URL for client_id (from Stripe redirect) or generate new one
+// Check URL for client_id
+// - If present (came from welcome email): skip step 0, go straight to step 1
+// - If absent (came from Stripe redirect): show step 0 to look up by email
 const urlParams = new URLSearchParams(window.location.search);
-const clientId = urlParams.get('client_id') || generateUUID();
-document.getElementById('client_id').value = clientId;
-document.getElementById('intake-address').textContent = `client-${clientId}@intake.noonecapital.net`;
+let clientId = urlParams.get('client_id') || '';
+
+if (clientId) {
+  // Has client_id — skip the email lookup step
+  document.getElementById('client_id').value = clientId;
+  document.getElementById('intake-address').textContent = `client-${clientId}@intake.noonecapital.net`;
+  document.getElementById('step-0').classList.remove('active');
+  document.getElementById('step-1').classList.add('active');
+  currentStep = 1;
+} else {
+  // No client_id — show step 0
+  document.getElementById('step-0').classList.add('active');
+  currentStep = 0;
+}
+
+async function lookupAccount() {
+  const email = document.getElementById('lookup-email').value.trim();
+  const btn = document.getElementById('lookup-btn');
+  const errEl = document.getElementById('lookup-error');
+  if (!email) { errEl.textContent = 'Please enter your email.'; errEl.classList.remove('hidden'); return; }
+  btn.textContent = 'Looking up your account...';
+  btn.disabled = true;
+  errEl.classList.add('hidden');
+  try {
+    const res = await fetch(`${API}/stripe/onboarding-lookup?email=${encodeURIComponent(email)}`);
+    if (!res.ok) throw new Error((await res.json()).detail || 'Not found');
+    const data = await res.json();
+    clientId = data.client_id;
+    document.getElementById('client_id').value = clientId;
+    document.getElementById('intake-address').textContent = `client-${clientId}@intake.noonecapital.net`;
+    // Move to step 1
+    document.getElementById('step-0').classList.remove('active');
+    document.getElementById('step-1').classList.add('active');
+    currentStep = 1;
+    window.scrollTo(0, 0);
+    // Update progress bar
+    document.getElementById('progress-fill').style.width = '20%';
+    document.getElementById('step-pct').textContent = '20%';
+    document.getElementById('step-label').textContent = 'Step 1 of 5 — Company Info';
+  } catch(e) {
+    errEl.textContent = e.message || 'Account not found. Please check your email or contact support.';
+    errEl.classList.remove('hidden');
+    btn.textContent = 'Load My Account →';
+    btn.disabled = false;
+  }
+}
 
 function copyIntake() {
   navigator.clipboard.writeText(`client-${clientId}@intake.noonecapital.net`);
