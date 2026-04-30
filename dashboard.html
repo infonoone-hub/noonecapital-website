@@ -3,129 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropFlow AI — Client Dashboard</title>
+<title>PropFlow AI — Dashboard</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>tailwind.config = { theme: { extend: { colors: { brown: { 50:'#fdf6f0',100:'#f5e6d3',200:'#e8c9a0',300:'#d4a46a',400:'#c08a5a',500:'#a86c3c',600:'#8a5530',700:'#6b3f24',800:'#4e2c15',900:'#2d1a0a' } } } } }</script>
+<script>tailwind.config={theme:{extend:{colors:{brown:{50:'#fdf6f0',100:'#f5e6d3',200:'#e8c9a0',300:'#d4a46a',400:'#c08a5a',500:'#a86c3c',600:'#8a5530',700:'#6b3f24',800:'#4e2c15',900:'#2d1a0a'}}}}}</script>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fdf6f0; }
-  .card { background: white; border-radius: 16px; border: 1px solid #f5e6d3; padding: 24px; }
-  .stat-card { background: white; border-radius: 12px; border: 1px solid #f5e6d3; padding: 20px; text-align: center; }
-  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .badge-open { background: #fef3c7; color: #92400e; }
-  .badge-emergency { background: #fee2e2; color: #991b1b; }
-  .badge-completed { background: #d1fae5; color: #065f46; }
-  .badge-new { background: #dbeafe; color: #1e40af; }
-  .pulse { animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-  #login-screen { position: fixed; inset: 0; background: #fdf6f0; z-index: 50; display: flex; align-items: center; justify-content: center; }
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f4f0;}
+.card{background:white;border-radius:16px;border:1px solid #f0e6d8;padding:20px;}
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.02em;}
+.badge-email{background:#dbeafe;color:#1d4ed8;}
+.badge-phone{background:#f3e8ff;color:#7e22ce;}
+.badge-open{background:#fef9c3;color:#854d0e;}
+.badge-emergency{background:#fee2e2;color:#991b1b;}
+.badge-completed{background:#dcfce7;color:#166534;}
+.badge-pending{background:#fff7ed;color:#c2410c;}
+.badge-urgent{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+#login-screen{position:fixed;inset:0;background:#fdf6f0;z-index:50;display:flex;align-items:center;justify-content:center;}
+.tab-btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;color:#6b3f24;cursor:pointer;transition:all 0.15s;}
+.tab-btn.active{background:#4e2c15;color:white;}
+.alert-bar{background:#fef2f2;border:1px solid #fecaca;border-radius:12px;padding:12px 16px;}
+input[type=range]{accent-color:#4e2c15;}
 </style>
 </head>
 <body>
 
 <!-- Login Screen -->
 <div id="login-screen">
-  <div class="text-center">
+  <div class="text-center px-4 w-full max-w-sm">
     <div class="flex items-center justify-center gap-3 mb-8">
-      <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div><div style="font-family:Georgia,serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:9px;font-weight:500;letter-spacing:4px;color:#a86c3c;margin-top:2px">CAPITAL</div></div>
+      <svg width="40" height="40" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:8px;font-weight:500;letter-spacing:4px;color:#a86c3c;margin-top:2px">CAPITAL</div></div>
     </div>
-    <h1 class="text-2xl font-bold text-brown-900 mb-2">PropFlow AI Dashboard</h1>
-    <p class="text-brown-500 text-sm mb-8">Enter your Client ID to access your AI workforce</p>
-    <div class="bg-white rounded-2xl border border-brown-100 p-8 w-80 text-left shadow-lg">
+    <h1 class="text-2xl font-bold text-brown-900 mb-1">PropFlow AI</h1>
+    <p class="text-brown-500 text-sm mb-6">Enter your Client ID to access your dashboard</p>
+    <div class="bg-white rounded-2xl border border-brown-100 p-6 shadow-sm text-left">
       <label class="block text-xs font-semibold text-brown-700 uppercase tracking-wider mb-2">Client ID</label>
-      <input id="client-id-input" type="text" placeholder="e.g. abc123..." class="w-full border border-brown-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brown-500 mb-4" onkeydown="if(event.key==='Enter') login()" />
-      <button onclick="login()" class="w-full bg-brown-800 text-white font-semibold py-3 rounded-xl hover:bg-brown-700 transition-colors text-sm">Access Dashboard</button>
+      <input id="client-id-input" type="text" placeholder="Paste your Client ID..." class="w-full border border-brown-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brown-500 mb-4" onkeydown="if(event.key==='Enter')login()" />
+      <button onclick="login()" class="w-full bg-brown-800 text-white font-semibold py-3 rounded-xl hover:bg-brown-700 text-sm">Access Dashboard</button>
       <p id="login-error" class="text-red-500 text-xs mt-3 hidden">Invalid Client ID. Please try again.</p>
     </div>
-    <p class="text-brown-400 text-xs mt-6">Need your Client ID? Check the welcome email from <span class="text-brown-600">agents@noonecapital.net</span></p>
+    <p class="text-brown-400 text-xs mt-5">Check your welcome email from agents@noonecapital.net</p>
   </div>
 </div>
 
 <!-- Dashboard -->
-<div id="dashboard" class="hidden">
+<div id="dashboard" class="hidden min-h-screen">
+
   <!-- Nav -->
-  <nav class="bg-white border-b border-brown-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
-    <div class="flex items-center gap-3">
-      <svg width="32" height="32" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg2)"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div><div style="font-family:Georgia,serif;font-size:13px;font-weight:700;letter-spacing:2px;color:#2d1a0a">NOONE</div><div style="font-size:7px;font-weight:500;letter-spacing:4px;color:#a86c3c">CAPITAL</div></div>
-    </div>
-    <div class="flex items-center gap-6">
-      <button onclick="showTab('overview')" id="tab-overview" class="text-sm font-semibold text-brown-800 border-b-2 border-brown-800 pb-1">Overview</button>
-      <button onclick="showTab('interactions')" id="tab-interactions" class="text-sm font-medium text-brown-400 hover:text-brown-700 pb-1">Activity</button>
-      <button onclick="showTab('workorders')" id="tab-workorders" class="text-sm font-medium text-brown-400 hover:text-brown-700 pb-1">Work Orders</button>
+  <nav class="bg-white border-b border-brown-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+    <div class="flex items-center gap-2">
+      <svg width="28" height="28" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="10" fill="url(#lg2)"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs><path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <div style="font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:2px;color:#2d1a0a">PROPFLOW</div>
+        <div style="font-size:7px;font-weight:500;letter-spacing:3px;color:#a86c3c">AI WORKFORCE</div>
+      </div>
     </div>
     <div class="flex items-center gap-3">
-      <span class="flex items-center gap-1.5 text-xs text-green-600 font-semibold"><span class="w-2 h-2 bg-green-500 rounded-full pulse"></span>8 Agents Live</span>
-      <button onclick="logout()" class="text-xs text-brown-400 hover:text-brown-600">Sign Out</button>
+      <span id="company-name" class="text-brown-700 font-semibold text-sm hidden sm:block"></span>
+      <div id="live-dot" class="flex items-center gap-1.5 bg-green-50 border border-green-200 px-3 py-1 rounded-full">
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        <span class="text-green-700 text-xs font-semibold">Live</span>
+      </div>
     </div>
   </nav>
 
-  <div class="max-w-6xl mx-auto px-6 py-8">
+  <div class="max-w-5xl mx-auto px-4 py-6 space-y-5">
 
-    <!-- Overview Tab -->
-    <div id="tab-overview-content">
-      <div class="mb-8">
-        <h1 class="text-2xl font-bold text-brown-900" id="greeting">Good morning</h1>
-        <p class="text-brown-500 text-sm mt-1">Your AI workforce is active and handling operations 24/7.</p>
+    <!-- Urgent Alerts -->
+    <div id="alerts-section" class="hidden">
+      <div class="alert-bar">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-semibold text-red-700 text-sm">⚠️ Needs Your Attention</span>
+          <button onclick="document.getElementById('alerts-section').classList.add('hidden')" class="text-red-400 text-xs">Dismiss</button>
+        </div>
+        <div id="alerts-list" class="space-y-1"></div>
       </div>
+    </div>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="stat-card">
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Active Tenants</div>
-          <div id="stat-tenants" class="text-3xl font-bold text-brown-900">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">New Prospects</div>
-          <div id="stat-prospects" class="text-3xl font-bold text-brown-900">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Open Work Orders</div>
-          <div id="stat-workorders" class="text-3xl font-bold text-brown-900">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-1">Interactions Today</div>
-          <div id="stat-interactions" class="text-3xl font-bold text-brown-900">0</div>
-        </div>
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="card text-center">
+        <div id="stat-interactions" class="text-3xl font-bold text-brown-900">—</div>
+        <div class="text-xs text-brown-500 mt-1 font-medium">Today's Interactions</div>
       </div>
-
-      <!-- Agents status -->
-      <div class="card mb-6">
-        <h2 class="text-base font-bold text-brown-900 mb-4">Your AI Workforce</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="agents-grid"></div>
+      <div class="card text-center">
+        <div id="stat-tenants" class="text-3xl font-bold text-brown-900">—</div>
+        <div class="text-xs text-brown-500 mt-1 font-medium">Active Tenants</div>
       </div>
+      <div class="card text-center">
+        <div id="stat-work-orders" class="text-3xl font-bold text-brown-900">—</div>
+        <div class="text-xs text-brown-500 mt-1 font-medium">Open Work Orders</div>
+      </div>
+      <div class="card text-center">
+        <div id="stat-pending" class="text-3xl font-bold text-orange-500">—</div>
+        <div class="text-xs text-brown-500 mt-1 font-medium">Pending Approval</div>
+      </div>
+    </div>
 
-      <!-- Recent activity -->
+    <!-- Tabs -->
+    <div class="flex gap-2 bg-brown-50 rounded-xl p-1 overflow-x-auto">
+      <button class="tab-btn active whitespace-nowrap" onclick="switchTab('activity')" id="tab-activity">Activity</button>
+      <button class="tab-btn whitespace-nowrap" onclick="switchTab('pending')" id="tab-pending">Approvals <span id="pending-badge" class="bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded-full ml-1 hidden">0</span></button>
+      <button class="tab-btn whitespace-nowrap" onclick="switchTab('workorders')" id="tab-workorders">Work Orders</button>
+      <button class="tab-btn whitespace-nowrap" onclick="switchTab('tenants')" id="tab-tenants">Tenants</button>
+      <button class="tab-btn whitespace-nowrap" onclick="switchTab('settings')" id="tab-settings">Settings</button>
+    </div>
+
+    <!-- Activity Tab -->
+    <div id="panel-activity">
       <div class="card">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-brown-900">Recent Activity</h2>
-          <button onclick="showTab('interactions')" class="text-xs text-brown-500 hover:text-brown-800">View all</button>
+          <h2 class="font-bold text-brown-900">Recent Activity</h2>
+          <button onclick="loadActivity()" class="text-xs text-brown-500 hover:text-brown-800">Refresh</button>
         </div>
-        <div id="recent-activity">
-          <div class="text-brown-400 text-sm text-center py-8">No activity yet. Agents will log interactions here as they handle emails and requests.</div>
+        <div id="activity-list" class="space-y-3">
+          <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
         </div>
       </div>
     </div>
 
-    <!-- Activity Tab -->
-    <div id="tab-interactions-content" class="hidden">
-      <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-brown-900">Agent Activity</h1>
-        <button onclick="loadInteractions()" class="text-xs text-brown-500 hover:text-brown-800 flex items-center gap-1">Refresh</button>
-      </div>
-      <div id="interactions-list" class="space-y-3">
-        <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+    <!-- Approvals Tab -->
+    <div id="panel-pending" class="hidden">
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-bold text-brown-900">Pending Approvals</h2>
+          <button onclick="loadPending()" class="text-xs text-brown-500 hover:text-brown-800">Refresh</button>
+        </div>
+        <p class="text-xs text-brown-500 mb-4">Review AI-drafted responses before they're sent to tenants.</p>
+        <div id="pending-list" class="space-y-4">
+          <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+        </div>
       </div>
     </div>
 
     <!-- Work Orders Tab -->
-    <div id="tab-workorders-content" class="hidden">
-      <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-brown-900">Work Orders</h1>
-        <button onclick="loadWorkOrders()" class="text-xs text-brown-500 hover:text-brown-800 flex items-center gap-1">Refresh</button>
+    <div id="panel-workorders" class="hidden">
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-bold text-brown-900">Work Orders</h2>
+          <button onclick="loadWorkOrders()" class="text-xs text-brown-500 hover:text-brown-800">Refresh</button>
+        </div>
+        <div id="workorders-list" class="space-y-3">
+          <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+        </div>
       </div>
-      <div id="workorders-list" class="space-y-3">
-        <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+    </div>
+
+    <!-- Tenants Tab -->
+    <div id="panel-tenants" class="hidden">
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-bold text-brown-900">Rent Roll</h2>
+          <span class="text-xs text-brown-500">AI flags delinquency risks</span>
+        </div>
+        <div id="tenants-list" class="space-y-2">
+          <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="panel-settings" class="hidden">
+      <div class="card">
+        <h2 class="font-bold text-brown-900 mb-5">Settings</h2>
+        <div class="space-y-5">
+
+          <div class="flex items-start justify-between p-4 bg-brown-50 rounded-xl">
+            <div>
+              <div class="font-semibold text-brown-900 text-sm">Auto-Send Responses</div>
+              <div class="text-xs text-brown-500 mt-1">When off, all AI responses go to your approval queue first. When on, responses send immediately.</div>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer ml-4 mt-0.5">
+              <input type="checkbox" id="auto-send-toggle" class="sr-only peer" onchange="toggleAutoSend()">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brown-800"></div>
+            </label>
+          </div>
+
+          <div class="p-4 bg-brown-50 rounded-xl">
+            <div class="font-semibold text-brown-900 text-sm mb-1">AI Intake Email</div>
+            <div class="text-xs text-brown-500 mb-2">Forward your property inbox to this address</div>
+            <div id="settings-intake" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800 break-all"></div>
+          </div>
+
+          <div class="p-4 bg-brown-50 rounded-xl">
+            <div class="font-semibold text-brown-900 text-sm mb-1">AI Receptionist Number</div>
+            <div class="text-xs text-brown-500 mb-2">Forward your business phone to this number</div>
+            <div id="settings-phone" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800">Loading...</div>
+          </div>
+
+          <div class="p-4 border border-brown-100 rounded-xl">
+            <div class="font-semibold text-brown-900 text-sm mb-3">Property Management Software</div>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs text-brown-600 mb-1">Software (AppFolio, Buildium, etc.)</label>
+                <input id="crm-name" type="text" placeholder="AppFolio" class="w-full border border-brown-200 rounded-lg px-3 py-2 text-sm outline-none" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs text-brown-600 mb-1">Client ID</label>
+                  <input id="crm-client-id" type="text" class="w-full border border-brown-200 rounded-lg px-3 py-2 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs text-brown-600 mb-1">Client Secret</label>
+                  <input id="crm-client-secret" type="password" class="w-full border border-brown-200 rounded-lg px-3 py-2 text-sm outline-none" />
+                </div>
+              </div>
+              <button onclick="saveCrmSettings()" class="w-full bg-brown-800 text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-brown-700">Save & Enable Write-Back</button>
+              <p class="text-xs text-brown-400">Work orders will be created in your PM software automatically when maintenance requests come in.</p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -134,164 +221,198 @@
 
 <script>
 const API = 'https://propflow-backend-production-bfed.up.railway.app';
-let CLIENT_ID = '';
+let clientId = '';
 
-const AGENTS = [
-  'Leasing Agent', 'Receptionist', 'Maintenance Coordinator', 'Rent Collection Agent',
-  'Tenant Relations Agent', 'Lease Renewal Agent', 'Owner Relations Agent', 'Marketing & Vacancy Agent'
-];
+// Auto-login from URL
+const urlId = new URLSearchParams(window.location.search).get('client_id');
+if (urlId) { document.getElementById('client-id-input').value = urlId; login(); }
 
-function login() {
+async function login() {
   const id = document.getElementById('client-id-input').value.trim();
   if (!id) return;
-  CLIENT_ID = id;
-  localStorage.setItem('propflow_client_id', id);
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').classList.remove('hidden');
-  renderAgents();
-  setGreeting();
-  loadAll();
-}
-
-function logout() {
-  localStorage.removeItem('propflow_client_id');
-  location.reload();
-}
-
-function setGreeting() {
-  const h = new Date().getHours();
-  const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-  document.getElementById('greeting').textContent = g;
-}
-
-function renderAgents() {
-  document.getElementById('agents-grid').innerHTML = AGENTS.map(a => `
-    <div class="flex items-center gap-2 bg-brown-50 rounded-xl px-3 py-2.5">
-      <span class="w-2 h-2 bg-green-500 rounded-full pulse flex-shrink-0"></span>
-      <span class="text-xs font-medium text-brown-700">${a}</span>
-    </div>`).join('');
-}
-
-function showTab(tab) {
-  ['overview','interactions','workorders'].forEach(t => {
-    document.getElementById('tab-' + t + '-content').classList.add('hidden');
-    const btn = document.getElementById('tab-' + t);
-    btn.classList.remove('text-brown-800','border-b-2','border-brown-800');
-    btn.classList.add('text-brown-400');
-  });
-  document.getElementById('tab-' + tab + '-content').classList.remove('hidden');
-  const active = document.getElementById('tab-' + tab);
-  active.classList.add('text-brown-800','border-b-2','border-brown-800');
-  active.classList.remove('text-brown-400');
-
-  if (tab === 'interactions') loadInteractions();
-  if (tab === 'workorders') loadWorkOrders();
-}
-
-function authHeaders() {
-  return { 'X-Client-ID': CLIENT_ID };
-}
-
-async function loadAll() {
-  loadStats();
-  loadRecentActivity();
-}
-
-async function loadStats() {
   try {
-    const res = await fetch(API + '/dashboard/' + CLIENT_ID + '/stats', { headers: authHeaders() });
-    if (!res.ok) return;
+    const res = await fetch(`${API}/dashboard/${id}`, { headers: { 'X-Client-ID': id } });
+    if (!res.ok) throw new Error();
     const data = await res.json();
-    document.getElementById('stat-tenants').textContent = data.tenants?.active ?? 0;
-    document.getElementById('stat-prospects').textContent = data.prospects?.new ?? 0;
-    document.getElementById('stat-workorders').textContent = data.work_orders?.open ?? 0;
-    document.getElementById('stat-interactions').textContent = data.interactions_today ?? 0;
-  } catch(e) { console.log('Stats error:', e); }
+    clientId = id;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').classList.remove('hidden');
+    const name = data.client?.name || '';
+    if (name) document.getElementById('company-name').textContent = name;
+    document.getElementById('company-name').classList.remove('hidden');
+    document.getElementById('settings-intake').textContent = `client-${clientId}@intake.noonecapital.net`;
+    if (data.client?.vapi_phone_number) document.getElementById('settings-phone').textContent = data.client.vapi_phone_number;
+    if (data.client?.auto_send) document.getElementById('auto-send-toggle').checked = true;
+    renderStats(data.stats);
+    loadActivity();
+    loadPending();
+    checkAlerts(data.stats);
+  } catch {
+    document.getElementById('login-error').classList.remove('hidden');
+  }
 }
 
-async function loadRecentActivity() {
-  try {
-    const res = await fetch(API + '/dashboard/' + CLIENT_ID + '/interactions?limit=5', { headers: authHeaders() });
-    const el = document.getElementById('recent-activity');
-    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet. Agents will log interactions here as they handle emails and requests.</div>'; return; }
-    const data = await res.json();
-    if (!data.interactions || !data.interactions.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet. Agents will log interactions here as they handle emails and requests.</div>'; return; }
-    el.innerHTML = data.interactions.map(function(i) { return renderInteraction(i); }).join('');
-  } catch(e) { document.getElementById('recent-activity').innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No activity yet.</div>'; }
+function renderStats(stats) {
+  if (!stats) return;
+  document.getElementById('stat-interactions').textContent = stats.interactions_today ?? '—';
+  document.getElementById('stat-tenants').textContent = stats.tenants?.active ?? '—';
+  document.getElementById('stat-work-orders').textContent = stats.work_orders?.open ?? '—';
 }
 
-async function loadInteractions() {
+function checkAlerts(stats) {
+  const alerts = [];
+  if (stats?.work_orders?.emergency > 0) alerts.push(`${stats.work_orders.emergency} emergency maintenance request(s)`);
+  if (stats?.tenants?.delinquent > 0) alerts.push(`${stats.tenants.delinquent} tenant(s) with overdue rent`);
+  if (alerts.length) {
+    document.getElementById('alerts-section').classList.remove('hidden');
+    document.getElementById('alerts-list').innerHTML = alerts.map(a => `<div class="text-red-700 text-sm">• ${a}</div>`).join('');
+  }
+}
+
+async function loadActivity() {
+  const res = await fetch(`${API}/dashboard/${clientId}/interactions`, { headers: { 'X-Client-ID': clientId } });
+  const data = await res.json();
+  const list = document.getElementById('activity-list');
+  if (!data.length) { list.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No activity yet.</div>'; return; }
+  list.innerHTML = data.map(renderInteraction).join('');
+}
+
+async function loadPending() {
   try {
-    const res = await fetch(API + '/dashboard/' + CLIENT_ID + '/interactions?limit=50', { headers: authHeaders() });
-    const el = document.getElementById('interactions-list');
-    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No interactions yet.</div>'; return; }
+    const res = await fetch(`${API}/dashboard/${clientId}/pending`, { headers: { 'X-Client-ID': clientId } });
     const data = await res.json();
-    if (!data.interactions || !data.interactions.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No interactions yet. Activity from your AI agents will appear here.</div>'; return; }
-    el.innerHTML = data.interactions.map(function(i) { return renderInteraction(i); }).join('');
-  } catch(e) { document.getElementById('interactions-list').innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No interactions yet.</div>'; }
+    const count = data.length;
+    document.getElementById('stat-pending').textContent = count;
+    const badge = document.getElementById('pending-badge');
+    if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
+    const list = document.getElementById('pending-list');
+    if (!count) { list.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No pending approvals.</div>'; return; }
+    list.innerHTML = data.map(renderPending).join('');
+  } catch(e) {
+    document.getElementById('stat-pending').textContent = '—';
+  }
 }
 
 async function loadWorkOrders() {
-  try {
-    const res = await fetch(API + '/dashboard/' + CLIENT_ID + '/work-orders', { headers: authHeaders() });
-    const el = document.getElementById('workorders-list');
-    if (!res.ok) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders yet.</div>'; return; }
-    const data = await res.json();
-    if (!data.work_orders || !data.work_orders.length) { el.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders yet. Maintenance requests from tenants will appear here.</div>'; return; }
-    el.innerHTML = data.work_orders.map(function(w) {
-      var priorityClass = w.priority === 'emergency' ? 'badge-emergency' : 'badge-open';
-      var statusClass = w.status === 'completed' ? 'badge-completed' : 'badge-open';
-      var tenantName = (w.tenants && w.tenants.name) ? w.tenants.name : 'Unknown tenant';
-      var dateStr = new Date(w.created_at).toLocaleDateString();
-      var vendor = w.vendor ? '<div class="text-brown-500 text-xs mt-1">Vendor: ' + w.vendor + '</div>' : '';
-      return '<div class="card flex items-start justify-between gap-4">' +
-        '<div>' +
-          '<div class="font-semibold text-brown-900 text-sm">' + w.issue_description + '</div>' +
-          '<div class="text-brown-400 text-xs mt-1">' + tenantName + ' &middot; ' + dateStr + '</div>' +
-          vendor +
-        '</div>' +
-        '<div class="flex flex-col gap-1 items-end flex-shrink-0">' +
-          '<span class="badge ' + priorityClass + '">' + w.priority + '</span>' +
-          '<span class="badge ' + statusClass + '">' + w.status + '</span>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-  } catch(e) { document.getElementById('workorders-list').innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders yet.</div>'; }
+  const res = await fetch(`${API}/dashboard/${clientId}/work-orders`, { headers: { 'X-Client-ID': clientId } });
+  const data = await res.json();
+  const list = document.getElementById('workorders-list');
+  if (!data.length) { list.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No work orders.</div>'; return; }
+  list.innerHTML = data.map(renderWorkOrder).join('');
+}
+
+async function loadTenants() {
+  const res = await fetch(`${API}/dashboard/${clientId}/tenants`, { headers: { 'X-Client-ID': clientId } });
+  const data = await res.json();
+  const list = document.getElementById('tenants-list');
+  if (!data.length) { list.innerHTML = '<div class="text-brown-400 text-sm text-center py-8">No tenants.</div>'; return; }
+  list.innerHTML = data.map(renderTenant).join('');
 }
 
 function renderInteraction(i) {
-  var initial = (i.agent_name || 'A').charAt(0);
-  var agentName = i.agent_name || 'Agent';
-  var timeStr = new Date(i.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-  var channelColors = {email:'background:#dbeafe;color:#1e40af', phone:'background:#dcfce7;color:#166534', sms:'background:#fef9c3;color:#854d0e', internal:'background:#f3f4f6;color:#374151'};
-  var chStyle = channelColors[i.channel] || 'background:#f3f4f6;color:#374151';
-  var channel = i.channel ? '<span style="' + chStyle + '" class="badge">' + i.channel + '</span>' : '';
-  var outcomeMap = {vendor_dispatched:'Vendor dispatched', showing_scheduled:'Showing scheduled', work_order_created:'Work order created', reminder_sent:'Reminder sent', late_fee_applied:'Late fee applied', tour_scheduled:'Tour scheduled', payment_plan_created:'Payment plan set up', renewal_offered:'Renewal offer sent', listing_published:'Listing published', report_sent:'Report sent', application_received:'Application received', transferred_to_leasing:'Transferred to leasing', batch_completed:'Batch completed', replied:'Replied'};
-  var outcomeLabel = outcomeMap[i.outcome] || i.outcome || '';
-  var inbound = i.message ? '<div class="text-xs text-brown-400 mt-0.5 truncate">' + i.message + '</div>' : '';
-  var response = i.response ? '<div class="text-sm text-brown-700 mt-1 line-clamp-2" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + i.response + '</div>' : '';
-  var outcomeTag = outcomeLabel ? '<span class="badge badge-completed mt-1">' + outcomeLabel + '</span>' : '';
-  return '<div class="flex items-start gap-3 py-3 border-b border-brown-50 last:border-0">' +
-    '<div class="w-8 h-8 bg-brown-800 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0">' + initial + '</div>' +
-    '<div class="flex-1 min-w-0">' +
-      '<div class="flex items-center gap-2 flex-wrap">' +
-        '<span class="text-xs font-semibold text-brown-800">' + agentName + '</span>' +
-        '<span class="text-xs text-brown-300">' + timeStr + '</span>' +
-        channel +
-      '</div>' +
-      inbound +
-      response +
-      '<div class="mt-1">' + outcomeTag + '</div>' +
-    '</div>' +
-  '</div>';
+  const channelBadge = i.channel === 'phone'
+    ? '<span class="badge badge-phone">📞 Phone</span>'
+    : '<span class="badge badge-email">✉ Email</span>';
+  const time = i.created_at ? new Date(i.created_at).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+  const outcome = i.outcome === 'pending_approval'
+    ? '<span class="badge badge-pending">⏳ Awaiting Approval</span>'
+    : i.outcome === 'replied' ? '<span class="badge badge-completed">✓ Sent</span>' : '';
+  return `<div class="border border-brown-50 rounded-xl p-4 hover:bg-brown-50 transition-colors">
+    <div class="flex items-start justify-between gap-2 mb-2">
+      <div class="flex items-center gap-2 flex-wrap">
+        ${channelBadge}
+        <span class="text-xs font-semibold text-brown-700">${i.agent_name || 'Agent'}</span>
+        ${outcome}
+      </div>
+      <span class="text-xs text-brown-400 whitespace-nowrap">${time}</span>
+    </div>
+    <div class="text-sm text-brown-800 font-medium">${i.message || ''}</div>
+    ${i.response ? `<div class="text-xs text-brown-500 mt-1 line-clamp-2">${i.response.slice(0, 120)}...</div>` : ''}
+  </div>`;
 }
 
-// Auto-login from URL param or localStorage
-var urlId = new URLSearchParams(window.location.search).get('client_id');
-var saved = urlId || localStorage.getItem('propflow_client_id');
-if (saved) {
-  document.getElementById('client-id-input').value = saved;
-  login();
+function renderPending(p) {
+  const time = p.created_at ? new Date(p.created_at).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+  const urgentTag = p.is_urgent ? '<span class="badge badge-urgent">🚨 Urgent</span>' : '';
+  return `<div class="border ${p.is_urgent ? 'border-red-200 bg-red-50' : 'border-brown-100'} rounded-xl p-4">
+    <div class="flex items-start justify-between gap-2 mb-2">
+      <div class="flex flex-wrap gap-2 items-center">
+        ${urgentTag}
+        <span class="text-xs font-semibold text-brown-700">${p.agent_name || 'Agent'}</span>
+        <span class="text-xs text-brown-400">${time}</span>
+      </div>
+    </div>
+    <div class="text-xs text-brown-500 mb-1">To: ${p.tenant_email} · Re: ${p.subject}</div>
+    <div class="bg-white rounded-lg p-3 text-sm text-brown-800 border border-brown-100 whitespace-pre-wrap mb-3">${p.draft}</div>
+    <div class="flex gap-2">
+      <a href="${API.replace('propflow-backend-production-bfed.up.railway.app', 'propflow-backend-production-bfed.up.railway.app')}/respond/approve/${p.id}?t=${p.token || ''}" target="_blank" class="flex-1 bg-green-600 text-white text-sm font-semibold py-2 rounded-lg text-center hover:bg-green-700">✓ Approve & Send</a>
+      <a href="${API}/respond/reject/${p.id}?t=${p.token || ''}" target="_blank" class="flex-1 bg-red-500 text-white text-sm font-semibold py-2 rounded-lg text-center hover:bg-red-600">✗ Reject</a>
+    </div>
+  </div>`;
+}
+
+function renderWorkOrder(w) {
+  const statusBadge = w.status === 'open' ? '<span class="badge badge-open">Open</span>'
+    : w.status === 'emergency' ? '<span class="badge badge-emergency">Emergency</span>'
+    : '<span class="badge badge-completed">Done</span>';
+  const time = w.created_at ? new Date(w.created_at).toLocaleString('en-US', {month:'short',day:'numeric'}) : '';
+  return `<div class="flex items-start justify-between gap-3 p-4 border border-brown-50 rounded-xl hover:bg-brown-50">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1 flex-wrap">${statusBadge}<span class="text-xs text-brown-400">${time}</span></div>
+      <div class="text-sm font-medium text-brown-900">${w.description || 'Work order'}</div>
+      ${w.tenants ? `<div class="text-xs text-brown-500 mt-0.5">${w.tenants.name || ''} · Unit ${w.tenants.unit_id || ''}</div>` : ''}
+    </div>
+    <span class="text-xs text-brown-400 font-mono whitespace-nowrap">#${(w.id || '').slice(0,8)}</span>
+  </div>`;
+}
+
+function renderTenant(t) {
+  const isDelinquent = t.status === 'delinquent' || (t.balance_due > 0);
+  const riskFlag = isDelinquent ? '<span class="badge badge-emergency">⚠ Risk</span>' : '<span class="badge badge-completed">✓</span>';
+  return `<div class="flex items-center justify-between gap-3 p-3 border border-brown-50 rounded-xl hover:bg-brown-50">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-sm font-medium text-brown-900">${t.name || ''}</span>
+        ${riskFlag}
+      </div>
+      <div class="text-xs text-brown-500">${t.email || ''} ${t.unit_id ? '· Unit ' + t.unit_id : ''}</div>
+    </div>
+    <div class="text-right shrink-0">
+      <div class="text-sm font-semibold ${isDelinquent ? 'text-red-600' : 'text-brown-700'}">$${(t.rent_amount || 0).toLocaleString()}/mo</div>
+      ${t.balance_due > 0 ? `<div class="text-xs text-red-500">$${t.balance_due.toLocaleString()} overdue</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function switchTab(tab) {
+  ['activity','pending','workorders','tenants','settings'].forEach(t => {
+    document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+  });
+  if (tab === 'pending') loadPending();
+  if (tab === 'workorders') loadWorkOrders();
+  if (tab === 'tenants') loadTenants();
+}
+
+async function toggleAutoSend() {
+  const val = document.getElementById('auto-send-toggle').checked;
+  await fetch(`${API}/dashboard/${clientId}/settings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Client-ID': clientId },
+    body: JSON.stringify({ auto_send: val }),
+  });
+}
+
+async function saveCrmSettings() {
+  const crm_name = document.getElementById('crm-name').value;
+  const crm_client_id = document.getElementById('crm-client-id').value;
+  const crm_client_secret = document.getElementById('crm-client-secret').value;
+  const res = await fetch(`${API}/dashboard/${clientId}/settings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Client-ID': clientId },
+    body: JSON.stringify({ crm_name, crm_client_id, crm_client_secret }),
+  });
+  if (res.ok) alert('Saved! Work orders will now sync to your PM software.');
 }
 </script>
 </body>
