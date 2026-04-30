@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noone Capital — AI Property Management Workforce</title>
-  <meta name="description" content="PropFlow AI replaces your property management front office with 8 AI agents — handling calls, emails, maintenance, and rent collection 24/7 for $5K/month." />
+  <title>Noone Capital — AI Workforce for Any Business</title>
+  <meta name="description" content="Replace your front office staff with AI agents that handle calls, emails, scheduling, and follow-up 24/7 — for any business, starting at $3,000/month." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,20 +28,6 @@
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
             serif: ['Georgia', 'serif'],
-          },
-          animation: {
-            'fade-up': 'fadeUp 0.7s ease forwards',
-            'fade-in': 'fadeIn 0.6s ease forwards',
-          },
-          keyframes: {
-            fadeUp: {
-              '0%': { opacity: '0', transform: 'translateY(24px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
           },
         },
       },
@@ -82,8 +68,13 @@
       transform: translateY(-1px);
     }
     .nav-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .border-gold { border-image: linear-gradient(90deg, transparent, #c08a5a, transparent) 1; }
     .stat-card { background: linear-gradient(135deg, rgba(107,62,34,0.06) 0%, rgba(192,138,90,0.04) 100%); }
+    .price-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .price-card:hover { transform: translateY(-6px); box-shadow: 0 32px 64px rgba(45,26,10,0.14); }
+    .ticker-wrap { overflow: hidden; }
+    .ticker { display: flex; width: max-content; animation: ticker 30s linear infinite; }
+    .ticker:hover { animation-play-state: paused; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   </style>
 </head>
 <body class="bg-cream font-sans text-brown-900 antialiased">
@@ -94,33 +85,28 @@
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <!-- Logo -->
         <a href="#" class="flex items-center gap-3">
-          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
             <rect width="42" height="42" rx="10" fill="url(#ng1)"/>
             <defs><linearGradient id="ng1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs>
             <path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div>
             <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#2d1a0a;line-height:1">NOONE</div>
-            <div style="font-family:Inter,Arial,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#a86c3c;line-height:1;margin-top:3px">CAPITAL</div>
+            <div style="font-family:Inter,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#a86c3c;line-height:1;margin-top:3px">CAPITAL</div>
           </div>
         </a>
-        <!-- Desktop nav -->
         <div class="hidden md:flex items-center gap-8 text-sm font-medium text-brown-600">
-          <a href="#services" class="hover:text-brown-900 transition-colors">Agents</a>
-          <a href="#how" class="hover:text-brown-900 transition-colors">How It Works</a>
-          <a href="#testimonials" class="hover:text-brown-900 transition-colors">Results</a>
-          <a href="/pricing.html" class="hover:text-brown-900 transition-colors">Pricing</a>
-          <a href="#contact" class="hover:text-brown-900 transition-colors">Contact</a>
+          <a href="#what-we-do" class="hover:text-brown-900 transition-colors">What We Do</a>
+          <a href="#industries" class="hover:text-brown-900 transition-colors">Industries</a>
+          <a href="#pricing" class="hover:text-brown-900 transition-colors">Pricing</a>
+          <a href="#results" class="hover:text-brown-900 transition-colors">Results</a>
           <a href="/dashboard.html" class="hover:text-brown-900 transition-colors">Client Login</a>
         </div>
-        <!-- CTA -->
         <div class="hidden md:flex items-center gap-4">
-          <a href="#contact" class="text-sm font-medium text-brown-700 hover:text-brown-900 transition-colors">Book a Call</a>
+          <a href="/demo.html" class="text-sm font-medium text-brown-700 hover:text-brown-900 transition-colors">Book a Demo</a>
           <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg">Get Started</a>
         </div>
-        <!-- Mobile menu toggle -->
         <button id="menu-toggle" class="md:hidden text-brown-700 focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -128,73 +114,65 @@
         </button>
       </div>
     </div>
-    <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-brown-100 px-6 py-4 space-y-3">
-      <a href="#services" class="block text-sm font-medium text-brown-700 py-2">Services</a>
-      <a href="#how" class="block text-sm font-medium text-brown-700 py-2">How It Works</a>
-      <a href="#testimonials" class="block text-sm font-medium text-brown-700 py-2">Results</a>
-      <a href="#contact" class="block text-sm font-medium text-brown-700 py-2">Contact</a>
-      <a href="#contact" class="block btn-primary text-white text-sm font-semibold px-5 py-3 rounded-lg text-center mt-2">Get Started</a>
+      <a href="#what-we-do" class="block text-sm font-medium text-brown-700 py-2">What We Do</a>
+      <a href="#industries" class="block text-sm font-medium text-brown-700 py-2">Industries</a>
+      <a href="#pricing" class="block text-sm font-medium text-brown-700 py-2">Pricing</a>
+      <a href="#results" class="block text-sm font-medium text-brown-700 py-2">Results</a>
+      <a href="/demo.html" class="block btn-primary text-white text-sm font-semibold px-5 py-3 rounded-lg text-center mt-2">Book a Free Demo</a>
     </div>
   </nav>
 
   <!-- ============================================================
-       HERO SECTION
+       HERO
   ============================================================ -->
   <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-    <!-- Background texture -->
     <div class="absolute inset-0 bg-gradient-to-br from-cream via-brown-50 to-brown-100"></div>
     <div class="noise absolute inset-0"></div>
-    <!-- Decorative orbs -->
     <div class="absolute top-1/4 right-0 w-96 h-96 bg-brown-200 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/2"></div>
     <div class="absolute bottom-0 left-0 w-80 h-80 bg-brown-300 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/3"></div>
 
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
       <div class="max-w-4xl">
-        <!-- Badge -->
         <div class="inline-flex items-center gap-2 bg-white border border-brown-200 text-brown-700 text-xs font-semibold px-4 py-2 rounded-full mb-8 shadow-sm reveal">
-          <span class="w-1.5 h-1.5 bg-brown-500 rounded-full animate-pulse"></span>
-          Built for PM Companies Managing 50–2,000 Units · $5K/Month · Saves $175K+/yr
+          <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          Now deploying AI workforces for law firms, medical offices, contractors &amp; more
         </div>
-        <!-- Headline -->
         <h1 class="text-5xl md:text-7xl font-bold text-brown-900 leading-[1.05] tracking-tight mb-6 reveal reveal-delay-1">
-          Fire Your Staff.<br />
-          <span class="gradient-text">Keep the Results.</span>
+          Replace Your<br />Front Office<br />
+          <span class="gradient-text">With AI.</span>
         </h1>
-        <!-- Subheadline -->
         <p class="text-xl md:text-2xl text-brown-600 font-light leading-relaxed max-w-2xl mb-10 reveal reveal-delay-2">
-          Noone Capital deploys 8 AI agents that replace your entire property management staff — handling leasing, maintenance, rent collection, and more — 24/7, for a flat $5,000/month.
+          We deploy AI agents that handle every inbound call, email, and scheduling request for your business — 24/7, without sick days, starting at $3,000/month.
         </p>
-        <!-- CTAs -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-delay-3">
-          <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="btn-primary text-white font-semibold px-8 py-4 rounded-xl text-base w-full sm:w-auto text-center">
-            Get Started — $5K/mo
+          <a href="/demo.html" class="btn-primary text-white font-semibold px-8 py-4 rounded-xl text-base w-full sm:w-auto text-center">
+            Book a Free Demo →
           </a>
-          <a href="/demo.html" target="_blank" class="flex items-center gap-2 text-brown-700 font-medium text-base hover:text-brown-900 transition-colors group">
-            Book a Free Demo
+          <a href="#what-we-do" class="flex items-center gap-2 text-brown-700 font-medium text-base hover:text-brown-900 transition-colors group">
+            See how it works
             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </a>
         </div>
 
-        <!-- Trust bar -->
         <div class="mt-16 pt-10 border-t border-brown-200 grid grid-cols-2 md:grid-cols-4 gap-8 reveal reveal-delay-4">
           <div>
-            <div class="text-3xl font-bold text-brown-900">$175K+</div>
-            <div class="text-sm text-brown-500 mt-1">Saved Per Year in Staff</div>
+            <div class="text-3xl font-bold text-brown-900">$100K+</div>
+            <div class="text-sm text-brown-500 mt-1">Avg. Annual Staff Savings</div>
           </div>
           <div>
-            <div class="text-3xl font-bold text-brown-900">8</div>
-            <div class="text-sm text-brown-500 mt-1">AI Agents Deployed</div>
+            <div class="text-3xl font-bold text-brown-900">48 hrs</div>
+            <div class="text-sm text-brown-500 mt-1">From Demo to Live</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-brown-900">24/7</div>
-            <div class="text-sm text-brown-500 mt-1">Always On, Never Calls Out</div>
+            <div class="text-sm text-brown-500 mt-1">Never Misses a Call</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-brown-900">&lt; 5s</div>
-            <div class="text-sm text-brown-500 mt-1">Average Response Time</div>
+            <div class="text-sm text-brown-500 mt-1">Response Time</div>
           </div>
         </div>
       </div>
@@ -202,87 +180,86 @@
   </section>
 
   <!-- ============================================================
-       LOGOS / TRUST BAR
+       SCROLLING INDUSTRIES TICKER
   ============================================================ -->
-  <section class="bg-white border-y border-brown-100 py-10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <p class="text-center text-xs font-semibold text-brown-400 uppercase tracking-widest mb-8">Trusted by NARPM members and property management companies across the US</p>
-      <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-50">
-        <span class="text-brown-700 font-bold text-lg tracking-tight">BlackStone PM</span>
-        <span class="text-brown-700 font-bold text-lg tracking-tight">Meridian Group</span>
-        <span class="text-brown-700 font-bold text-lg tracking-tight">Atlas Capital</span>
-        <span class="text-brown-700 font-bold text-lg tracking-tight">Veritas Realty</span>
-        <span class="text-brown-700 font-bold text-lg tracking-tight">Summit Estates</span>
+  <div class="bg-brown-900 py-4 overflow-hidden">
+    <div class="ticker-wrap">
+      <div class="ticker text-brown-300 text-sm font-medium">
+        <span class="px-8">⚖️ Law Firms</span>
+        <span class="px-8">🏠 Property Management</span>
+        <span class="px-8">🦷 Dental Offices</span>
+        <span class="px-8">🔧 HVAC &amp; Contractors</span>
+        <span class="px-8">🏡 Real Estate Brokerages</span>
+        <span class="px-8">🏥 Medical Practices</span>
+        <span class="px-8">💰 Mortgage Brokers</span>
+        <span class="px-8">🪟 Home Services</span>
+        <span class="px-8">📦 Logistics &amp; Dispatch</span>
+        <span class="px-8">⚖️ Law Firms</span>
+        <span class="px-8">🏠 Property Management</span>
+        <span class="px-8">🦷 Dental Offices</span>
+        <span class="px-8">🔧 HVAC &amp; Contractors</span>
+        <span class="px-8">🏡 Real Estate Brokerages</span>
+        <span class="px-8">🏥 Medical Practices</span>
+        <span class="px-8">💰 Mortgage Brokers</span>
+        <span class="px-8">🪟 Home Services</span>
+        <span class="px-8">📦 Logistics &amp; Dispatch</span>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- ============================================================
-       SERVICES / FEATURES
+       WHAT WE DO
   ============================================================ -->
-  <section id="services" class="py-28 bg-cream">
+  <section id="what-we-do" class="py-28 bg-cream">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">The AI Workforce</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">8 Agents. Every Role.<br />One Flat Fee.</h2>
-        <p class="text-brown-500 text-lg leading-relaxed">Each agent is purpose-built for its role — trained on your properties, policies, and tenants. No ramp-up. No sick days. No turnover.</p>
+        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">What We Deploy</span>
+        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">AI Agents For Every<br />Front Office Role.</h2>
+        <p class="text-brown-500 text-lg leading-relaxed">Every agent is trained on your business — your processes, your clients, your language. No scripts. No hold music. No missed calls.</p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Service cards -->
         <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Leasing Agent</h3>
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $55K/yr Leasing Staff</div>
-          <p class="text-brown-500 leading-relaxed">Qualifies prospects, books showings, processes applications, and follows up with leads — 24/7, in under 5 seconds.</p>
+          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">📞</div>
+          <h3 class="text-xl font-semibold text-brown-900 mb-2">AI Receptionist</h3>
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $40–55K/yr Front Desk</div>
+          <p class="text-brown-500 leading-relaxed">Answers every call instantly, routes to the right person or handles it fully, takes messages, and never puts anyone on hold.</p>
         </div>
 
         <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Receptionist</h3>
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $42K/yr Front Desk</div>
-          <p class="text-brown-500 leading-relaxed">Answers every call, routes every request, and handles all inbound communication — no hold times, no voicemail.</p>
+          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">📅</div>
+          <h3 class="text-xl font-semibold text-brown-900 mb-2">Scheduling Agent</h3>
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $35–50K/yr Coordinator</div>
+          <p class="text-brown-500 leading-relaxed">Books, confirms, reschedules, and sends reminders for appointments automatically. Integrates with your existing calendar system.</p>
         </div>
 
         <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-2">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Maintenance Coordinator</h3>
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $48K/yr Coordinator</div>
-          <p class="text-brown-500 leading-relaxed">Intakes requests, triages urgency, dispatches vendors, and keeps tenants updated — zero things fall through the cracks.</p>
+          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">✉️</div>
+          <h3 class="text-xl font-semibold text-brown-900 mb-2">Email &amp; Inbox Agent</h3>
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $45–60K/yr Admin</div>
+          <p class="text-brown-500 leading-relaxed">Reads every email, drafts responses, routes urgent messages, and sends follow-ups — your inbox stays at zero without lifting a finger.</p>
         </div>
 
         <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Rent Collection Agent</h3>
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $45K/yr Collections Staff</div>
-          <p class="text-brown-500 leading-relaxed">Sends reminders, issues late notices, negotiates payment plans, and escalates delinquencies — without a single awkward conversation.</p>
+          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">🔁</div>
+          <h3 class="text-xl font-semibold text-brown-900 mb-2">Follow-Up Agent</h3>
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $45–55K/yr Sales Coordinator</div>
+          <p class="text-brown-500 leading-relaxed">Follows up with every lead, prospect, or client on a set cadence — by email, text, or call — until they respond or convert.</p>
         </div>
 
         <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Tenant Relations + Renewals</h3>
-          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $50K/yr Relations Manager</div>
-          <p class="text-brown-500 leading-relaxed">Handles complaints, move-in/out comms, and proactive 90/60/30-day renewal outreach — keeping retention high automatically.</p>
+          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">🎯</div>
+          <h3 class="text-xl font-semibold text-brown-900 mb-2">Lead Qualifier</h3>
+          <div class="text-xs font-semibold text-brown-400 uppercase tracking-wider mb-3">Replaces: $50–70K/yr Intake Staff</div>
+          <p class="text-brown-500 leading-relaxed">Handles every inbound inquiry, asks qualifying questions, gathers intake information, and delivers warm, pre-qualified leads to your team.</p>
         </div>
 
         <div class="bg-gradient-to-br from-brown-700 to-brown-500 rounded-2xl p-8 card-hover reveal reveal-delay-2">
-          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          </div>
-          <h3 class="text-xl font-semibold text-white mb-2">Owner Relations + Marketing</h3>
-          <div class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">Replaces: $55K/yr Account Manager</div>
-          <p class="text-white/80 leading-relaxed">Sends monthly owner reports, answers portfolio questions, syndicates listings, and fills vacancies fast — your clients stay happy and loyal.</p>
-          <a href="/demo.html" target="_blank" class="inline-flex items-center gap-2 text-white font-semibold text-sm mt-6 hover:gap-3 transition-all">Book a demo <span>→</span></a>
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6 text-2xl">⚡</div>
+          <h3 class="text-xl font-semibold text-white mb-2">Custom Agents</h3>
+          <div class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">Built For Your Workflow</div>
+          <p class="text-white/80 leading-relaxed">Need something specific? Collections, dispatch, onboarding, reporting — we build custom agents tailored exactly to your business processes.</p>
+          <a href="/demo.html" class="inline-flex items-center gap-2 text-white font-semibold text-sm mt-6 hover:gap-3 transition-all">Book a demo <span>→</span></a>
         </div>
       </div>
     </div>
@@ -291,7 +268,7 @@
   <!-- ============================================================
        HOW IT WORKS
   ============================================================ -->
-  <section id="how" class="py-28 bg-white">
+  <section class="py-28 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-20 reveal">
         <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">How It Works</span>
@@ -299,52 +276,133 @@
         <p class="text-brown-500 text-lg">We handle everything. You just watch your costs drop.</p>
       </div>
 
-      <div class="grid md:grid-cols-4 gap-8 relative">
-        <div class="hidden md:block absolute top-8 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-brown-200 to-transparent" style="width:50%; left:25%;"></div>
-
+      <div class="grid md:grid-cols-4 gap-8">
         <div class="text-center reveal">
           <div class="w-16 h-16 bg-brown-50 border-2 border-brown-200 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-brown-700">1</div>
-          <h3 class="font-semibold text-brown-900 text-lg mb-2">Book a Free Demo</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">We show you exactly how the 8 agents work, answer every question, and map out your specific setup. Zero pressure.</p>
+          <h3 class="font-semibold text-brown-900 text-lg mb-2">Free 30-Min Demo</h3>
+          <p class="text-brown-500 text-sm leading-relaxed">We show you live agents handling calls, emails, and scheduling for a business just like yours. Zero pressure.</p>
         </div>
 
         <div class="text-center reveal reveal-delay-1">
           <div class="w-16 h-16 bg-brown-50 border-2 border-brown-200 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-brown-700">2</div>
-          <h3 class="font-semibold text-brown-900 text-lg mb-2">Connect Your Software</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">You share access to your PM software — AppFolio, Buildium, Yardi, whatever you use. We handle the integration completely.</p>
+          <h3 class="font-semibold text-brown-900 text-lg mb-2">We Build Your Agents</h3>
+          <p class="text-brown-500 text-sm leading-relaxed">You share how your business works — your intake process, your policies, your clients. We train the agents on all of it.</p>
         </div>
 
         <div class="text-center reveal reveal-delay-2">
           <div class="w-16 h-16 bg-brown-50 border-2 border-brown-200 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-brown-700">3</div>
           <h3 class="font-semibold text-brown-900 text-lg mb-2">Agents Go Live</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">Within 48 hours all 8 agents are trained on your properties, policies, and tenants. They start handling calls, texts, and emails immediately.</p>
+          <p class="text-brown-500 text-sm leading-relaxed">Within 48 hours your AI workforce is live — answering calls, handling emails, booking appointments, following up with clients.</p>
         </div>
 
         <div class="text-center reveal reveal-delay-3">
           <div class="w-16 h-16 bg-gradient-to-br from-brown-700 to-brown-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-white">4</div>
-          <h3 class="font-semibold text-brown-900 text-lg mb-2">Watch the Dashboard</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">Log into your real-time dashboard anytime. See every interaction, every agent action, every outcome. Full visibility, zero micromanaging.</p>
+          <h3 class="font-semibold text-brown-900 text-lg mb-2">You Run the Dashboard</h3>
+          <p class="text-brown-500 text-sm leading-relaxed">Log in anytime to see every call, every email, every outcome. Full visibility, full control. You approve anything sensitive.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       TESTIMONIALS
+       INDUSTRIES
   ============================================================ -->
-  <section id="testimonials" class="py-28 bg-cream">
+  <section id="industries" class="py-28 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Industries We Serve</span>
+        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">Built for Any Business<br />with a Front Office.</h2>
+        <p class="text-brown-500 text-lg">If your business handles calls, emails, and scheduling — we can automate it.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">⚖️</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">Law Firms</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI intake agent answers every call, qualifies leads, gathers case info, and books consultations. Convert 30–40% more cases.</p>
+              <div class="text-xs font-semibold text-brown-400">Replaces: $60–80K intake coordinator</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-1">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">🏠</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">Property Management</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI agents handle leasing calls, maintenance requests, rent collection, and tenant communications 24/7.</p>
+              <div class="text-xs font-semibold text-brown-400">Replaces: $150K+ in front office staff</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-2">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">🦷</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">Medical &amp; Dental</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI scheduling agent books appointments, sends reminders, handles recall outreach, and reduces no-shows by 35%.</p>
+              <div class="text-xs font-semibold text-brown-400">Replaces: $40–60K front desk staff</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">🔧</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">HVAC, Plumbing &amp; Contractors</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">Never miss an after-hours call again. AI books jobs, dispatches techs, and sends confirmations automatically.</p>
+              <div class="text-xs font-semibold text-brown-400">+40–60% more booked calls per month</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-1">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">🏡</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">Real Estate &amp; Mortgage</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI responds to leads in under 5 seconds, qualifies buyers and sellers, and books showings or consultations automatically.</p>
+              <div class="text-xs font-semibold text-brown-400">+25–35% more closed deals</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-2">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl shrink-0">💼</div>
+            <div>
+              <h3 class="font-semibold text-brown-900 text-lg mb-1">Any Business With Staff</h3>
+              <p class="text-brown-500 text-sm leading-relaxed mb-3">If you're paying someone to answer phones, respond to emails, or book appointments — we can deploy AI to do it better for less.</p>
+              <div class="text-xs font-semibold text-brown-400">Custom deployment · 48-hour turnaround</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RESULTS / TESTIMONIALS
+  ============================================================ -->
+  <section id="results" class="py-28 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-20 reveal">
         <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Client Results</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">PM Companies That<br />Made the Switch</h2>
+        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">What Happens When<br />AI Runs Your Front Office.</h2>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal">
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal">
           <div class="flex gap-1 mb-5">
             <span class="text-brown-400">★★★★★</span>
           </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"We were paying $18K a month in staff salaries to handle what Noone Capital's agents now do for $5K. The math was a no-brainer. We cut costs and response times got faster."</p>
+          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"We were paying $18K a month in staff. Noone Capital's agents now do it all for $5K. The math was a no-brainer. Response times got faster and I sleep better at night."</p>
           <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">RC</div>
             <div>
@@ -354,48 +412,47 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
+        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
           <div class="flex gap-1 mb-5">
             <span class="text-brown-400">★★★★★</span>
           </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"Our leasing agent quit mid-season and we didn't skip a beat. The AI leasing agent filled 3 vacancies that same week. I haven't looked back since."</p>
+          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"We were losing 15–20 intake calls a week after hours. The AI answers everything now and books consultations overnight. We signed 4 new clients the first month it was live."</p>
           <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">SB</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">DM</div>
             <div>
-              <div class="font-semibold text-brown-900 text-sm">Sandra Blake</div>
-              <div class="text-brown-400 text-xs">CEO — Blake Realty Group, Atlanta GA</div>
+              <div class="font-semibold text-brown-900 text-sm">David Martinez</div>
+              <div class="text-brown-400 text-xs">Managing Partner — Martinez Law Group, Dallas TX</div>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-2">
+        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-2">
           <div class="flex gap-1 mb-5">
             <span class="text-brown-400">★★★★★</span>
           </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"I manage 300 units with a team of 2. Before Noone Capital I needed 6 people. The agents handle everything — I just check the dashboard on Mondays."</p>
+          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"I run an HVAC company. Before this, we missed every call after 5pm. Now the AI books jobs 24/7 and sends the tech schedule by morning. We're up 60% in booked jobs."</p>
           <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">MJ</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">TW</div>
             <div>
-              <div class="font-semibold text-brown-900 text-sm">Marcus Johnson</div>
-              <div class="text-brown-400 text-xs">Principal — MJ Properties, Dallas TX</div>
+              <div class="font-semibold text-brown-900 text-sm">Troy Williams</div>
+              <div class="text-brown-400 text-xs">Owner — Williams HVAC &amp; Cooling, Phoenix AZ</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Stats strip -->
-      <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal">
-          <div class="text-3xl font-bold text-brown-900">$175K+</div>
+          <div class="text-3xl font-bold text-brown-900">$100K+</div>
           <div class="text-sm text-brown-500 mt-1">Avg. Annual Staff Savings</div>
         </div>
         <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-1">
-          <div class="text-3xl font-bold text-brown-900">17x</div>
-          <div class="text-sm text-brown-500 mt-1">ROI on $5K/Month</div>
+          <div class="text-3xl font-bold text-brown-900">48 hrs</div>
+          <div class="text-sm text-brown-500 mt-1">From Demo to Fully Live</div>
         </div>
         <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-2">
-          <div class="text-3xl font-bold text-brown-900">48hrs</div>
-          <div class="text-sm text-brown-500 mt-1">Average Time to Go Live</div>
+          <div class="text-3xl font-bold text-brown-900">0</div>
+          <div class="text-sm text-brown-500 mt-1">Calls Missed After Hours</div>
         </div>
         <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-3">
           <div class="text-3xl font-bold text-brown-900">4.9★</div>
@@ -406,122 +463,150 @@
   </section>
 
   <!-- ============================================================
-       CONTACT / CTA
+       PRICING
   ============================================================ -->
-  <section id="contact" class="py-28 bg-white">
+  <section id="pricing" class="py-28 bg-cream">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="grid lg:grid-cols-2 gap-16 items-start">
-        <!-- Left -->
-        <div class="reveal">
-          <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Get Started</span>
-          <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-6 tracking-tight leading-tight">Stop Paying<br />$175K For Staff<br />You Don't Need.</h2>
-          <p class="text-brown-500 text-lg leading-relaxed mb-10">Book a free 30-minute demo. We'll show you exactly how the agents work, what they handle, and how fast you can be live. No contracts on the call — just clarity.</p>
+      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Pricing</span>
+        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">Less Than One Employee.<br />Better Than Three.</h2>
+        <p class="text-brown-500 text-lg">Flat monthly fee. No per-seat pricing. No setup fees. Cancel anytime.</p>
+      </div>
 
-          <div class="space-y-5">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-brown-50 rounded-xl flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-brown-900">Phone</div>
-                <div class="text-brown-500 text-sm mt-0.5">612-220-0860</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-brown-50 rounded-xl flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-brown-900">Email</div>
-                <div class="text-brown-500 text-sm mt-0.5">infonoone@noonecapital.net</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-brown-50 rounded-xl flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-brown-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-brown-900">Office</div>
-                <div class="text-brown-500 text-sm mt-0.5">1620 Lusitano St Unit 312<br />Shakopee, MN 55379</div>
-              </div>
-            </div>
-          </div>
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+
+        <!-- Starter -->
+        <div class="bg-white rounded-2xl border border-brown-100 p-8 price-card reveal">
+          <div class="text-sm font-semibold text-brown-500 uppercase tracking-wider mb-2">Starter</div>
+          <div class="text-4xl font-bold text-brown-900 mb-1">$3,000<span class="text-base font-normal text-brown-400">/mo</span></div>
+          <div class="text-sm text-brown-400 mb-8">For small businesses, 1–5 staff</div>
+          <ul class="space-y-3 mb-8 text-sm text-brown-600">
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> 3 AI agents deployed</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Phone receptionist (24/7)</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Email inbox agent</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Scheduling agent</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Real-time dashboard</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Live in 48 hours</li>
+          </ul>
+          <a href="/demo.html" class="block text-center border-2 border-brown-800 text-brown-800 font-semibold py-3 rounded-xl hover:bg-brown-800 hover:text-white transition-all">Book a Demo</a>
         </div>
 
-        <!-- Right — Contact form -->
-        <div class="bg-cream rounded-2xl border border-brown-100 p-8 reveal reveal-delay-1">
-          <h3 class="font-semibold text-brown-900 text-xl mb-6">Schedule a Strategy Session</h3>
-          <form id="contact-form" class="space-y-4" onsubmit="handleSubmit(event)">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-medium text-brown-600 mb-1.5">First Name *</label>
-                <input type="text" name="first_name" required class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent" placeholder="James" />
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-brown-600 mb-1.5">Last Name *</label>
-                <input type="text" name="last_name" required class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent" placeholder="Carter" />
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-brown-600 mb-1.5">Email Address *</label>
-              <input type="email" name="email" required class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent" placeholder="james@email.com" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-brown-600 mb-1.5">Number of Units Managed</label>
-              <select name="units" class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent">
-                <option value="">Select range</option>
-                
-                
-                <option value="51-200">51 – 200 units</option>
-                <option value="200+">200+ units</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-brown-600 mb-1.5">Message</label>
-              <textarea name="message" rows="3" class="w-full bg-white border border-brown-200 rounded-xl px-4 py-3 text-sm text-brown-900 placeholder-brown-300 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-transparent resize-none" placeholder="Tell us about your portfolio and goals..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-primary w-full text-white font-semibold py-4 rounded-xl text-base">
-              Schedule My Free Session
-            </button>
-
-            <p class="text-center text-xs text-brown-400">No commitment required. We respond within 1 business day.</p>
-          </form>
-
-          <!-- Success message -->
-          <div id="success-msg" class="hidden text-center py-8">
-            <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <h4 class="font-semibold text-brown-900 text-xl mb-2">Request Received</h4>
-            <p class="text-brown-500 text-sm">We'll reach out within 1 business day to schedule your session.</p>
+        <!-- Standard (highlighted) -->
+        <div class="bg-brown-800 rounded-2xl border border-brown-700 p-8 price-card reveal reveal-delay-1 relative">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+            <span class="bg-brown-400 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Most Popular</span>
           </div>
+          <div class="text-sm font-semibold text-brown-300 uppercase tracking-wider mb-2">Standard</div>
+          <div class="text-4xl font-bold text-white mb-1">$5,000<span class="text-base font-normal text-brown-400">/mo</span></div>
+          <div class="text-sm text-brown-400 mb-8">For growing businesses, 5–20 staff</div>
+          <ul class="space-y-3 mb-8 text-sm text-brown-300">
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> 6 AI agents deployed</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Everything in Starter</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Lead qualifier agent</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Follow-up &amp; outreach agent</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Software integrations (CRM, etc.)</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> PM approval queue</li>
+            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Priority support</li>
+          </ul>
+          <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="block text-center bg-white text-brown-800 font-bold py-3 rounded-xl hover:bg-brown-100 transition-colors">Get Started — $5K/mo</a>
         </div>
+
+        <!-- Enterprise -->
+        <div class="bg-white rounded-2xl border border-brown-100 p-8 price-card reveal reveal-delay-2">
+          <div class="text-sm font-semibold text-brown-500 uppercase tracking-wider mb-2">Enterprise</div>
+          <div class="text-4xl font-bold text-brown-900 mb-1">Custom<span class="text-base font-normal text-brown-400">/mo</span></div>
+          <div class="text-sm text-brown-400 mb-8">For large firms, 20+ staff</div>
+          <ul class="space-y-3 mb-8 text-sm text-brown-600">
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Unlimited agents</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Everything in Standard</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Custom agent workflows</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Multi-location support</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Dedicated account manager</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> SLA &amp; uptime guarantee</li>
+          </ul>
+          <a href="/demo.html" class="block text-center border-2 border-brown-800 text-brown-800 font-semibold py-3 rounded-xl hover:bg-brown-800 hover:text-white transition-all">Talk to Us</a>
+        </div>
+
+      </div>
+
+      <p class="text-center text-brown-400 text-sm mt-10 reveal">All plans include a free 30-minute demo. No credit card required. Cancel anytime.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ
+  ============================================================ -->
+  <section class="py-28 bg-white">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16 reveal">
+        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">FAQ</span>
+        <h2 class="text-4xl font-bold text-brown-900 mt-3 tracking-tight">Common Questions</h2>
+      </div>
+
+      <div class="space-y-4" id="faq">
+
+        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal">
+          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
+            How is this different from a chatbot on my website?
+            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Completely different. Our agents work via phone calls, email, and SMS — not just a chat widget. They're trained on your specific business, speak naturally, and handle complex multi-turn conversations. They can take actions: book appointments, send follow-ups, create work orders, and more. A chatbot answers FAQs. Our agents do the actual work.</div>
+        </div>
+
+        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-1">
+          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
+            What if an agent says something wrong?
+            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Every response that matters goes into your approval queue before it's sent. You review it, approve or reject, done. Urgent situations get flagged immediately and escalated to you. You have full control — the AI does the drafting, you have the final say.</div>
+        </div>
+
+        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-2">
+          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
+            Do my clients know they're talking to AI?
+            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">The agents are professional and natural — clients generally don't realize it's AI unless you disclose it. You choose how to brand the agents (your company name, custom persona). For regulated industries, we include appropriate disclosures by default.</div>
+        </div>
+
+        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-3">
+          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
+            What do I need to get started?
+            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Almost nothing. We run a 30-minute onboarding call where you tell us how your business works — your processes, your typical client questions, your calendar system. We handle everything else. Most businesses are fully live within 48 hours of signing up.</div>
+        </div>
+
+        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal">
+          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
+            Can I cancel if it's not working?
+            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Yes. No long-term contracts. Month-to-month. Cancel anytime. That said, most clients see ROI within the first 30 days and stay long-term — but we'd rather earn your business every month than lock you in.</div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       FINAL CTA BANNER
+       FINAL CTA
   ============================================================ -->
   <section class="py-24 bg-gradient-to-br from-brown-900 via-brown-800 to-brown-700 relative overflow-hidden">
     <div class="noise absolute inset-0"></div>
     <div class="absolute top-0 right-0 w-96 h-96 bg-brown-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/4"></div>
     <div class="relative max-w-4xl mx-auto px-6 text-center reveal">
       <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
-        Your competitors are already<br />cutting staff costs with AI.
+        Every call your staff misses<br />is revenue someone else is taking.
       </h2>
-      <p class="text-brown-200 text-xl mb-4 leading-relaxed">$5,000/month. 8 agents live in 48 hours. $175,000+ saved per year.</p>
-      <p class="text-brown-300 text-base mb-10">The property management companies that move first will own the market. Book your demo today.</p>
+      <p class="text-brown-200 text-xl mb-4 leading-relaxed">AI agents. Live in 48 hours. Starting at $3,000/month.</p>
+      <p class="text-brown-300 text-base mb-10">The businesses that automate their front office first will outcompete everyone who doesn't. Book your demo today.</p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="inline-block bg-white text-brown-800 font-bold px-10 py-4 rounded-xl text-base hover:bg-brown-50 transition-colors shadow-xl">
-          Get Started — $5K/mo
+        <a href="/demo.html" class="inline-block bg-white text-brown-800 font-bold px-10 py-4 rounded-xl text-base hover:bg-brown-50 transition-colors shadow-xl">
+          Book a Free Demo →
         </a>
-        <a href="/demo.html" target="_blank" class="text-brown-200 font-medium text-base hover:text-white transition-colors">
-          Book a Demo First →
+        <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="text-brown-200 font-medium text-base hover:text-white transition-colors">
+          Get Started Now — $5K/mo
         </a>
       </div>
     </div>
@@ -535,17 +620,17 @@
       <div class="grid md:grid-cols-4 gap-10 mb-12">
         <div class="md:col-span-2">
           <div class="flex items-center gap-3 mb-4">
-            <svg width="36" height="36" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="36" height="36" viewBox="0 0 42 42" fill="none">
               <rect width="42" height="42" rx="10" fill="rgba(255,255,255,0.15)"/>
               <path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>
               <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:white;line-height:1">NOONE</div>
-              <div style="font-family:Inter,Arial,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#c08a5a;line-height:1;margin-top:3px">CAPITAL</div>
+              <div style="font-family:Inter,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#c08a5a;line-height:1;margin-top:3px">CAPITAL</div>
             </div>
           </div>
           <p class="text-brown-400 text-sm leading-relaxed max-w-sm">
-            AI-powered workforce for property management companies. 8 agents replace your front office staff — leasing, maintenance, rent collection, and more — for a flat $5,000/month.
+            AI-powered workforce for any business. We replace front office staff with AI agents that handle calls, emails, and scheduling 24/7 — starting at $3,000/month.
           </p>
           <div class="mt-4 text-xs text-brown-500">
             1620 Lusitano St Unit 312 · Shakopee, MN 55379<br />
@@ -553,20 +638,23 @@
           </div>
         </div>
         <div>
-          <h4 class="text-white font-semibold text-sm mb-4">Services</h4>
+          <h4 class="text-white font-semibold text-sm mb-4">Industries</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#services" class="hover:text-white transition-colors">Property Management</a></li>
-            <li><a href="#services" class="hover:text-white transition-colors">Capital Strategy</a></li>
-            <li><a href="#services" class="hover:text-white transition-colors">Asset Protection</a></li>
-            <li><a href="#services" class="hover:text-white transition-colors">Tenant Acquisition</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Law Firms</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Property Management</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Medical &amp; Dental</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Home Services</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Real Estate</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-semibold text-sm mb-4">Legal</h4>
+          <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
           <ul class="space-y-2 text-sm">
+            <li><a href="/demo.html" class="hover:text-white transition-colors">Book a Demo</a></li>
+            <li><a href="/dashboard.html" class="hover:text-white transition-colors">Client Login</a></li>
             <li><a href="/privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
             <li><a href="/terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="mailto:infonoone@noonecapital.net" class="hover:text-white transition-colors">Contact Us</a></li>
           </ul>
         </div>
       </div>
@@ -583,17 +671,15 @@
     </div>
   </footer>
 
-  <!-- See: /privacy-policy.html for Privacy Policy -->
-
   <script>
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal')
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
-    }, { threshold: 0.12 })
+    }, { threshold: 0.1 })
     reveals.forEach(el => observer.observe(el))
 
-    // Sticky nav styling
+    // Sticky nav
     window.addEventListener('scroll', () => {
       const nav = document.getElementById('navbar')
       if (window.scrollY > 20) {
@@ -608,11 +694,21 @@
       document.getElementById('mobile-menu').classList.toggle('hidden')
     })
 
-    // Form submit
-    function handleSubmit(e) {
-      e.preventDefault()
-      document.getElementById('contact-form').classList.add('hidden')
-      document.getElementById('success-msg').classList.remove('hidden')
+    // FAQ accordion
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling
+      const icon = btn.querySelector('svg')
+      const isOpen = !content.classList.contains('hidden')
+      // Close all
+      document.querySelectorAll('#faq .hidden + *').forEach(el => {})
+      document.querySelectorAll('#faq button').forEach(b => {
+        b.nextElementSibling.classList.add('hidden')
+        b.querySelector('svg').style.transform = ''
+      })
+      if (!isOpen) {
+        content.classList.remove('hidden')
+        icon.style.transform = 'rotate(180deg)'
+      }
     }
   </script>
 </body>
