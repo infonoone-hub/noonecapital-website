@@ -238,6 +238,16 @@ input[type=range]{accent-color:#4e2c15;}
       </div>
     </div>
 
+    <!-- Admin Clients Panel (only shown for admin) -->
+    <div id="panel-admin-clients" class="hidden">
+      <div class="card">
+        <h2 class="font-bold text-brown-900 mb-4">All Active Clients</h2>
+        <div id="admin-clients-list" class="space-y-2">
+          <div class="text-brown-400 text-sm text-center py-8">Loading...</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings Tab -->
     <div id="panel-settings" class="hidden">
       <div class="card">
@@ -264,7 +274,14 @@ input[type=range]{accent-color:#4e2c15;}
           <div class="p-4 bg-brown-50 rounded-xl">
             <div class="font-semibold text-brown-900 text-sm mb-1">AI Receptionist Number</div>
             <div class="text-xs text-brown-500 mb-2">Forward your business phone to this number</div>
-            <div id="settings-phone" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800">Loading...</div>
+            <div id="settings-phone" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800">—</div>
+          </div>
+
+          <div id="settings-referral-section" class="p-4 bg-brown-50 rounded-xl">
+            <div class="font-semibold text-brown-900 text-sm mb-1">Your Referral Link 💰</div>
+            <div class="text-xs text-brown-500 mb-2">Earn $1,000/month off your bill for 6 months per business you refer</div>
+            <div id="settings-referral-display" class="font-mono text-xs bg-white border border-brown-200 rounded-lg px-3 py-2 text-brown-800 break-all mb-2">Loading...</div>
+            <button onclick="copySettingsReferral()" class="text-xs text-brown-600 underline hover:text-brown-800">Copy link</button>
           </div>
 
           <div class="p-4 border border-brown-100 rounded-xl">
@@ -363,7 +380,7 @@ async function tryAutoLogin() {
 async function openDashboard(id) {
   try {
     const res = await fetch(`${API}/dashboard/${id}`, { headers: { 'X-Client-ID': id } });
-    if (!res.ok) throw new Error();
+    if (!res.ok) throw new Error('Dashboard fetch failed: ' + res.status);
     const data = await res.json();
     clientId = id;
     document.getElementById('login-screen').style.display = 'none';
@@ -371,15 +388,28 @@ async function openDashboard(id) {
     const name = data.client?.name || '';
     if (name) document.getElementById('company-name').textContent = name;
     document.getElementById('company-name').classList.remove('hidden');
-    document.getElementById('settings-intake').textContent = `client-${clientId}@intake.noonecapital.net`;
-    if (data.client?.vapi_phone_number) document.getElementById('settings-phone').textContent = data.client.vapi_phone_number;
-    if (data.client?.auto_send) document.getElementById('auto-send-toggle').checked = true;
+
+    if (id === 'admin') {
+      // Admin-specific setup
+      document.getElementById('settings-intake').textContent = 'N/A — admin account';
+      document.getElementById('settings-phone').textContent = 'N/A — admin account';
+      document.getElementById('settings-referral-section').style.display = 'none';
+      // Show client list panel above activity
+      if (data.all_clients && data.all_clients.length) renderAdminClients(data.all_clients);
+    } else {
+      // Regular client setup
+      document.getElementById('settings-intake').textContent = `client-${clientId}@intake.noonecapital.net`;
+      document.getElementById('settings-phone').textContent = data.client?.vapi_phone_number || 'Not provisioned — contact support';
+      if (data.client?.auto_send) document.getElementById('auto-send-toggle').checked = true;
+      loadRoiBanner();
+    }
+
     renderStats(data.stats);
     loadActivity();
     loadPending();
     checkAlerts(data.stats);
-    loadRoiBanner();
-  } catch {
+  } catch(e) {
+    console.error('openDashboard error:', e);
     localStorage.removeItem('nc_client_id');
   }
 }
@@ -533,7 +563,7 @@ function renderWorkOrder(w) {
   return `<div class="flex items-start justify-between gap-3 p-4 border border-brown-50 rounded-xl hover:bg-brown-50">
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-2 mb-1 flex-wrap">${statusBadge}<span class="text-xs text-brown-400">${time}</span></div>
-      <div class="text-sm font-medium text-brown-900">${w.description || 'Work order'}</div>
+      <div class="text-sm font-medium text-brown-900">${w.issue_description || w.description || 'Work order'}</div>
       ${w.tenants ? `<div class="text-xs text-brown-500 mt-0.5">${w.tenants.name || ''} · Unit ${w.tenants.unit_id || ''}</div>` : ''}
     </div>
     <span class="text-xs text-brown-400 font-mono whitespace-nowrap">#${(w.id || '').slice(0,8)}</span>
@@ -567,11 +597,19 @@ function switchTab(tab) {
   if (tab === 'workorders') loadWorkOrders();
   if (tab === 'tenants') loadTenants();
   if (tab === 'referrals') loadReferrals();
+  if (tab === 'settings') loadSettingsReferral();
 }
 
 let referralLink = '';
 
 async function loadReferrals() {
+  if (clientId === 'admin') {
+    document.getElementById('referral-link-display').textContent = 'Admin accounts do not have referral links';
+    document.getElementById('ref-total').textContent = '—';
+    document.getElementById('ref-converted').textContent = '—';
+    document.getElementById('ref-credits').textContent = '—';
+    return;
+  }
   try {
     const res = await fetch(`${API}/referrals/link/${clientId}`);
     const data = await res.json();
@@ -595,6 +633,45 @@ function copyReferralLink() {
   navigator.clipboard.writeText(referralLink);
   event.target.textContent = 'Copied!';
   setTimeout(() => event.target.textContent = 'Copy link', 2000);
+}
+
+async function loadSettingsReferral() {
+  if (clientId === 'admin') return;
+  try {
+    const res = await fetch(`${API}/referrals/link/${clientId}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    referralLink = data.referral_link || referralLink;
+    document.getElementById('settings-referral-display').textContent = data.referral_link || 'Unable to load';
+  } catch(e) {
+    document.getElementById('settings-referral-display').textContent = 'Unable to load — refresh to retry';
+  }
+}
+
+function copySettingsReferral() {
+  const txt = document.getElementById('settings-referral-display').textContent;
+  if (!txt || txt.includes('Unable') || txt.includes('Loading')) return;
+  navigator.clipboard.writeText(txt);
+  event.target.textContent = 'Copied!';
+  setTimeout(() => event.target.textContent = 'Copy link', 2000);
+}
+
+function renderAdminClients(clients) {
+  const panel = document.getElementById('panel-admin-clients');
+  const list = document.getElementById('admin-clients-list');
+  panel.classList.remove('hidden');
+  if (!clients.length) {
+    list.innerHTML = '<div class="text-brown-400 text-sm text-center py-4">No active clients yet.</div>';
+    return;
+  }
+  list.innerHTML = clients.map(c => `
+    <div class="flex items-center justify-between p-3 border border-brown-50 rounded-xl hover:bg-brown-50 transition-colors">
+      <div>
+        <div class="text-sm font-semibold text-brown-900">${c.name || '—'}</div>
+        <div class="text-xs text-brown-500">${c.email || ''}</div>
+      </div>
+      <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">${c.status || 'active'}</span>
+    </div>`).join('');
 }
 
 async function toggleAutoSend() {
