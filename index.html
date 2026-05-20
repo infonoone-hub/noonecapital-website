@@ -239,6 +239,61 @@
     @media(max-width:1024px){.s{padding:90px 32px}.g4{grid-template-columns:repeat(2,1fr)}.dash-ms{grid-template-columns:repeat(2,1fr)}.dash-fs{grid-template-columns:1fr}.ft{grid-template-columns:1fr 1fr;gap:36px}.chat-wrap{grid-template-columns:1fr}}
     @media(max-width:768px){nav{padding:0 24px}.nav-mid{display:none}.s{padding:72px 24px}.tri{grid-template-columns:1fr}.proc{grid-template-columns:1fr}.bens{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.final{padding:100px 24px}footer{padding:52px 24px 36px}.ft{grid-template-columns:1fr}.testi{padding:32px 24px}.testi-auth{flex-direction:column;align-items:flex-start;gap:16px}}
     @media(max-width:480px){.hero-btns{flex-direction:column;align-items:stretch}.cta-p,.cta-s{justify-content:center}.g4{grid-template-columns:1fr}.dash-ms{grid-template-columns:1fr}}
+
+    /* ── DEMO CARDS ── */
+    .demo-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:border-color .3s}
+    .demo-card:hover{border-color:var(--border-h)}
+    .demo-card-inner{display:flex;flex-direction:column}
+    /* ── IPHONE ── */
+    .iphone-wrap{padding:28px 28px 0;display:flex;justify-content:center}
+    .iphone{width:100%;max-width:280px;background:#1a1a1f;border-radius:36px;border:2px solid rgba(255,255,255,.1);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+    .iphone-notch{width:100px;height:28px;background:#1a1a1f;border-radius:0 0 18px 18px;margin:0 auto;position:relative;z-index:1;border:2px solid rgba(255,255,255,.08);border-top:none}
+    .iphone-screen{background:#0f0f12;margin:-2px 0 0;padding:0 0 20px}
+    .iphone-status{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 4px;font-size:11px;font-weight:600;color:white}
+    .iphone-top{text-align:center;padding:12px 20px 0}
+    .iphone-caller{font-size:17px;font-weight:700;color:white;letter-spacing:-.02em;margin-bottom:4px}
+    .iphone-timer{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:16px;font-weight:500}
+    .iphone-convo{padding:0 16px;display:flex;flex-direction:column;gap:10px;max-height:220px;overflow:hidden}
+    .iphone-msg{display:flex;flex-direction:column;gap:3px}
+    .iphone-msg.user{align-items:flex-end}
+    .iphone-msg-name{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:0 4px}
+    .iphone-bubble{font-size:12.5px;line-height:1.5;padding:9px 13px;border-radius:16px;max-width:85%}
+    .iphone-msg.ai .iphone-bubble{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);border-bottom-left-radius:4px}
+    .iphone-msg.user .iphone-bubble{background:var(--accent);color:white;border-bottom-right-radius:4px}
+    .iphone-appt{margin:14px 16px 0;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:12px;padding:12px 14px}
+    .iphone-appt-row{display:flex;align-items:center;gap:7px;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:3px}
+    .iphone-appt-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;flex-shrink:0}
+    .iphone-appt-time{font-size:12px;color:rgba(255,255,255,.5);padding-left:13px}
+    .iphone-controls{display:flex;justify-content:space-around;padding:18px 12px 8px;border-top:1px solid rgba(255,255,255,.06);margin-top:14px}
+    .iphone-btn{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
+    .iphone-btn>svg{width:42px;height:42px;background:rgba(255,255,255,.1);border-radius:50%;padding:10px;stroke:white}
+    .iphone-btn>span{font-size:10px;color:rgba(255,255,255,.4);font-weight:500}
+    .iphone-btn.end>svg{background:#ff3b30;border-radius:50%;padding:10px}
+    /* ── WORKFLOW DIAGRAM ── */
+    .wf-diagram{padding:24px 24px 0}
+    .wf-diagram-inner{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px}
+    .wf-row{display:flex;justify-content:center;gap:12px}
+    .wf-line{width:1px;height:20px;background:linear-gradient(to bottom,rgba(67,97,238,.4),rgba(67,97,238,.1));margin:0 auto}
+    .wf-node{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;flex:1;max-width:220px;transition:border-color .2s}
+    .wf-node.trigger{border-color:rgba(67,97,238,.3);background:rgba(67,97,238,.05)}
+    .wf-node.success{border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.04)}
+    .wf-node-ico{width:32px;height:32px;min-width:32px;border-radius:8px;background:rgba(67,97,238,.1);border:1px solid rgba(67,97,238,.15);display:flex;align-items:center;justify-content:center}
+    .wf-node-ico.green{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2)}
+    .wf-node-text{display:flex;flex-direction:column;flex:1;min-width:0}
+    .wf-node-label{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wf-node-sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wf-node-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+    .wf-node-badge.active{background:rgba(67,97,238,.12);color:#738ef5;border:1px solid rgba(67,97,238,.2)}
+    .wf-node-badge.done{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.18)}
+    /* ── DEMO INFO ── */
+    .demo-info{padding:24px 24px 28px}
+    .demo-title{font-size:16px;font-weight:700;letter-spacing:-.025em;line-height:1.45;margin-bottom:20px;color:var(--text)}
+    .demo-feats{display:flex;flex-direction:column;gap:14px}
+    .demo-feat{display:flex;gap:12px;align-items:flex-start}
+    .demo-feat-dot{width:6px;height:6px;min-width:6px;border-radius:50%;background:var(--accent);margin-top:5px}
+    .demo-feat strong{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;display:block;margin-bottom:3px}
+    .demo-feat p{font-size:13px;color:var(--sub);line-height:1.55;margin:0}
+    @media(max-width:900px){#demos .w>div[style]{grid-template-columns:1fr!important}}
   </style>
 </head>
 <body>
@@ -479,70 +534,6 @@
     </div>
   </div>
 </section>
-
-<style>
-  /* ── DEMO CARDS ── */
-  .demo-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:border-color .3s}
-  .demo-card:hover{border-color:var(--border-h)}
-  .demo-card-inner{display:flex;flex-direction:column}
-
-  /* ── IPHONE ── */
-  .iphone-wrap{padding:28px 28px 0;display:flex;justify-content:center}
-  .iphone{width:100%;max-width:280px;background:#1a1a1f;border-radius:36px;border:2px solid rgba(255,255,255,.1);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6)}
-  .iphone-notch{width:100px;height:28px;background:#1a1a1f;border-radius:0 0 18px 18px;margin:0 auto;position:relative;z-index:1;border:2px solid rgba(255,255,255,.08);border-top:none}
-  .iphone-screen{background:#0f0f12;margin:-2px 0 0;padding:0 0 20px}
-  .iphone-status{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 4px;font-size:11px;font-weight:600;color:white}
-  .iphone-top{text-align:center;padding:12px 20px 0}
-  .iphone-caller{font-size:17px;font-weight:700;color:white;letter-spacing:-.02em;margin-bottom:4px}
-  .iphone-timer{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:16px;font-weight:500}
-  .iphone-convo{padding:0 16px;display:flex;flex-direction:column;gap:10px;max-height:220px;overflow:hidden}
-  .iphone-msg{display:flex;flex-direction:column;gap:3px}
-  .iphone-msg.user{align-items:flex-end}
-  .iphone-msg-name{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:0 4px}
-  .iphone-bubble{font-size:12.5px;line-height:1.5;padding:9px 13px;border-radius:16px;max-width:85%}
-  .iphone-msg.ai .iphone-bubble{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);border-bottom-left-radius:4px}
-  .iphone-msg.user .iphone-bubble{background:var(--accent);color:white;border-bottom-right-radius:4px}
-  .iphone-appt{margin:14px 16px 0;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:12px;padding:12px 14px}
-  .iphone-appt-row{display:flex;align-items:center;gap:7px;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:3px}
-  .iphone-appt-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;flex-shrink:0}
-  .iphone-appt-time{font-size:12px;color:rgba(255,255,255,.5);padding-left:13px}
-  .iphone-controls{display:flex;justify-content:space-around;padding:18px 12px 8px;border-top:1px solid rgba(255,255,255,.06);margin-top:14px}
-  .iphone-btn{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
-  .iphone-btn>svg{width:42px;height:42px;background:rgba(255,255,255,.1);border-radius:50%;padding:10px;stroke:white}
-  .iphone-btn>span{font-size:10px;color:rgba(255,255,255,.4);font-weight:500}
-  .iphone-btn.end>svg{background:#ff3b30;border-radius:50%;padding:10px}
-
-  /* ── WORKFLOW DIAGRAM ── */
-  .wf-diagram{padding:24px 24px 0}
-  .wf-diagram-inner{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px}
-  .wf-row{display:flex;justify-content:center;gap:12px}
-  .wf-row.two{gap:12px}
-  .wf-line{width:1px;height:20px;background:linear-gradient(to bottom,rgba(67,97,238,.4),rgba(67,97,238,.1));margin:0 auto}
-  .wf-node{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;flex:1;max-width:220px;transition:border-color .2s}
-  .wf-node.trigger{border-color:rgba(67,97,238,.3);background:rgba(67,97,238,.05)}
-  .wf-node.success{border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.04)}
-  .wf-node-ico{width:32px;height:32px;min-width:32px;border-radius:8px;background:rgba(67,97,238,.1);border:1px solid rgba(67,97,238,.15);display:flex;align-items:center;justify-content:center}
-  .wf-node-ico.green{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2)}
-  .wf-node-text{display:flex;flex-direction:column;flex:1;min-width:0}
-  .wf-node-label{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .wf-node-sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .wf-node-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;white-space:nowrap;flex-shrink:0}
-  .wf-node-badge.active{background:rgba(67,97,238,.12);color:#738ef5;border:1px solid rgba(67,97,238,.2)}
-  .wf-node-badge.done{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.18)}
-
-  /* ── DEMO INFO ── */
-  .demo-info{padding:24px 24px 28px}
-  .demo-title{font-size:16px;font-weight:700;letter-spacing:-.025em;line-height:1.45;margin-bottom:20px;color:var(--text)}
-  .demo-feats{display:flex;flex-direction:column;gap:14px}
-  .demo-feat{display:flex;gap:12px;align-items:flex-start}
-  .demo-feat-dot{width:6px;height:6px;min-width:6px;border-radius:50%;background:var(--accent);margin-top:5px}
-  .demo-feat strong{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;display:block;margin-bottom:3px}
-  .demo-feat p{font-size:13px;color:var(--sub);line-height:1.55;margin:0}
-
-  @media(max-width:900px){
-    #demos .w>div[style]{grid-template-columns:1fr!important}
-  }
-</style>
 
 <hr/>
 
