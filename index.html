@@ -8,35 +8,31 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
-    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
-    /* ── TOKENS ── */
     :root {
-      --bg:        #06060a;
-      --surface:   #0c0c12;
-      --card:      rgba(255,255,255,0.025);
-      --card-h:    rgba(255,255,255,0.045);
-      --border:    rgba(255,255,255,0.07);
-      --border-h:  rgba(255,255,255,0.16);
-      --text:      #ebebf0;
-      --sub:       #a1a1b0;
-      --muted:     #52525f;
-      --accent:    #4361ee;
-      --accent2:   #7048e8;
-      --grad:      linear-gradient(135deg, #4361ee 0%, #7048e8 100%);
-      --green:     #22c55e;
-      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
-      --r-card:    14px;
-      --r-btn:     8px;
+      --bg:       #06060a;
+      --surface:  #0c0c12;
+      --card:     rgba(255,255,255,0.025);
+      --card-h:   rgba(255,255,255,0.045);
+      --border:   rgba(255,255,255,0.07);
+      --border-h: rgba(255,255,255,0.16);
+      --text:     #ebebf0;
+      --sub:      #a1a1b0;
+      --muted:    #52525f;
+      --accent:   #4361ee;
+      --accent2:  #7048e8;
+      --grad:     linear-gradient(135deg, #4361ee 0%, #7048e8 100%);
+      --green:    #22c55e;
+      --ease:     cubic-bezier(0.16, 1, 0.3, 1);
+      --r:        14px;
+      --r-btn:    8px;
     }
 
-    /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 5px; background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: #1e1e28; border-radius: 9px; }
 
-    /* ── BASE ── */
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
@@ -45,23 +41,21 @@
       line-height: 1.6;
     }
 
-    /* ── GRAIN OVERLAY ── */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       opacity: 0.025;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 9998;
     }
 
     /* ── NAV ── */
     nav {
       position: fixed;
       inset: 0 0 auto;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -71,22 +65,18 @@
       border-bottom: 1px solid transparent;
     }
     nav.solid {
-      background: rgba(6,6,10,0.88);
+      background: rgba(6,6,10,0.9);
       backdrop-filter: blur(24px) saturate(160%);
       border-color: var(--border);
     }
     .logo {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--text);
+      text-decoration: none;
     }
-    .logo span {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .logo span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .nav-center {
       display: flex;
       gap: 36px;
@@ -104,24 +94,133 @@
     }
     .nav-center a:hover { color: var(--text); }
     .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-right a {
+    .nav-contact {
       font-size: 13.5px;
       font-weight: 500;
       color: var(--sub);
       text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
       transition: color 0.2s;
     }
-    .nav-right a:hover { color: var(--text); }
+    .nav-contact:hover { color: var(--text); }
     .btn-book {
       background: var(--text);
-      color: var(--bg) !important;
-      font-weight: 700 !important;
-      font-size: 13px !important;
+      color: var(--bg);
+      font-weight: 700;
+      font-size: 13px;
       padding: 9px 20px;
       border-radius: var(--r-btn);
-      transition: opacity 0.2s, transform 0.2s !important;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s var(--ease);
+      white-space: nowrap;
     }
-    .btn-book:hover { opacity: 0.88; transform: translateY(-1px) !important; }
+    .btn-book:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── CONTACT MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-h);
+      border-radius: 20px;
+      padding: 52px 48px;
+      max-width: 480px;
+      width: 90%;
+      position: relative;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.4s var(--ease);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-close:hover { background: var(--card-h); color: var(--text); }
+    .modal-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .modal h3 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+    .modal-sub { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 36px; }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-row:hover { background: var(--card-h); border-color: var(--border-h); }
+    .contact-icon {
+      width: 40px; height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: rgba(67,97,238,0.1);
+      border: 1px solid rgba(67,97,238,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-icon svg { width: 18px; height: 18px; stroke: #738ef5; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-info-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+    .contact-info-val { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+    .modal-book {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 20px;
+      background: var(--grad);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      padding: 14px 24px;
+      border-radius: var(--r-btn);
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s var(--ease);
+    }
+    .modal-book:hover { opacity: 0.9; transform: translateY(-1px); }
 
     /* ── HERO ── */
     .hero {
@@ -135,41 +234,23 @@
       position: relative;
       overflow: hidden;
     }
-    .hero-orb {
+    .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
+      filter: blur(110px);
       pointer-events: none;
     }
-    .hero-orb-1 {
-      width: 600px; height: 600px;
-      background: rgba(67,97,238,0.12);
-      top: -100px; left: 50%;
-      transform: translateX(-50%);
-      animation: orbDrift 12s ease-in-out infinite alternate;
-    }
-    .hero-orb-2 {
-      width: 400px; height: 400px;
-      background: rgba(112,72,232,0.09);
-      bottom: 0; right: 5%;
-      animation: orbDrift 15s ease-in-out infinite alternate-reverse;
-    }
-    .hero-orb-3 {
-      width: 300px; height: 300px;
-      background: rgba(67,97,238,0.07);
-      bottom: 10%; left: 5%;
-      animation: orbDrift 18s ease-in-out infinite alternate;
-    }
-    @keyframes orbDrift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, 20px) scale(1.08); }
-    }
+    .orb-1 { width: 600px; height: 600px; background: rgba(67,97,238,0.13); top: -80px; left: 50%; transform: translateX(-50%); animation: drift 12s ease-in-out infinite alternate; }
+    .orb-2 { width: 380px; height: 380px; background: rgba(112,72,232,0.1); bottom: 5%; right: 4%; animation: drift 16s ease-in-out infinite alternate-reverse; }
+    .orb-3 { width: 280px; height: 280px; background: rgba(67,97,238,0.08); bottom: 15%; left: 4%; animation: drift 20s ease-in-out infinite alternate; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(24px,18px) scale(1.07); } }
+
     .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 11.5px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
@@ -181,20 +262,13 @@
       position: relative;
       z-index: 1;
       opacity: 0;
-      animation: riseIn 0.9s var(--ease) 0.1s forwards;
+      animation: up 0.9s var(--ease) 0.1s forwards;
     }
-    .hero-tag-dot {
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: blink 2.4s infinite;
-    }
-    @keyframes blink {
-      0%,100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+    .tag-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 2.4s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
     .hero h1 {
-      font-size: clamp(46px, 7.5vw, 88px);
+      font-size: clamp(44px, 7vw, 86px);
       font-weight: 800;
       letter-spacing: -0.045em;
       line-height: 1.02;
@@ -202,28 +276,23 @@
       position: relative;
       z-index: 1;
       opacity: 0;
-      animation: riseIn 0.9s var(--ease) 0.2s forwards;
+      animation: up 0.9s var(--ease) 0.2s forwards;
     }
-    .hero h1 .g {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
     .hero-sub {
-      font-size: clamp(15px, 2vw, 18px);
+      font-size: clamp(15px, 1.8vw, 17px);
       color: var(--sub);
-      max-width: 560px;
+      max-width: 540px;
       line-height: 1.75;
-      margin: 28px auto 0;
-      font-weight: 400;
+      margin: 26px auto 0;
       letter-spacing: -0.01em;
       position: relative;
       z-index: 1;
       opacity: 0;
-      animation: riseIn 0.9s var(--ease) 0.32s forwards;
+      animation: up 0.9s var(--ease) 0.3s forwards;
     }
-    .hero-actions {
+    .hero-btns {
       display: flex;
       gap: 12px;
       margin-top: 44px;
@@ -232,9 +301,9 @@
       position: relative;
       z-index: 1;
       opacity: 0;
-      animation: riseIn 0.9s var(--ease) 0.44s forwards;
+      animation: up 0.9s var(--ease) 0.42s forwards;
     }
-    .cta-primary {
+    .cta-p {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -248,8 +317,8 @@
       text-decoration: none;
       transition: opacity 0.2s, transform 0.25s var(--ease);
     }
-    .cta-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-    .cta-secondary {
+    .cta-p:hover { opacity: 0.9; transform: translateY(-2px); }
+    .cta-s {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -264,231 +333,169 @@
       text-decoration: none;
       transition: color 0.2s, border-color 0.2s, transform 0.25s var(--ease);
     }
-    .cta-secondary:hover { color: var(--text); border-color: var(--border-h); transform: translateY(-2px); }
+    .cta-s:hover { color: var(--text); border-color: var(--border-h); transform: translateY(-2px); }
+
+    @keyframes up { from{opacity:0;transform:translateY(28px);} to{opacity:1;transform:translateY(0);} }
 
     /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0;
-    }
+    hr { border: none; border-top: 1px solid var(--border); }
 
-    /* ── SECTION BASE ── */
-    .section { padding: 130px 56px; }
-    .section.surface { background: var(--surface); }
-    .wrap { max-width: 1100px; margin: 0 auto; }
-    .label {
+    /* ── SECTIONS ── */
+    .s { padding: 130px 56px; }
+    .s.bg2 { background: var(--surface); }
+    .w { max-width: 1100px; margin: 0 auto; }
+    .lbl {
       display: block;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     h2 {
-      font-size: clamp(30px, 4.5vw, 52px);
+      font-size: clamp(28px, 4vw, 50px);
       font-weight: 800;
       letter-spacing: -0.038em;
-      line-height: 1.06;
+      line-height: 1.07;
       color: var(--text);
     }
-    h2 .g {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .section-sub {
-      font-size: 16px;
+    .sub {
+      font-size: 15.5px;
       color: var(--sub);
       line-height: 1.75;
-      max-width: 480px;
-      margin-top: 18px;
-      font-weight: 400;
+      max-width: 460px;
+      margin-top: 16px;
       letter-spacing: -0.01em;
     }
 
-    /* ── SPLIT LAYOUT ── */
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .split.flip { direction: rtl; }
-    .split.flip > * { direction: ltr; }
+    /* ── SPLIT ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .split.rev { direction: rtl; }
+    .split.rev > * { direction: ltr; }
 
-    /* ── FEATURE CARDS ── */
-    .feat-cards {
+    /* ── FEATURE LIST ── */
+    .feat-list { margin-top: 44px; display: flex; flex-direction: column; gap: 4px; }
+    .feat {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-top: 48px;
-    }
-    .feat-card {
-      display: flex;
-      gap: 20px;
+      gap: 18px;
       align-items: flex-start;
-      padding: 22px 24px;
-      border-radius: var(--r-card);
+      padding: 20px 22px;
+      border-radius: var(--r);
       border: 1px solid transparent;
-      transition: background 0.3s, border-color 0.3s;
-      cursor: default;
+      transition: background 0.25s, border-color 0.25s;
     }
-    .feat-card:hover {
-      background: var(--card-h);
-      border-color: var(--border);
-    }
-    .feat-card-icon {
-      width: 38px; height: 38px;
-      min-width: 38px;
+    .feat:hover { background: var(--card-h); border-color: var(--border); }
+    .feat-ico {
+      width: 38px; height: 38px; min-width: 38px;
       border-radius: 9px;
       background: rgba(67,97,238,0.1);
       border: 1px solid rgba(67,97,238,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-    .feat-card-icon svg { width: 18px; height: 18px; stroke: #738ef5; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
-    .feat-card-text h4 {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 5px;
-    }
-    .feat-card-text p {
-      font-size: 13.5px;
-      color: var(--sub);
-      line-height: 1.6;
-    }
+    .feat-ico svg { width: 17px; height: 17px; stroke: #738ef5; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .feat h4 { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 5px; }
+    .feat p { font-size: 13.5px; color: var(--sub); line-height: 1.6; }
 
-    /* ── CHAT WINDOW ── */
-    .chat-window {
+    /* ── CHAT ── */
+    .chat {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.5);
     }
-    .chat-bar {
-      background: rgba(255,255,255,0.03);
+    .chat-top {
+      background: rgba(255,255,255,0.025);
       border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
+      padding: 15px 20px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
-    .chat-bar-av {
+    .chat-av {
       width: 34px; height: 34px;
       border-radius: 50%;
       background: var(--grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 800;
-      color: #fff;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0;
     }
-    .chat-bar-info { flex: 1; }
-    .chat-bar-name { font-size: 13.5px; font-weight: 700; letter-spacing: -0.02em; }
-    .chat-bar-status {
-      font-size: 11.5px;
-      color: var(--green);
-      display: flex;
+    .chat-name { font-size: 13.5px; font-weight: 700; letter-spacing: -0.02em; }
+    .chat-status {
+      font-size: 11.5px; color: var(--green);
+      display: flex; align-items: center; gap: 5px; margin-top: 2px;
+    }
+    .chat-status::before { content:''; width:6px; height:6px; background:var(--green); border-radius:50%; }
+
+    /* Appointment booked card inside chat */
+    .appt-card {
+      background: rgba(67,97,238,0.08);
+      border: 1px solid rgba(67,97,238,0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 8px;
+      font-size: 12.5px;
+    }
+    .appt-card-title { font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em; }
+    .appt-row { display: flex; justify-content: space-between; color: var(--sub); margin-bottom: 4px; }
+    .appt-row span:last-child { color: var(--text); font-weight: 600; }
+    .appt-badge {
+      display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 1px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.2);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-top: 10px;
     }
-    .chat-bar-status::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .chat-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; }
+    .appt-badge::before { content:''; width:5px; height:5px; background:var(--green); border-radius:50%; }
+
+    .msgs { padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; }
     .msg { display: flex; align-items: flex-end; gap: 8px; }
     .msg.r { flex-direction: row-reverse; }
-    .bubble {
-      max-width: 82%;
+    .bbl {
+      max-width: 80%;
       padding: 11px 15px;
       border-radius: 14px;
       font-size: 13.5px;
       line-height: 1.55;
       letter-spacing: -0.01em;
     }
-    .bubble.l {
-      background: rgba(255,255,255,0.055);
-      color: var(--text);
-      border-bottom-left-radius: 3px;
-    }
-    .bubble.r {
-      background: var(--grad);
-      color: #fff;
-      border-bottom-right-radius: 3px;
-    }
-    .msg-ts { font-size: 10.5px; color: var(--muted); flex-shrink: 0; }
-    .typing {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-      padding: 12px 15px;
-      background: rgba(255,255,255,0.055);
-      border-radius: 14px;
-      border-bottom-left-radius: 3px;
-      width: fit-content;
-    }
-    .td {
-      width: 6px; height: 6px;
-      background: var(--muted);
-      border-radius: 50%;
-      animation: td 1.3s infinite;
-    }
-    .td:nth-child(2) { animation-delay: 0.18s; }
-    .td:nth-child(3) { animation-delay: 0.36s; }
-    @keyframes td {
-      0%,60%,100% { transform: translateY(0); opacity: 0.3; }
-      30% { transform: translateY(-5px); opacity: 1; }
-    }
+    .bbl.l { background: rgba(255,255,255,0.055); color: var(--text); border-bottom-left-radius: 3px; }
+    .bbl.r { background: var(--grad); color: #fff; border-bottom-right-radius: 3px; }
+    .ts { font-size: 10.5px; color: var(--muted); flex-shrink: 0; }
+    .typing { display:flex; gap:4px; align-items:center; padding:12px 15px; background:rgba(255,255,255,0.055); border-radius:14px; border-bottom-left-radius:3px; width:fit-content; }
+    .td { width:6px; height:6px; background:var(--muted); border-radius:50%; animation:td 1.3s infinite; }
+    .td:nth-child(2){animation-delay:.18s;} .td:nth-child(3){animation-delay:.36s;}
+    @keyframes td { 0%,60%,100%{transform:translateY(0);opacity:.3;} 30%{transform:translateY(-5px);opacity:1;} }
 
-    /* ── GRID CARDS ── */
-    .grid-4 {
+    /* ── GRID 4 ── */
+    .g4 {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4,1fr);
       gap: 1px;
       background: var(--border);
-      border-radius: var(--r-card);
+      border-radius: var(--r);
       overflow: hidden;
-      margin-top: 60px;
       border: 1px solid var(--border);
+      margin-top: 60px;
     }
-    .g4-card {
+    .g4-cell {
       background: var(--bg);
-      padding: 36px 28px;
-      transition: background 0.3s;
+      padding: 34px 28px;
+      transition: background 0.25s;
     }
-    .g4-card:hover { background: var(--card-h); }
-    .g4-num {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-    .g4-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-    .g4-card p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
+    .bg2 .g4-cell { background: var(--surface); }
+    .g4-cell:hover { background: var(--card-h); }
+    .g4-n { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+    .g4-cell h3 { font-size: 15.5px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 10px; }
+    .g4-cell p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
 
-    /* ── DASHBOARD MOCKUP ── */
+    /* ── DASHBOARD ── */
     .dash {
       border: 1px solid var(--border);
       border-radius: 18px;
@@ -499,487 +506,385 @@
     .dash-bar {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
+      padding: 13px 20px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
     .dot { width: 11px; height: 11px; border-radius: 50%; }
-    .dot-r { background: #ff5f57; }
-    .dot-y { background: #febc2e; }
-    .dot-g { background: #28c840; }
-    .dash-title {
-      margin-left: 12px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-      letter-spacing: -0.01em;
-    }
-    .dash-grid {
+    .dr{background:#ff5f57;} .dy{background:#febc2e;} .dg{background:#28c840;}
+    .dash-ttl { margin-left: 10px; font-size: 12px; color: var(--muted); font-weight: 500; }
+    .dash-metrics {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4,1fr);
       gap: 1px;
       background: var(--border);
     }
-    .dash-metric {
+    .dm {
       background: var(--bg);
-      padding: 28px 24px;
+      padding: 26px 22px;
     }
-    .dash-metric-l { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 500; letter-spacing: -0.01em; }
-    .dash-metric-v {
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-    .dash-metric-v.c-green { color: #22c55e; }
-    .dash-metric-v.c-blue { color: #4361ee; }
-    .dash-metric-v.c-purple { color: #9b72ef; }
-    .dash-metric-v.c-white { color: var(--text); }
-    .dash-metric-d { font-size: 12px; color: #22c55e; margin-top: 8px; font-weight: 600; }
+    .dm-l { font-size: 12px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+    .dm-v { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .cv-g{color:#22c55e;} .cv-b{color:#4361ee;} .cv-p{color:#9b72ef;} .cv-w{color:var(--text);}
+    .dm-d { font-size: 12px; color: #22c55e; margin-top: 8px; font-weight: 600; }
     .dash-feats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 1px;
       background: var(--border);
       border-top: 1px solid var(--border);
     }
-    .dash-feat {
-      background: var(--bg);
-      padding: 24px;
-    }
-    .dash-feat h4 { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
-    .dash-feat p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+    .df { background: var(--bg); padding: 24px 22px; }
+    .df h4 { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 7px; }
+    .df p { font-size: 13px; color: var(--sub); line-height: 1.6; }
 
-    /* ── STATS ── */
-    .stats-strip {
+    /* ── STATS STRIP ── */
+    .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 1px;
       background: var(--border);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-top: 60px;
     }
-    .stat-box {
+    .stat {
       background: var(--bg);
-      padding: 52px 48px;
-      transition: background 0.3s;
+      padding: 52px 44px;
+      transition: background 0.25s;
     }
-    .stat-box:hover { background: var(--card-h); }
-    .stat-val {
-      font-size: clamp(40px, 5vw, 60px);
+    .stat:hover { background: var(--card-h); }
+    .stat-v {
+      font-size: clamp(38px, 4.5vw, 58px);
       font-weight: 800;
       letter-spacing: -0.05em;
+      line-height: 1;
       background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1;
     }
-    .stat-desc {
-      font-size: 14px;
-      color: var(--sub);
-      margin-top: 12px;
-      max-width: 200px;
-      line-height: 1.55;
-      font-weight: 400;
-    }
+    .stat-d { font-size: 14px; color: var(--sub); margin-top: 12px; max-width: 200px; line-height: 1.55; }
 
     /* ── TESTIMONIAL ── */
-    .testimonial-block {
+    .testi {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--r-card);
+      border-radius: var(--r);
       padding: 48px 52px;
-      margin-top: 60px;
+      margin-top: 28px;
       position: relative;
       overflow: hidden;
     }
-    .testimonial-block::before {
+    .testi::before {
       content: '\201C';
       position: absolute;
-      top: 20px; left: 40px;
-      font-size: 120px;
+      top: 10px; left: 38px;
+      font-size: 110px;
       color: rgba(67,97,238,0.1);
       font-weight: 800;
       line-height: 1;
       pointer-events: none;
     }
-    .testimonial-quote {
-      font-size: 18px;
+    .testi-q {
+      font-size: 17px;
       line-height: 1.75;
       color: var(--text);
-      font-weight: 400;
       letter-spacing: -0.015em;
       position: relative;
       z-index: 1;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
-    .testimonial-author { display: flex; align-items: center; gap: 16px; }
-    .testimonial-av {
-      width: 46px; height: 46px;
-      border-radius: 50%;
+    .testi-auth { display: flex; align-items: center; gap: 14px; }
+    .testi-av {
+      width: 44px; height: 44px; border-radius: 50%;
       background: var(--grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      font-weight: 800;
-      color: #fff;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; color: #fff; flex-shrink: 0;
     }
-    .testimonial-name { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; }
-    .testimonial-role { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .testi-name { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; }
+    .testi-role { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 
     /* ── PROCESS ── */
-    .process-grid {
+    .proc {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 1px;
       background: var(--border);
-      border-radius: var(--r-card);
-      overflow: hidden;
       border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
       margin-top: 60px;
     }
-    .process-step {
-      background: var(--bg);
-      padding: 44px 36px;
-      transition: background 0.3s;
-      position: relative;
-    }
-    .process-step:hover { background: var(--card-h); }
-    .step-num {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-    .step-title {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-    .step-body { font-size: 14px; color: var(--sub); line-height: 1.7; }
+    .proc-step { background: var(--bg); padding: 44px 34px; transition: background 0.25s; }
+    .proc-step:hover { background: var(--card-h); }
+    .proc-n { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
+    .proc-t { font-size: 19px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+    .proc-b { font-size: 14px; color: var(--sub); line-height: 1.7; }
 
     /* ── BENEFITS ── */
-    .benefits-grid {
+    .bens {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 1px;
       background: var(--border);
       border: 1px solid var(--border);
-      border-radius: var(--r-card);
+      border-radius: var(--r);
       overflow: hidden;
       margin-top: 60px;
     }
-    .benefit {
-      background: var(--bg);
-      padding: 36px 32px;
-      transition: background 0.3s;
-    }
-    .benefit:hover { background: var(--card-h); }
-    .benefit-line {
-      width: 28px;
-      height: 2px;
-      background: var(--grad);
-      border-radius: 2px;
-      margin-bottom: 20px;
-    }
-    .benefit h3 {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-    .benefit p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
+    .ben { background: var(--bg); padding: 34px 30px; transition: background 0.25s; }
+    .bg2 .ben { background: var(--surface); }
+    .ben:hover { background: var(--card-h); }
+    .ben-line { width: 26px; height: 2px; background: var(--grad); border-radius: 2px; margin-bottom: 18px; }
+    .ben h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 9px; }
+    .ben p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
 
     /* ── FAQ ── */
-    .faq-wrap { max-width: 720px; margin: 60px auto 0; }
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-w { max-width: 700px; margin: 56px auto 0; }
+    .faq-i { border-bottom: 1px solid var(--border); }
+    .faq-i:first-child { border-top: 1px solid var(--border); }
     .faq-btn {
-      width: 100%;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      padding: 24px 0;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      transition: color 0.2s;
+      width: 100%; background: none; border: none; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      letter-spacing: -0.02em; padding: 24px 0; text-align: left;
+      cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center; gap: 24px; transition: color 0.2s;
     }
     .faq-btn:hover { color: var(--sub); }
-    .faq-icon {
-      width: 22px; height: 22px;
-      min-width: 22px;
-      position: relative;
-      flex-shrink: 0;
-    }
-    .faq-icon::before, .faq-icon::after {
-      content: '';
-      position: absolute;
-      background: var(--muted);
-      border-radius: 2px;
-      transition: transform 0.3s var(--ease), opacity 0.3s;
-    }
-    .faq-icon::before { width: 100%; height: 1.5px; top: 50%; left: 0; transform: translateY(-50%); }
-    .faq-icon::after  { width: 1.5px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
-    .faq-item.open .faq-icon::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
-    .faq-answer {
-      font-size: 14.5px;
-      color: var(--sub);
-      line-height: 1.78;
-      max-height: 0;
-      overflow: hidden;
+    .faq-x { width: 20px; height: 20px; min-width: 20px; position: relative; flex-shrink: 0; }
+    .faq-x::before,.faq-x::after { content:''; position:absolute; background:var(--muted); border-radius:2px; transition:transform .3s var(--ease),opacity .3s; }
+    .faq-x::before { width:100%; height:1.5px; top:50%; left:0; transform:translateY(-50%); }
+    .faq-x::after  { width:1.5px; height:100%; left:50%; top:0; transform:translateX(-50%); }
+    .faq-i.open .faq-x::after { transform:translateX(-50%) rotate(90deg); opacity:0; }
+    .faq-ans {
+      font-size: 14.5px; color: var(--sub); line-height: 1.78;
+      max-height: 0; overflow: hidden;
       transition: max-height 0.45s var(--ease), padding 0.3s;
       letter-spacing: -0.01em;
     }
-    .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 24px; }
+    .faq-i.open .faq-ans { max-height: 300px; padding-bottom: 24px; }
 
     /* ── FINAL CTA ── */
-    .cta-section {
+    .final {
       padding: 160px 56px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .cta-orb {
+    .final-orb {
       position: absolute;
       width: 700px; height: 700px;
       background: radial-gradient(circle, rgba(67,97,238,0.1) 0%, transparent 65%);
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
       pointer-events: none;
     }
-    .cta-section h2 { position: relative; z-index: 1; font-size: clamp(36px, 5vw, 60px); }
-    .cta-section p {
-      font-size: 17px;
-      color: var(--sub);
-      max-width: 440px;
-      margin: 22px auto 44px;
-      line-height: 1.7;
-      letter-spacing: -0.01em;
-      position: relative;
-      z-index: 1;
+    .final h2 { position: relative; z-index: 1; font-size: clamp(34px, 5vw, 58px); }
+    .final-tagline {
+      font-size: 15px; color: var(--sub); max-width: 460px;
+      margin: 16px auto 0; line-height: 1.7; letter-spacing: -0.01em;
+      position: relative; z-index: 1;
     }
-    .cta-section .cta-primary { position: relative; z-index: 1; font-size: 15px; padding: 15px 32px; }
+    .final-p { font-size: 17px; color: var(--sub); max-width: 420px; margin: 20px auto 44px; line-height: 1.7; letter-spacing: -0.01em; position: relative; z-index: 1; }
+    .final .cta-p { position: relative; z-index: 1; font-size: 15px; padding: 15px 32px; }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 72px 56px 48px;
-    }
-    .footer-top {
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 72px 56px 48px; }
+    .ft {
       display: grid;
-      grid-template-columns: 1.6fr 1fr 1fr 1fr;
-      gap: 60px;
-      margin-bottom: 64px;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 56px;
+      margin-bottom: 60px;
     }
-    .footer-brand-logo {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 14px;
-      display: block;
-    }
-    .footer-brand-logo span {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .footer-brand p { font-size: 13.5px; color: var(--sub); line-height: 1.7; max-width: 260px; }
-    .footer-col h5 {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-    .footer-col a {
-      display: block;
-      font-size: 13.5px;
-      color: var(--sub);
-      text-decoration: none;
-      margin-bottom: 11px;
-      letter-spacing: -0.01em;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover { color: var(--text); }
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-bottom p { font-size: 12.5px; color: var(--muted); letter-spacing: -0.01em; }
+    .ft-logo { font-size: 15px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; display: block; }
+    .ft-logo span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .ft-brand p { font-size: 13.5px; color: var(--sub); line-height: 1.7; max-width: 240px; }
+    .ft-col h5 { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+    .ft-col a { display: block; font-size: 13.5px; color: var(--sub); text-decoration: none; margin-bottom: 11px; letter-spacing: -0.01em; transition: color 0.2s; }
+    .ft-col a:hover { color: var(--text); }
+    .ft-bottom { border-top: 1px solid var(--border); padding-top: 26px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .ft-bottom p { font-size: 12.5px; color: var(--muted); letter-spacing: -0.01em; }
 
-    /* ── REVEAL ANIMATIONS ── */
-    @keyframes riseIn {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .r0 { opacity: 0; transform: translateY(32px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
-    .r0.in { opacity: 1; transform: translateY(0); }
-    .d1 { transition-delay: 0.08s; }
-    .d2 { transition-delay: 0.16s; }
-    .d3 { transition-delay: 0.24s; }
-    .d4 { transition-delay: 0.32s; }
-    .d5 { transition-delay: 0.40s; }
+    /* ── REVEAL ── */
+    .r { opacity: 0; transform: translateY(30px); transition: opacity 0.75s var(--ease), transform 0.75s var(--ease); }
+    .r.in { opacity: 1; transform: translateY(0); }
+    .d1{transition-delay:.08s;} .d2{transition-delay:.16s;} .d3{transition-delay:.24s;} .d4{transition-delay:.32s;} .d5{transition-delay:.40s;}
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .section { padding: 100px 32px; }
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .dash-grid { grid-template-columns: repeat(2, 1fr); }
-      .dash-feats { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media(max-width:1024px){
+      .s{padding:90px 32px;}
+      .g4{grid-template-columns:repeat(2,1fr);}
+      .dash-metrics{grid-template-columns:repeat(2,1fr);}
+      .dash-feats{grid-template-columns:1fr;}
+      .ft{grid-template-columns:1fr 1fr;gap:40px;}
     }
-    @media (max-width: 768px) {
-      nav { padding: 0 24px; }
-      .nav-center { display: none; }
-      .section { padding: 80px 24px; }
-      .split { grid-template-columns: 1fr; gap: 48px; }
-      .split.flip { direction: ltr; }
-      .process-grid { grid-template-columns: 1fr; }
-      .benefits-grid { grid-template-columns: 1fr; }
-      .stats-strip { grid-template-columns: 1fr; }
-      .cta-section { padding: 100px 24px; }
-      footer { padding: 56px 24px 36px; }
-      .footer-top { grid-template-columns: 1fr; gap: 40px; }
-      .footer-bottom { flex-direction: column; text-align: center; }
+    @media(max-width:768px){
+      nav{padding:0 24px;}
+      .nav-center{display:none;}
+      .s{padding:72px 24px;}
+      .split{grid-template-columns:1fr;gap:44px;}
+      .split.rev{direction:ltr;}
+      .proc{grid-template-columns:1fr;}
+      .bens{grid-template-columns:1fr;}
+      .stats{grid-template-columns:1fr;}
+      .final{padding:100px 24px;}
+      footer{padding:52px 24px 36px;}
+      .ft{grid-template-columns:1fr;}
     }
-    @media (max-width: 480px) {
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .cta-primary, .cta-secondary { justify-content: center; }
-      .grid-4 { grid-template-columns: 1fr; }
-      .dash-grid { grid-template-columns: 1fr; }
+    @media(max-width:480px){
+      .hero-btns{flex-direction:column;align-items:stretch;}
+      .cta-p,.cta-s{justify-content:center;}
+      .g4{grid-template-columns:1fr;}
+      .dash-metrics{grid-template-columns:1fr;}
+      .testi{padding:32px 24px;}
     }
   </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-label">Get in Touch</div>
+    <h3>Let's talk.</h3>
+    <p class="modal-sub">Reach out directly or book a free 15-minute consultation to see what we can build for your business.</p>
+    <a href="tel:6122200860" class="contact-row">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div>
+        <div class="contact-info-label">Phone</div>
+        <div class="contact-info-val">612-220-0860</div>
+      </div>
+    </a>
+    <a href="mailto:infonoone@noonecapital.net" class="contact-row">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div class="contact-info-label">Email</div>
+        <div class="contact-info-val">infonoone@noonecapital.net</div>
+      </div>
+    </a>
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="modal-book">
+      Book a Free Consultation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- NAV -->
 <nav id="nav">
-  <div class="logo"><span>NCI</span> · Noone Capital</div>
+  <a href="#home" class="logo"><span>NCI</span> · Noone Capital</a>
   <div class="nav-center">
     <a href="#frameworks">Frameworks</a>
     <a href="#process">Process</a>
     <a href="#results">Results</a>
-    <a href="mailto:infonoone@noonecapital.net">Contact Us</a>
+    <button class="nav-contact" id="contactBtn">Contact Us</button>
   </div>
   <div class="nav-right">
     <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-book">Book a Consultation</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-orb hero-orb-3"></div>
-  <div class="hero-tag"><span class="hero-tag-dot"></span>Intelligent Automation Agency</div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-tag"><span class="tag-dot"></span>Intelligent Automation Agency</div>
   <h1>AI Consulting Designed for<br /><span class="g">Performance and Profit</span></h1>
-  <p class="hero-sub">We build and implement custom AI agents that automate your communications, qualify leads, book appointments, and convert — while you focus on growth.</p>
-  <div class="hero-actions">
-    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-primary">
+  <p class="hero-sub">We build and implement custom AI agents that automate calls, messages, and workflows — powered by your own dashboard for full visibility and control.</p>
+  <div class="hero-btns">
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-p">
       Book a Consultation
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="#results" class="cta-secondary">
-      See Our Results
-    </a>
+    <a href="#results" class="cta-s">See Our Results</a>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ INTELLIGENT AGENTS ══ -->
-<section class="section" id="frameworks">
-  <div class="wrap">
+<!-- FRAMEWORKS / INTELLIGENT AGENTS -->
+<section class="s" id="frameworks">
+  <div class="w">
     <div class="split">
-      <div class="r0">
-        <span class="label">Intelligent Agents × Dashboard</span>
+      <div class="r">
+        <span class="lbl">Intelligent Agents × Dashboard</span>
         <h2>AI agents built to<br /><span class="g">perform, not impress</span></h2>
-        <p class="section-sub">Every agent we deploy is purpose-built for your workflow — trained on your business, integrated into your systems, and optimized for measurable outcomes.</p>
-        <div class="feat-cards">
-          <div class="feat-card">
-            <div class="feat-card-icon">
+        <p class="sub">Every agent we deploy is purpose-built for your operation — trained on your business, integrated into your systems, and measured against real outcomes.</p>
+        <div class="feat-list">
+          <div class="feat">
+            <div class="feat-ico">
               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
-            <div class="feat-card-text">
+            <div>
               <h4>Smart Knowledge Base</h4>
-              <p>Your agent knows your business inside out — services, pricing, availability, objections — and answers every question instantly.</p>
+              <p>Uses trained data to answer questions instantly and reduce support workload.</p>
             </div>
           </div>
-          <div class="feat-card">
-            <div class="feat-card-icon">
+          <div class="feat">
+            <div class="feat-ico">
               <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
-            <div class="feat-card-text">
+            <div>
               <h4>Context Retention</h4>
-              <p>Remembers every conversation. No repeated questions, no dropped context. Continuous, human-quality communication at scale.</p>
+              <p>Remembers interactions to create smooth, continuous customer experiences.</p>
             </div>
           </div>
-          <div class="feat-card">
-            <div class="feat-card-icon">
+          <div class="feat">
+            <div class="feat-ico">
               <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             </div>
-            <div class="feat-card-text">
+            <div>
               <h4>Performance Tracking</h4>
-              <p>Every conversation, booking, and conversion tracked in a unified interface. Full visibility with zero manual reporting.</p>
+              <p>Measures chat volume, response rate, and satisfaction inside one unified dashboard.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="chat-window r0 d2">
-        <div class="chat-bar">
-          <div class="chat-bar-av">N</div>
-          <div class="chat-bar-info">
-            <div class="chat-bar-name">NCI AI Agent</div>
-            <div class="chat-bar-status">Online · Responding instantly</div>
+
+      <!-- CHAT DEMO -->
+      <div class="chat r d2">
+        <div class="chat-top">
+          <div class="chat-av">N</div>
+          <div>
+            <div class="chat-name">NCI AI Agent · Ironclad Group</div>
+            <div class="chat-status">Online · Responding instantly</div>
           </div>
         </div>
-        <div class="chat-body">
+        <div class="msgs">
           <div class="msg">
-            <div class="bubble l">Hi, I saw your ad. I'm interested in getting an AI system set up for my business — what does that look like?</div>
-            <span class="msg-ts">2:14 PM</span>
+            <div class="bbl l">Hey there 👋 I'm looking to schedule a service visit for next week.</div>
+            <span class="ts">10:14 AM</span>
           </div>
           <div class="msg r">
-            <div class="bubble r">Great timing — we specialize in building custom AI agents for businesses like yours. Typically we start with a free 15-minute call to map your current workflow and identify where automation can add the most revenue. Are you available this week?</div>
-            <span class="msg-ts">2:14 PM</span>
-          </div>
-          <div class="msg">
-            <div class="bubble l">Thursday afternoon works for me.</div>
-            <span class="msg-ts">2:15 PM</span>
-          </div>
-          <div class="msg r">
-            <div class="bubble r">Done — I've booked you for Thursday at 2:00 PM. You'll receive a calendar invite shortly. Looking forward to it.</div>
-            <span class="msg-ts">2:15 PM</span>
-          </div>
-          <div class="msg">
-            <div class="typing">
-              <div class="td"></div><div class="td"></div><div class="td"></div>
+            <div class="bbl r">
+              Hi! We have an opening at 12 noon tomorrow — that works perfectly if you're available. Can I get your address to confirm?
+              <div class="appt-card">
+                <div class="appt-card-title">Appointment Booked</div>
+                <div class="appt-row"><span>Date</span><span>Tomorrow</span></div>
+                <div class="appt-row"><span>Time</span><span>12:00 PM</span></div>
+                <div class="appt-row"><span>Type</span><span>Voice Agent</span></div>
+                <div class="appt-badge">Call Completed</div>
+              </div>
             </div>
+            <span class="ts">10:14 AM</span>
+          </div>
+          <div class="msg">
+            <div class="bbl l">Yes, we have an opening at 12 noon tomorrow, that works perfectly. Can I get your address?</div>
+            <span class="ts">10:15 AM</span>
+          </div>
+          <div class="msg r">
+            <div class="bbl r">Great, you're all set. Our team will be there at noon tomorrow.</div>
+            <span class="ts">10:15 AM</span>
+          </div>
+          <div class="msg">
+            <div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>
           </div>
         </div>
       </div>
@@ -987,330 +892,270 @@
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ WORKFLOW AUTOMATIONS ══ -->
-<section class="section surface">
-  <div class="wrap">
-    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto 0;">
-      <span class="label">Workflow Automations</span>
+<!-- WORKFLOW AUTOMATIONS -->
+<section class="s bg2">
+  <div class="w">
+    <div class="r" style="text-align:center;max-width:580px;margin:0 auto;">
+      <span class="lbl">Workflow Automations</span>
       <h2>Connected systems.<br /><span class="g">Zero manual work.</span></h2>
-      <p class="section-sub" style="margin: 18px auto 0;">We eliminate the gaps between your tools — so every lead, message, and booking flows automatically without anyone lifting a finger.</p>
+      <p class="sub" style="margin:16px auto 0;">We eliminate the gaps between your tools — so every lead, message, and booking flows automatically without anyone lifting a finger.</p>
     </div>
-    <div class="grid-4">
-      <div class="g4-card r0 d1">
-        <div class="g4-num">01</div>
+    <div class="g4">
+      <div class="g4-cell r d1">
+        <div class="g4-n">01</div>
         <h3>Seamless Integrations</h3>
-        <p>Connects to your existing CRM, calendar, and communication stack — no ripping out what already works.</p>
+        <p>Connects CRMs, forms, and apps to automate repetitive business operations.</p>
       </div>
-      <div class="g4-card r0 d2">
-        <div class="g4-num">02</div>
+      <div class="g4-cell r d2">
+        <div class="g4-n">02</div>
         <h3>Custom Triggers</h3>
-        <p>Every action — a new lead, a missed call, a reply — fires the right automated response immediately.</p>
+        <p>Executes precise actions automatically based on data changes or user activity.</p>
       </div>
-      <div class="g4-card r0 d3">
-        <div class="g4-num">03</div>
+      <div class="g4-cell r d3">
+        <div class="g4-n">03</div>
         <h3>Time Optimization</h3>
-        <p>Hours recovered every week. Your team does high-value work. The AI handles the repetitive work at scale.</p>
+        <p>Replaces hours of manual tasks with intelligent end-to-end workflow logic.</p>
       </div>
-      <div class="g4-card r0 d4">
-        <div class="g4-num">04</div>
+      <div class="g4-cell r d4">
+        <div class="g4-n">04</div>
         <h3>Unified Dashboard</h3>
-        <p>Every agent, automation, and outcome visible in one interface. Full control, full clarity.</p>
+        <p>Monitors automation status, success rates, and ROI metrics in one place.</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ DASHBOARD / COMMAND CENTER ══ -->
-<section class="section" id="dashboard">
-  <div class="wrap">
-    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto;">
-      <span class="label">Dashboard</span>
+<!-- DASHBOARD -->
+<section class="s" id="dashboard">
+  <div class="w">
+    <div class="r" style="text-align:center;max-width:580px;margin:0 auto;">
+      <span class="lbl">Dashboard</span>
       <h2>The command center.<br /><span class="g">Your business, made visible.</span></h2>
-      <p class="section-sub" style="margin: 18px auto 0;">Real-time intelligence across every agent and automation. Know exactly what's working, what's converting, and where to scale next.</p>
+      <p class="sub" style="margin:16px auto 0;">Real-time intelligence across every agent and automation. Know exactly what's working, what's converting, and where to scale next.</p>
     </div>
-    <div class="dash r0 d1">
+    <div class="dash r d1">
       <div class="dash-bar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="dash-title">NCI Intelligence Dashboard · Noone Capital</span>
+        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+        <span class="dash-ttl">NCI Intelligence Dashboard · Noone Capital</span>
       </div>
-      <div class="dash-grid">
-        <div class="dash-metric">
-          <div class="dash-metric-l">Conversations Handled</div>
-          <div class="dash-metric-v c-blue">2,841</div>
-          <div class="dash-metric-d">↑ 34% month over month</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-l">Appointments Booked</div>
-          <div class="dash-metric-v c-green">387</div>
-          <div class="dash-metric-d">↑ 41% month over month</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-l">Response Time</div>
-          <div class="dash-metric-v c-purple">&lt; 12s</div>
-          <div class="dash-metric-d">↓ From 4.5 hours avg</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-l">Revenue Attributed</div>
-          <div class="dash-metric-v c-white">$218k</div>
-          <div class="dash-metric-d">↑ This quarter</div>
-        </div>
+      <div class="dash-metrics">
+        <div class="dm"><div class="dm-l">Conversations Handled</div><div class="dm-v cv-b">2,841</div><div class="dm-d">↑ 34% month over month</div></div>
+        <div class="dm"><div class="dm-l">Appointments Booked</div><div class="dm-v cv-g">387</div><div class="dm-d">↑ 41% month over month</div></div>
+        <div class="dm"><div class="dm-l">Avg Response Time</div><div class="dm-v cv-p">&lt;12s</div><div class="dm-d">↓ From 4.5 hr avg</div></div>
+        <div class="dm"><div class="dm-l">Revenue Attributed</div><div class="dm-v cv-w">$218k</div><div class="dm-d">↑ This quarter</div></div>
       </div>
       <div class="dash-feats">
-        <div class="dash-feat">
-          <h4>Unified Intelligence</h4>
-          <p>All agent data consolidated in a single view. No tab-switching, no reporting delays.</p>
-        </div>
-        <div class="dash-feat">
-          <h4>Real-Time Insights</h4>
-          <p>Live performance metrics updated continuously — conversations, conversions, and outcomes as they happen.</p>
-        </div>
-        <div class="dash-feat">
-          <h4>Total Control</h4>
-          <p>Adjust agent behavior, update knowledge bases, and manage automations directly from the dashboard.</p>
-        </div>
+        <div class="df"><h4>Unified Intelligence</h4><p>See every AI agent, workflow, and data source in one seamless interface.</p></div>
+        <div class="df"><h4>Real-Time Insights</h4><p>Get instant performance metrics, response rates, and automation impact updated live.</p></div>
+        <div class="df"><h4>Total Control</h4><p>Adjust, pause, or optimize automations instantly, all from your central dashboard.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ RESULTS ══ -->
-<section class="section surface" id="results">
-  <div class="wrap">
-    <div class="r0">
-      <span class="label">Results</span>
+<!-- RESULTS -->
+<section class="s bg2" id="results">
+  <div class="w">
+    <div class="r">
+      <span class="lbl">Results</span>
       <h2>Proof in motion.<br /><span class="g">Clarity in numbers.</span></h2>
     </div>
-    <div class="stats-strip r0 d1" style="margin-top: 60px;">
-      <div class="stat-box">
-        <div class="stat-val" data-count="300" data-suffix="+">300+</div>
-        <p class="stat-desc">Hours of manual communication recovered every month per client</p>
+    <div class="stats r d1">
+      <div class="stat">
+        <div class="stat-v" data-count="300" data-suffix="+">300+</div>
+        <p class="stat-d">Hours of manual communication recovered monthly per client</p>
       </div>
-      <div class="stat-box">
-        <div class="stat-val" data-count="41" data-suffix="%">41%</div>
-        <p class="stat-desc">Average increase in booked appointments within 60 days</p>
+      <div class="stat">
+        <div class="stat-v" data-count="41" data-suffix="%">41%</div>
+        <p class="stat-d">Average increase in booked appointments within 60 days</p>
       </div>
-      <div class="stat-box">
-        <div class="stat-val" data-count="12" data-suffix="s">&lt;12s</div>
-        <p class="stat-desc">Average AI response time versus the industry average of 4+ hours</p>
+      <div class="stat">
+        <div class="stat-v">&lt;12s</div>
+        <p class="stat-d">Average AI response time vs. the industry average of 4+ hours</p>
       </div>
     </div>
-    <div class="testimonial-block r0 d2">
-      <p class="testimonial-quote">Our AI agent never misses a client. Bookings doubled in the first month, response times essentially disappeared, and our front desk finally runs itself. Noone Capital built something that actually works — not a demo, a real system.</p>
-      <div class="testimonial-author">
-        <div class="testimonial-av">A</div>
+    <div class="testi r d2">
+      <p class="testi-q">Our AI receptionist never misses a client, bookings doubled, response times vanished, and our front desk finally runs itself.</p>
+      <div class="testi-auth">
+        <div class="testi-av">A</div>
         <div>
-          <div class="testimonial-name">Ava Martinez</div>
-          <div class="testimonial-role">Operations Director · Ironclad Group</div>
+          <div class="testi-name">Ava Martinez</div>
+          <div class="testi-role">Operations Director · Ironclad Group</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ PROCESS ══ -->
-<section class="section" id="process">
-  <div class="wrap">
-    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto;">
-      <span class="label">Process</span>
+<!-- PROCESS -->
+<section class="s" id="process">
+  <div class="w">
+    <div class="r" style="text-align:center;max-width:560px;margin:0 auto;">
+      <span class="lbl">Process</span>
       <h2>The blueprint.<br /><span class="g">Behind every system.</span></h2>
-      <p class="section-sub" style="margin: 18px auto 0;">A structured, repeatable process that removes guesswork and delivers a working AI system — fast.</p>
+      <p class="sub" style="margin:16px auto 0;">A structured, repeatable process that removes guesswork and delivers a working AI system — fast.</p>
     </div>
-    <div class="process-grid">
-      <div class="process-step r0 d1">
-        <div class="step-num">Step 01</div>
-        <div class="step-title">Analyze Operations</div>
-        <p class="step-body">We map your full workflow — how leads come in, how they're handled, where they drop off. Every gap becomes an opportunity.</p>
+    <div class="proc">
+      <div class="proc-step r d1">
+        <div class="proc-n">Step 01</div>
+        <div class="proc-t">Analyze Operations</div>
+        <p class="proc-b">We identify inefficiencies and uncover automation opportunities across your entire workflow instantly.</p>
       </div>
-      <div class="process-step r0 d2">
-        <div class="step-num">Step 02</div>
-        <div class="step-title">Design Frameworks</div>
-        <p class="step-body">Custom AI frameworks engineered for your specific use case. Built on your data, your tone, your process — not a template.</p>
+      <div class="proc-step r d2">
+        <div class="proc-n">Step 02</div>
+        <div class="proc-t">Design Frameworks</div>
+        <p class="proc-b">We create intelligent structures precisely tailored for operational excellence — built around your specific business, not a template.</p>
       </div>
-      <div class="process-step r0 d3">
-        <div class="step-num">Step 03</div>
-        <div class="step-title">Optimize Performance</div>
-        <p class="step-body">Continuous monitoring, A/B testing, and optimization after launch. We don't set it and leave — we improve it until the numbers prove it.</p>
+      <div class="proc-step r d3">
+        <div class="proc-n">Step 03</div>
+        <div class="proc-t">Optimize Performance</div>
+        <p class="proc-b">We launch, monitor, and continuously optimize for measurable growth — not a one-time setup.</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ BENEFITS ══ -->
-<section class="section surface">
-  <div class="wrap">
-    <div class="r0" style="text-align: center; max-width: 560px; margin: 0 auto;">
-      <span class="label">Benefits</span>
+<!-- BENEFITS -->
+<section class="s bg2">
+  <div class="w">
+    <div class="r" style="text-align:center;max-width:540px;margin:0 auto;">
+      <span class="lbl">Benefits</span>
       <h2>Every benefit.<br /><span class="g">Backed by design.</span></h2>
     </div>
-    <div class="benefits-grid">
-      <div class="benefit r0 d1">
-        <div class="benefit-line"></div>
-        <h3>Increased Efficiency</h3>
-        <p>Eliminate hours of manual follow-up, scheduling, and communication. Your team focuses on what only humans can do.</p>
-      </div>
-      <div class="benefit r0 d2">
-        <div class="benefit-line"></div>
-        <h3>Smarter Decisions</h3>
-        <p>Real-time data from every agent interaction surfaces insights that help you make faster, more confident decisions.</p>
-      </div>
-      <div class="benefit r0 d3">
-        <div class="benefit-line"></div>
-        <h3>Seamless Integration</h3>
-        <p>Works within your existing stack. No ripping and replacing — just intelligent layers added on top of what you already use.</p>
-      </div>
-      <div class="benefit r0 d1">
-        <div class="benefit-line"></div>
-        <h3>Consistent Communication</h3>
-        <p>Every message, every time. Your brand voice, your standards, delivered with zero variance across every channel.</p>
-      </div>
-      <div class="benefit r0 d2">
-        <div class="benefit-line"></div>
-        <h3>Scalable Growth</h3>
-        <p>Handle 10x the volume without 10x the headcount. Your AI infrastructure grows with demand, automatically.</p>
-      </div>
-      <div class="benefit r0 d3">
-        <div class="benefit-line"></div>
-        <h3>Cost Reduction</h3>
-        <p>Replace costly manual processes with automation that runs 24/7 at a fraction of the operational cost.</p>
-      </div>
+    <div class="bens">
+      <div class="ben r d1"><div class="ben-line"></div><h3>Increased Efficiency</h3><p>Automate repetitive tasks to save hours and streamline daily operations effortlessly.</p></div>
+      <div class="ben r d2"><div class="ben-line"></div><h3>Smarter Decisions</h3><p>Gain real-time insights and make data-backed choices with confidence.</p></div>
+      <div class="ben r d3"><div class="ben-line"></div><h3>Seamless Integration</h3><p>Connect every system you use — from CRM to communication — in one automated flow.</p></div>
+      <div class="ben r d1"><div class="ben-line"></div><h3>Consistent Communication</h3><p>Ensure every message, response, and client interaction stays fast and accurate.</p></div>
+      <div class="ben r d2"><div class="ben-line"></div><h3>Scalable Growth</h3><p>Systems that evolve with your business — no limits, just continuous improvement.</p></div>
+      <div class="ben r d3"><div class="ben-line"></div><h3>Cost Reduction</h3><p>Reduce manual labor and eliminate inefficiencies that drain time and budget.</p></div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ FAQ ══ -->
-<section class="section" id="faq">
-  <div class="wrap">
-    <div class="r0" style="text-align: center;">
-      <span class="label">FAQ</span>
+<!-- FAQ -->
+<section class="s" id="faq">
+  <div class="w">
+    <div class="r" style="text-align:center;">
+      <span class="lbl">FAQ</span>
       <h2>Everything clear.<br /><span class="g">Before the first call.</span></h2>
     </div>
-    <div class="faq-wrap r0 d1">
-      <div class="faq-item">
-        <button class="faq-btn">
-          What businesses can benefit from AI consulting?
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-answer">Any business that handles inbound leads, books appointments, or communicates with clients at scale. Our systems perform best in service-based businesses, professional services, and any operation where response time and follow-up consistency directly impact revenue.</div>
+    <div class="faq-w r d1">
+      <div class="faq-i">
+        <button class="faq-btn">What businesses can benefit from AI consulting?<span class="faq-x"></span></button>
+        <div class="faq-ans">We help service, tech, and product-based companies streamline operations, improve communication, and unlock growth by integrating intelligent automation systems designed around their specific business needs.</div>
       </div>
-      <div class="faq-item">
-        <button class="faq-btn">
-          How long does implementation take?
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-answer">Most systems are fully live within 5–10 business days. We handle the entire build — you fill out one onboarding form, review the agent before launch, and we deploy. No technical involvement required on your end.</div>
+      <div class="faq-i">
+        <button class="faq-btn">How long does the implementation take?<span class="faq-x"></span></button>
+        <div class="faq-ans">Our typical implementation takes two to four weeks. Timelines depend on system complexity, integrations required, and the level of customization needed for optimal performance.</div>
       </div>
-      <div class="faq-item">
-        <button class="faq-btn">
-          What makes your process different?
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-answer">We don't sell software — we build operational systems. Every engagement starts with a workflow audit, not a product demo. The AI we deploy is purpose-built for your specific business, not a configured off-the-shelf tool.</div>
+      <div class="faq-i">
+        <button class="faq-btn">What makes your process different?<span class="faq-x"></span></button>
+        <div class="faq-ans">We combine strategy, design, and data to create automation systems that adapt over time — providing ongoing performance improvements and measurable business impact after deployment.</div>
       </div>
-      <div class="faq-item">
-        <button class="faq-btn">
-          Do I need technical knowledge to get started?
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-answer">None. We handle all technical implementation, integration, and maintenance. Your only responsibility is approving the system before launch and communicating any business changes that should update the agent's knowledge.</div>
+      <div class="faq-i">
+        <button class="faq-btn">Do I need technical knowledge to get started?<span class="faq-x"></span></button>
+        <div class="faq-ans">No technical experience is required. We guide you through every step, from concept to execution, ensuring clarity and simplicity throughout the entire process.</div>
       </div>
-      <div class="faq-item">
-        <button class="faq-btn">
-          What kind of results can I expect?
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-answer">Clients typically see measurable improvements within the first 30 days — faster response times, more booked appointments, and recovered leads that previously fell through the cracks. Long-term, our clients average 35–41% increases in qualified conversions within 60 days of launch.</div>
+      <div class="faq-i">
+        <button class="faq-btn">What kind of results can I expect?<span class="faq-x"></span></button>
+        <div class="faq-ans">Clients typically see reduced workload, faster workflows, improved communication, and measurable ROI within the first month of system implementation and performance tracking.</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<hr />
 
-<!-- ══ FINAL CTA ══ -->
-<section class="cta-section">
-  <div class="cta-orb"></div>
-  <div class="r0">
-    <span class="label" style="display:block; margin-bottom: 20px;">Get Started</span>
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="final-orb"></div>
+  <div class="r">
+    <span class="lbl" style="display:block;margin-bottom:18px;">Get Started</span>
     <h2>Simple systems.<br /><span class="g">Powerful outcomes.</span></h2>
-    <p>Book a free 15-minute consultation. We'll walk through your current workflow and show you exactly where AI can add the most value.</p>
-    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-primary">
+    <p class="final-tagline">Designed to run quietly, scale effortlessly, and deliver results that speak for themselves.</p>
+    <p class="final-p">We design intelligent systems that simplify operations and amplify performance.</p>
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-p">
       Book a Consultation
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="footer-brand-logo"><span>NCI</span> · Noone Capital</span>
+  <div class="ft">
+    <div class="ft-brand">
+      <span class="ft-logo"><span>NCI</span> · Noone Capital</span>
       <p>We design and implement custom AI systems that automate operations, accelerate growth, and reduce overhead for ambitious businesses.</p>
     </div>
-    <div class="footer-col">
+    <div class="ft-col">
       <h5>Product</h5>
       <a href="#frameworks">Frameworks</a>
       <a href="#dashboard">Dashboard</a>
       <a href="#process">Process</a>
       <a href="#results">Results</a>
     </div>
-    <div class="footer-col">
+    <div class="ft-col">
       <h5>Company</h5>
       <a href="#faq">FAQ</a>
-      <a href="mailto:infonoone@noonecapital.net">Contact Us</a>
       <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes">Book a Consultation</a>
+      <a href="tel:6122200860">612-220-0860</a>
+      <a href="mailto:infonoone@noonecapital.net">infonoone@noonecapital.net</a>
     </div>
-    <div class="footer-col">
+    <div class="ft-col">
       <h5>Legal</h5>
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
     </div>
   </div>
-  <div class="footer-bottom">
+  <div class="ft-bottom">
     <p>© 2026 Noone Capital Inc. All rights reserved.</p>
     <p>Built for performance.</p>
   </div>
 </footer>
 
 <script>
-  /* NAV */
+  /* NAV SCROLL */
   const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('solid', scrollY > 50);
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 50), { passive: true });
 
-  /* REVEAL */
-  const els = document.querySelectorAll('.r0');
+  /* CONTACT MODAL */
+  const modal = document.getElementById('contactModal');
+  document.getElementById('contactBtn').addEventListener('click', () => modal.classList.add('open'));
+  document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+
+  /* SCROLL REVEAL */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
-  els.forEach(el => io.observe(el));
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
 
   /* FAQ */
   document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
+      const item = btn.closest('.faq-i');
       const open = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      document.querySelectorAll('.faq-i').forEach(i => i.classList.remove('open'));
       if (!open) item.classList.add('open');
     });
   });
 
-  /* COUNTERS — fire once on scroll into view */
-  const counters = document.querySelectorAll('.stat-val[data-count]');
+  /* COUNTERS */
   const co = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
@@ -1320,16 +1165,16 @@
       let start = null;
       const tick = ts => {
         if (!start) start = ts;
-        const p = Math.min((ts - start) / 1600, 1);
-        const v = Math.floor(p < 1 ? end * (1 - Math.pow(1 - p, 3)) : end);
-        el.textContent = (el.dataset.count === '12' ? '<' : '') + v + suffix;
+        const p = Math.min((ts - start) / 1500, 1);
+        const v = Math.floor(end * (1 - Math.pow(1 - p, 3)));
+        el.textContent = v + (p >= 1 ? suffix : '');
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
       co.unobserve(el);
     });
   }, { threshold: 0.5 });
-  counters.forEach(el => co.observe(el));
+  document.querySelectorAll('.stat-v[data-count]').forEach(el => co.observe(el));
 </script>
 </body>
 </html>
