@@ -3,888 +3,982 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noone Capital | AI for Restoration Companies</title>
+  <title>Noone Capital | AI Consulting for Performance and Profit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
+    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
+    /* ── TOKENS ── */
     :root {
-      --bg: #08080f;
-      --bg2: #0d0d1a;
-      --card: rgba(255,255,255,0.04);
-      --card-border: rgba(255,255,255,0.08);
-      --accent: #4f6ef7;
-      --accent2: #7c3aed;
-      --accent-grad: linear-gradient(135deg, #4f6ef7, #7c3aed);
-      --text: #f0f0f8;
-      --muted: #8888aa;
-      --white: #ffffff;
+      --bg:        #06060a;
+      --surface:   #0c0c12;
+      --card:      rgba(255,255,255,0.025);
+      --card-h:    rgba(255,255,255,0.045);
+      --border:    rgba(255,255,255,0.07);
+      --border-h:  rgba(255,255,255,0.16);
+      --text:      #ebebf0;
+      --sub:       #a1a1b0;
+      --muted:     #52525f;
+      --accent:    #4361ee;
+      --accent2:   #7048e8;
+      --grad:      linear-gradient(135deg, #4361ee 0%, #7048e8 100%);
+      --green:     #22c55e;
+      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+      --r-card:    14px;
+      --r-btn:     8px;
     }
 
-    html { scroll-behavior: smooth; }
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #1e1e28; border-radius: 9px; }
 
+    /* ── BASE ── */
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-    /* ─── NAV ─── */
+    /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      inset: 0 0 auto;
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 60px;
-      transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
+      padding: 0 56px;
+      height: 68px;
+      transition: background 0.5s var(--ease), border-color 0.5s var(--ease);
+      border-bottom: 1px solid transparent;
     }
-    nav.scrolled {
-      background: rgba(8,8,15,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--card-border);
+    nav.solid {
+      background: rgba(6,6,10,0.88);
+      backdrop-filter: blur(24px) saturate(160%);
+      border-color: var(--border);
     }
-    .nav-logo {
-      font-size: 22px;
+    .logo {
+      font-size: 17px;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      background: var(--accent-grad);
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .logo span {
+      background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .nav-links { display: flex; align-items: center; gap: 36px; }
-    .nav-links a {
+    .nav-center {
+      display: flex;
+      gap: 36px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .nav-center a {
+      font-size: 13.5px;
+      font-weight: 500;
       color: var(--muted);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
+      letter-spacing: -0.01em;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--white); }
-    .nav-cta {
-      background: var(--accent-grad);
-      color: var(--white) !important;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      font-size: 14px !important;
+    .nav-center a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-right a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--sub);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-right a:hover { color: var(--text); }
+    .btn-book {
+      background: var(--text);
+      color: var(--bg) !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      padding: 9px 20px;
+      border-radius: var(--r-btn);
       transition: opacity 0.2s, transform 0.2s !important;
     }
-    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-book:hover { opacity: 0.88; transform: translateY(-1px) !important; }
 
-    /* ─── HERO ─── */
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 120px 24px 80px;
+      padding: 140px 24px 100px;
       position: relative;
       overflow: hidden;
     }
-    .hero-bg {
+    .hero-orb {
       position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,110,247,0.18) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(124,58,237,0.12) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 30% at 20% 70%, rgba(79,110,247,0.08) 0%, transparent 50%);
-      animation: heroBgShift 8s ease-in-out infinite alternate;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
     }
-    @keyframes heroBgShift {
-      0%   { opacity: 1; transform: scale(1); }
-      100% { opacity: 0.8; transform: scale(1.05); }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: rgba(67,97,238,0.12);
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      animation: orbDrift 12s ease-in-out infinite alternate;
     }
-    .hero-badge {
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(112,72,232,0.09);
+      bottom: 0; right: 5%;
+      animation: orbDrift 15s ease-in-out infinite alternate-reverse;
+    }
+    .hero-orb-3 {
+      width: 300px; height: 300px;
+      background: rgba(67,97,238,0.07);
+      bottom: 10%; left: 5%;
+      animation: orbDrift 18s ease-in-out infinite alternate;
+    }
+    @keyframes orbDrift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+    .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(79,110,247,0.12);
-      border: 1px solid rgba(79,110,247,0.3);
-      color: #a5b4fc;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 18px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(67,97,238,0.25);
+      background: rgba(67,97,238,0.07);
+      padding: 7px 16px;
       border-radius: 100px;
-      margin-bottom: 32px;
-      animation: fadeInDown 0.8s ease both;
+      margin-bottom: 36px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: riseIn 0.9s var(--ease) 0.1s forwards;
     }
-    .hero-badge-dot {
-      width: 7px; height: 7px;
-      background: #4f6ef7;
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: blink 2.4s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.4); }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
     .hero h1 {
-      font-size: clamp(42px, 7vw, 82px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      max-width: 900px;
-      animation: fadeInUp 0.9s ease 0.1s both;
+      font-size: clamp(46px, 7.5vw, 88px);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+      max-width: 860px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: riseIn 0.9s var(--ease) 0.2s forwards;
     }
-    .grad-text {
-      background: var(--accent-grad);
+    .hero h1 .g {
+      background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero p {
-      font-size: clamp(17px, 2.5vw, 21px);
-      color: var(--muted);
-      max-width: 620px;
-      line-height: 1.7;
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--sub);
+      max-width: 560px;
+      line-height: 1.75;
       margin: 28px auto 0;
-      animation: fadeInUp 0.9s ease 0.2s both;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: riseIn 0.9s var(--ease) 0.32s forwards;
     }
-    .hero-btns {
+    .hero-actions {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       margin-top: 44px;
       justify-content: center;
       flex-wrap: wrap;
-      animation: fadeInUp 0.9s ease 0.3s both;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: riseIn 0.9s var(--ease) 0.44s forwards;
     }
-    .btn-primary {
-      background: var(--accent-grad);
-      color: var(--white);
-      padding: 15px 32px;
-      border-radius: 10px;
-      font-size: 15px;
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 14px;
       font-weight: 700;
+      letter-spacing: -0.01em;
+      padding: 14px 28px;
+      border-radius: var(--r-btn);
       text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 30px rgba(79,110,247,0.3);
+      transition: opacity 0.2s, transform 0.25s var(--ease);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(79,110,247,0.5); }
-    .btn-secondary {
-      background: var(--card);
-      color: var(--text);
-      padding: 15px 32px;
-      border-radius: 10px;
-      font-size: 15px;
+    .cta-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--sub);
+      font-size: 14px;
       font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 14px 28px;
+      border-radius: var(--r-btn);
+      border: 1px solid var(--border);
       text-decoration: none;
-      border: 1px solid var(--card-border);
-      transition: background 0.2s, transform 0.2s;
+      transition: color 0.2s, border-color 0.2s, transform 0.25s var(--ease);
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .cta-secondary:hover { color: var(--text); border-color: var(--border-h); transform: translateY(-2px); }
 
-    /* ─── STATS BAR ─── */
-    .stats {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0;
-      border-top: 1px solid var(--card-border);
-      border-bottom: 1px solid var(--card-border);
-      background: var(--bg2);
-      padding: 0;
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
     }
-    .stat {
-      flex: 1;
-      min-width: 200px;
-      padding: 40px 32px;
-      text-align: center;
-      border-right: 1px solid var(--card-border);
+
+    /* ── SECTION BASE ── */
+    .section { padding: 130px 56px; }
+    .section.surface { background: var(--surface); }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
     }
-    .stat:last-child { border-right: none; }
-    .stat-num {
-      font-size: 40px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      background: var(--accent-grad);
+    h2 {
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.038em;
+      line-height: 1.06;
+      color: var(--text);
+    }
+    h2 .g {
+      background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .stat-label {
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 6px;
-      font-weight: 500;
-    }
-
-    /* ─── SECTION BASE ─── */
-    section { padding: 120px 24px; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-tag {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .section-title {
-      font-size: clamp(32px, 5vw, 54px);
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
     .section-sub {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 560px;
+      font-size: 16px;
+      color: var(--sub);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-top: 18px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
     }
 
-    /* ─── FEATURE: AI RECEPTIONIST ─── */
-    .feature-split {
+    /* ── SPLIT LAYOUT ── */
+    .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
       align-items: center;
     }
-    .feature-split.reverse { direction: rtl; }
-    .feature-split.reverse > * { direction: ltr; }
-    .feature-points { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
-    .feature-point {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .feature-icon {
-      width: 40px; height: 40px;
-      min-width: 40px;
-      border-radius: 10px;
-      background: rgba(79,110,247,0.12);
-      border: 1px solid rgba(79,110,247,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-    .feature-point-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .feature-point-text p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .split.flip { direction: rtl; }
+    .split.flip > * { direction: ltr; }
 
-    /* ─── CHAT DEMO ─── */
-    .chat-demo {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 28px;
-      backdrop-filter: blur(20px);
-    }
-    .chat-header {
+    /* ── FEATURE CARDS ── */
+    .feat-cards {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--card-border);
-      margin-bottom: 24px;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 48px;
     }
-    .chat-avatar {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--accent-grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 16px;
-    }
-    .chat-name { font-weight: 700; font-size: 15px; }
-    .chat-status { font-size: 12px; color: #4ade80; display: flex; align-items: center; gap: 6px; }
-    .chat-status::before { content: ''; width: 7px; height: 7px; background: #4ade80; border-radius: 50%; display: inline-block; }
-    .chat-messages { display: flex; flex-direction: column; gap: 16px; }
-    .msg { display: flex; gap: 10px; align-items: flex-end; }
-    .msg.right { flex-direction: row-reverse; }
-    .bubble {
-      max-width: 78%;
-      padding: 12px 16px;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .bubble.left {
-      background: rgba(255,255,255,0.06);
-      border-bottom-left-radius: 4px;
-      color: var(--text);
-    }
-    .bubble.right {
-      background: var(--accent-grad);
-      border-bottom-right-radius: 4px;
-      color: var(--white);
-    }
-    .msg-time { font-size: 11px; color: var(--muted); white-space: nowrap; }
-    .typing-indicator {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 16px;
-      border-bottom-left-radius: 4px;
-      width: fit-content;
-    }
-    .typing-dot {
-      width: 7px; height: 7px;
-      background: var(--muted);
-      border-radius: 50%;
-      animation: typingBounce 1.4s infinite;
-    }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingBounce {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-      30% { transform: translateY(-6px); opacity: 1; }
-    }
-
-    /* ─── SCOPE SECTION ─── */
-    .scope-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-    .scope-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent-grad);
-    }
-    .scope-steps { display: flex; flex-direction: column; gap: 0; }
-    .scope-step {
+    .feat-card {
       display: flex;
       gap: 20px;
       align-items: flex-start;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--card-border);
-      position: relative;
+      padding: 22px 24px;
+      border-radius: var(--r-card);
+      border: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+      cursor: default;
     }
-    .scope-step:last-child { border-bottom: none; }
-    .scope-step-num {
-      width: 36px; height: 36px;
-      min-width: 36px;
-      border-radius: 50%;
-      background: var(--accent-grad);
+    .feat-card:hover {
+      background: var(--card-h);
+      border-color: var(--border);
+    }
+    .feat-card-icon {
+      width: 38px; height: 38px;
+      min-width: 38px;
+      border-radius: 9px;
+      background: rgba(67,97,238,0.1);
+      border: 1px solid rgba(67,97,238,0.18);
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .feat-card-icon svg { width: 18px; height: 18px; stroke: #738ef5; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .feat-card-text h4 {
       font-size: 14px;
-      font-weight: 800;
-      color: white;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 5px;
     }
-    .scope-step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .scope-step-content p { font-size: 14px; color: var(--muted); line-height: 1.5; }
-    .scope-badge {
-      display: inline-flex;
+    .feat-card-text p {
+      font-size: 13.5px;
+      color: var(--sub);
+      line-height: 1.6;
+    }
+
+    /* ── CHAT WINDOW ── */
+    .chat-window {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+    .chat-bar {
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(74,222,128,0.1);
-      border: 1px solid rgba(74,222,128,0.2);
-      color: #4ade80;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 100px;
-      margin-top: 8px;
+      gap: 14px;
+    }
+    .chat-bar-av {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .chat-bar-info { flex: 1; }
+    .chat-bar-name { font-size: 13.5px; font-weight: 700; letter-spacing: -0.02em; }
+    .chat-bar-status {
+      font-size: 11.5px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 1px;
+    }
+    .chat-bar-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chat-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; }
+    .msg { display: flex; align-items: flex-end; gap: 8px; }
+    .msg.r { flex-direction: row-reverse; }
+    .bubble {
+      max-width: 82%;
+      padding: 11px 15px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+    }
+    .bubble.l {
+      background: rgba(255,255,255,0.055);
+      color: var(--text);
+      border-bottom-left-radius: 3px;
+    }
+    .bubble.r {
+      background: var(--grad);
+      color: #fff;
+      border-bottom-right-radius: 3px;
+    }
+    .msg-ts { font-size: 10.5px; color: var(--muted); flex-shrink: 0; }
+    .typing {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 12px 15px;
+      background: rgba(255,255,255,0.055);
+      border-radius: 14px;
+      border-bottom-left-radius: 3px;
+      width: fit-content;
+    }
+    .td {
+      width: 6px; height: 6px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: td 1.3s infinite;
+    }
+    .td:nth-child(2) { animation-delay: 0.18s; }
+    .td:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes td {
+      0%,60%,100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* ─── WORKFLOW ─── */
-    .workflow-grid {
+    /* ── GRID CARDS ── */
+    .grid-4 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 60px;
-    }
-    .workflow-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 32px 28px;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    }
-    .workflow-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(79,110,247,0.3);
-      box-shadow: 0 20px 60px rgba(79,110,247,0.1);
-    }
-    .workflow-card-icon {
-      font-size: 32px;
-      margin-bottom: 20px;
-      display: block;
-    }
-    .workflow-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
-    .workflow-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-
-    /* ─── DASHBOARD ─── */
-    .dashboard-section { background: var(--bg2); }
-    .dashboard-mockup {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: var(--r-card);
       overflow: hidden;
       margin-top: 60px;
+      border: 1px solid var(--border);
     }
-    .dash-topbar {
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--card-border);
-      padding: 16px 24px;
+    .g4-card {
+      background: var(--bg);
+      padding: 36px 28px;
+      transition: background 0.3s;
+    }
+    .g4-card:hover { background: var(--card-h); }
+    .g4-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .g4-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .g4-card p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
+
+    /* ── DASHBOARD MOCKUP ── */
+    .dash {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 60px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
+    }
+    .dash-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .dash-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dash-dot.red { background: #ff5f57; }
-    .dash-dot.yellow { background: #febc2e; }
-    .dash-dot.green { background: #28c840; }
-    .dash-body { padding: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .dash-metric {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 24px 20px;
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .dash-title {
+      margin-left: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: -0.01em;
     }
-    .dash-metric-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
-    .dash-metric-value { font-size: 34px; font-weight: 900; letter-spacing: -1px; }
-    .dash-metric-value.green { color: #4ade80; }
-    .dash-metric-value.blue { color: #4f6ef7; }
-    .dash-metric-value.purple { color: #a78bfa; }
-    .dash-metric-value.white { color: var(--white); }
-    .dash-metric-change { font-size: 12px; color: #4ade80; margin-top: 6px; font-weight: 600; }
-
-    /* ─── CASE STUDIES ─── */
-    .cases-grid {
+    .dash-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-      gap: 28px;
-      margin-top: 60px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
     }
-    .case-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 40px;
-      transition: transform 0.3s, border-color 0.3s;
+    .dash-metric {
+      background: var(--bg);
+      padding: 28px 24px;
+    }
+    .dash-metric-l { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 500; letter-spacing: -0.01em; }
+    .dash-metric-v {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .dash-metric-v.c-green { color: #22c55e; }
+    .dash-metric-v.c-blue { color: #4361ee; }
+    .dash-metric-v.c-purple { color: #9b72ef; }
+    .dash-metric-v.c-white { color: var(--text); }
+    .dash-metric-d { font-size: 12px; color: #22c55e; margin-top: 8px; font-weight: 600; }
+    .dash-feats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+    }
+    .dash-feat {
+      background: var(--bg);
+      padding: 24px;
+    }
+    .dash-feat h4 { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .dash-feat p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+
+    /* ── STATS ── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-box {
+      background: var(--bg);
+      padding: 52px 48px;
+      transition: background 0.3s;
+    }
+    .stat-box:hover { background: var(--card-h); }
+    .stat-val {
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-desc {
+      font-size: 14px;
+      color: var(--sub);
+      margin-top: 12px;
+      max-width: 200px;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 48px 52px;
+      margin-top: 60px;
       position: relative;
       overflow: hidden;
     }
-    .case-card::after {
-      content: '';
+    .testimonial-block::before {
+      content: '\201C';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent-grad);
-      transform: scaleX(0);
-      transition: transform 0.3s;
+      top: 20px; left: 40px;
+      font-size: 120px;
+      color: rgba(67,97,238,0.1);
+      font-weight: 800;
+      line-height: 1;
+      pointer-events: none;
     }
-    .case-card:hover { transform: translateY(-4px); border-color: rgba(79,110,247,0.2); }
-    .case-card:hover::after { transform: scaleX(1); }
-    .case-quote {
-      font-size: 16px;
+    .testimonial-quote {
+      font-size: 18px;
       line-height: 1.75;
       color: var(--text);
-      font-style: italic;
-      margin-bottom: 28px;
+      font-weight: 400;
+      letter-spacing: -0.015em;
       position: relative;
+      z-index: 1;
+      margin-bottom: 32px;
     }
-    .case-quote::before {
-      content: '"';
-      font-size: 72px;
-      color: rgba(79,110,247,0.2);
-      font-style: normal;
-      position: absolute;
-      top: -20px; left: -10px;
-      font-weight: 900;
-      line-height: 1;
-    }
-    .case-author { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
-    .case-avatar {
-      width: 48px; height: 48px;
+    .testimonial-author { display: flex; align-items: center; gap: 16px; }
+    .testimonial-av {
+      width: 46px; height: 46px;
       border-radius: 50%;
-      background: var(--accent-grad);
+      background: var(--grad);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 17px;
       font-weight: 800;
-      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
     }
-    .case-author-name { font-size: 15px; font-weight: 700; }
-    .case-author-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
-    .case-results {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-top: 1px solid var(--card-border);
-      padding-top: 24px;
-    }
-    .case-result-pill {
-      background: rgba(79,110,247,0.1);
-      border: 1px solid rgba(79,110,247,0.2);
-      color: #a5b4fc;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 100px;
-    }
+    .testimonial-name { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; }
+    .testimonial-role { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 
-    /* ─── PROCESS ─── */
+    /* ── PROCESS ── */
     .process-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 1px;
+      background: var(--border);
+      border-radius: var(--r-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
       margin-top: 60px;
+    }
+    .process-step {
+      background: var(--bg);
+      padding: 44px 36px;
+      transition: background 0.3s;
       position: relative;
     }
-    .process-grid::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      left: calc(16.66% + 20px);
-      right: calc(16.66% + 20px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    .process-step:hover { background: var(--card-h); }
+    .step-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
     }
-    .process-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 36px 28px;
-      text-align: center;
-      transition: transform 0.3s, border-color 0.3s;
+    .step-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 12px;
     }
-    .process-card:hover { transform: translateY(-6px); border-color: rgba(79,110,247,0.3); }
-    .process-num {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: var(--accent-grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 900;
-      margin: 0 auto 24px;
-      box-shadow: 0 0 30px rgba(79,110,247,0.3);
-    }
-    .process-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
-    .process-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .step-body { font-size: 14px; color: var(--sub); line-height: 1.7; }
 
-    /* ─── BENEFITS ─── */
-    .benefits-section { background: var(--bg2); }
+    /* ── BENEFITS ── */
     .benefits-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      overflow: hidden;
       margin-top: 60px;
     }
-    .benefit-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 32px 28px;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    .benefit {
+      background: var(--bg);
+      padding: 36px 32px;
+      transition: background 0.3s;
     }
-    .benefit-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(79,110,247,0.25);
-      box-shadow: 0 16px 48px rgba(79,110,247,0.08);
+    .benefit:hover { background: var(--card-h); }
+    .benefit-line {
+      width: 28px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 2px;
+      margin-bottom: 20px;
     }
-    .benefit-icon { font-size: 28px; margin-bottom: 16px; display: block; }
-    .benefit-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-    .benefit-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .benefit h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .benefit p { font-size: 13.5px; color: var(--sub); line-height: 1.65; }
 
-    /* ─── FAQ ─── */
-    .faq-list { margin-top: 60px; display: flex; flex-direction: column; gap: 16px; }
-    .faq-item {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: border-color 0.3s;
-    }
-    .faq-item.open { border-color: rgba(79,110,247,0.3); }
-    .faq-question {
+    /* ── FAQ ── */
+    .faq-wrap { max-width: 720px; margin: 60px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-btn {
       width: 100%;
       background: none;
       border: none;
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
-      padding: 24px 28px;
+      letter-spacing: -0.02em;
+      padding: 24px 0;
       text-align: left;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
+      transition: color 0.2s;
     }
-    .faq-arrow {
-      width: 28px; height: 28px;
-      min-width: 28px;
-      border-radius: 50%;
-      background: rgba(79,110,247,0.1);
-      border: 1px solid rgba(79,110,247,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s, background 0.3s;
-      font-size: 14px;
+    .faq-btn:hover { color: var(--sub); }
+    .faq-icon {
+      width: 22px; height: 22px;
+      min-width: 22px;
+      position: relative;
+      flex-shrink: 0;
     }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent); border-color: var(--accent); }
+    .faq-icon::before, .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--muted);
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease), opacity 0.3s;
+    }
+    .faq-icon::before { width: 100%; height: 1.5px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq-icon::after  { width: 1.5px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+    .faq-item.open .faq-icon::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
     .faq-answer {
+      font-size: 14.5px;
+      color: var(--sub);
+      line-height: 1.78;
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.3s;
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.75;
+      transition: max-height 0.45s var(--ease), padding 0.3s;
+      letter-spacing: -0.01em;
     }
-    .faq-item.open .faq-answer { max-height: 300px; padding: 0 28px 24px; }
+    .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 24px; }
 
-    /* ─── FINAL CTA ─── */
-    .final-cta {
+    /* ── FINAL CTA ── */
+    .cta-section {
+      padding: 160px 56px;
       text-align: center;
-      padding: 140px 24px;
       position: relative;
       overflow: hidden;
     }
-    .final-cta-bg {
+    .cta-orb {
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(79,110,247,0.12) 0%, transparent 65%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(67,97,238,0.1) 0%, transparent 65%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
     }
-    .final-cta h2 {
-      font-size: clamp(36px, 6vw, 68px);
-      font-weight: 900;
-      letter-spacing: -2px;
-      line-height: 1.05;
-      max-width: 720px;
-      margin: 0 auto 24px;
+    .cta-section h2 { position: relative; z-index: 1; font-size: clamp(36px, 5vw, 60px); }
+    .cta-section p {
+      font-size: 17px;
+      color: var(--sub);
+      max-width: 440px;
+      margin: 22px auto 44px;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 1;
     }
-    .final-cta p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto 44px;
-      line-height: 1.6;
-    }
+    .cta-section .cta-primary { position: relative; z-index: 1; font-size: 15px; padding: 15px 32px; }
 
-    /* ─── FOOTER ─── */
+    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--card-border);
-      padding: 60px 60px 40px;
-      background: var(--bg2);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 72px 56px 48px;
     }
     .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-      gap: 40px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
     }
-    .footer-brand { max-width: 300px; }
-    .footer-logo {
-      font-size: 22px;
+    .footer-brand-logo {
+      font-size: 16px;
       font-weight: 800;
-      background: var(--accent-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      letter-spacing: -0.03em;
+      color: var(--text);
       margin-bottom: 14px;
       display: block;
     }
-    .footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-    .footer-links { display: flex; gap: 80px; flex-wrap: wrap; }
-    .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 20px; }
+    .footer-brand-logo span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-brand p { font-size: 13.5px; color: var(--sub); line-height: 1.7; max-width: 260px; }
+    .footer-col h5 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
     .footer-col a {
       display: block;
-      color: var(--muted);
-      font-size: 14px;
+      font-size: 13.5px;
+      color: var(--sub);
       text-decoration: none;
-      margin-bottom: 12px;
+      margin-bottom: 11px;
+      letter-spacing: -0.01em;
       transition: color 0.2s;
     }
-    .footer-col a:hover { color: var(--white); }
+    .footer-col a:hover { color: var(--text); }
     .footer-bottom {
-      border-top: 1px solid var(--card-border);
+      border-top: 1px solid var(--border);
       padding-top: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 12px;
     }
-    .footer-bottom p { font-size: 13px; color: var(--muted); }
+    .footer-bottom p { font-size: 12.5px; color: var(--muted); letter-spacing: -0.01em; }
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
+    /* ── REVEAL ANIMATIONS ── */
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
+    .r0 { opacity: 0; transform: translateY(32px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+    .r0.in { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; }
+    .d4 { transition-delay: 0.32s; }
+    .d5 { transition-delay: 0.40s; }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      nav { padding: 18px 24px; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      .feature-split { grid-template-columns: 1fr; gap: 48px; }
-      .feature-split.reverse { direction: ltr; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .section { padding: 100px 32px; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .dash-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-feats { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-center { display: none; }
+      .section { padding: 80px 24px; }
+      .split { grid-template-columns: 1fr; gap: 48px; }
+      .split.flip { direction: ltr; }
       .process-grid { grid-template-columns: 1fr; }
-      .process-grid::before { display: none; }
-      .benefits-grid { grid-template-columns: 1fr 1fr; }
-      .cases-grid { grid-template-columns: 1fr; }
-      footer { padding: 48px 24px 32px; }
-      .footer-links { gap: 40px; }
-    }
-    @media (max-width: 600px) {
       .benefits-grid { grid-template-columns: 1fr; }
-      .stat { min-width: 150px; padding: 28px 20px; }
-      .stat-num { font-size: 30px; }
-      .dash-body { grid-template-columns: 1fr 1fr; }
+      .stats-strip { grid-template-columns: 1fr; }
+      .cta-section { padding: 100px 24px; }
+      footer { padding: 56px 24px 36px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .cta-primary, .cta-secondary { justify-content: center; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .dash-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ NAV ═══ -->
+<!-- ══ NAV ══ -->
 <nav id="nav">
-  <div class="nav-logo">NCI</div>
-  <div class="nav-links">
-    <a href="#solutions">Solutions</a>
+  <div class="logo"><span>NCI</span> · Noone Capital</div>
+  <div class="nav-center">
+    <a href="#frameworks">Frameworks</a>
     <a href="#process">Process</a>
     <a href="#results">Results</a>
-    <a href="#faq">FAQ</a>
-    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="nav-cta">Book a Call</a>
+    <a href="mailto:infonoone@noonecapital.net">Contact Us</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-book">Book a Consultation</a>
   </div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
+<!-- ══ HERO ══ -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-badge">
-    <span class="hero-badge-dot"></span>
-    Built Exclusively for Restoration Companies
-  </div>
-  <h1>AI That Captures Every Job.<br /><span class="grad-text">Every Call. Every Dollar.</span></h1>
-  <p>Noone Capital builds custom AI systems for restoration companies — answering missed calls 24/7, booking more jobs automatically, and generating professional insurance scopes in minutes instead of hours.</p>
-  <div class="hero-btns">
-    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-primary">Book a Free Demo</a>
-    <a href="#results" class="btn-secondary">See Real Results</a>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-tag"><span class="hero-tag-dot"></span>Intelligent Automation Agency</div>
+  <h1>AI Consulting Designed for<br /><span class="g">Performance and Profit</span></h1>
+  <p class="hero-sub">We build and implement custom AI agents that automate your communications, qualify leads, book appointments, and convert — while you focus on growth.</p>
+  <div class="hero-actions">
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-primary">
+      Book a Consultation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="#results" class="cta-secondary">
+      See Our Results
+    </a>
   </div>
 </section>
 
-<!-- ═══ STATS ═══ -->
-<div class="stats">
-  <div class="stat reveal">
-    <div class="stat-num" data-target="300">0</div>
-    <div class="stat-label">Calls Recovered Monthly</div>
-  </div>
-  <div class="stat reveal reveal-delay-1">
-    <div class="stat-num" data-target="41">0</div>
-    <div class="stat-label">Average Revenue Increase %</div>
-  </div>
-  <div class="stat reveal reveal-delay-2">
-    <div class="stat-num" data-suffix=" min">8</div>
-    <div class="stat-label">To Generate Insurance Scope</div>
-  </div>
-  <div class="stat reveal reveal-delay-3">
-    <div class="stat-num" data-target="0">0</div>
-    <div class="stat-label">Missed Calls After Hours</div>
-  </div>
-</div>
+<div class="divider"></div>
 
-<!-- ═══ AI RECEPTIONIST ═══ -->
-<section id="solutions">
-  <div class="container">
-    <div class="feature-split">
-      <div class="reveal">
-        <span class="section-tag">AI Receptionist</span>
-        <h2 class="section-title">Never Miss<br /><span class="grad-text">Another Job</span></h2>
-        <p class="section-sub">Every missed call is a missed job. Our AI answers 24/7, qualifies the lead, and books them directly into your calendar — while you're on site doing the work.</p>
-        <div class="feature-points">
-          <div class="feature-point">
-            <div class="feature-icon">📞</div>
-            <div class="feature-point-text">
-              <h4>Answers Every Call, 24/7</h4>
-              <p>No more lost jobs after hours. The AI picks up instantly, day or night, weekends included.</p>
+<!-- ══ INTELLIGENT AGENTS ══ -->
+<section class="section" id="frameworks">
+  <div class="wrap">
+    <div class="split">
+      <div class="r0">
+        <span class="label">Intelligent Agents × Dashboard</span>
+        <h2>AI agents built to<br /><span class="g">perform, not impress</span></h2>
+        <p class="section-sub">Every agent we deploy is purpose-built for your workflow — trained on your business, integrated into your systems, and optimized for measurable outcomes.</p>
+        <div class="feat-cards">
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="feat-card-text">
+              <h4>Smart Knowledge Base</h4>
+              <p>Your agent knows your business inside out — services, pricing, availability, objections — and answers every question instantly.</p>
             </div>
           </div>
-          <div class="feature-point">
-            <div class="feature-icon">📅</div>
-            <div class="feature-point-text">
-              <h4>Books Directly Into Your Calendar</h4>
-              <p>Qualified leads get booked on the spot. No back-and-forth, no dropped balls.</p>
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="feat-card-text">
+              <h4>Context Retention</h4>
+              <p>Remembers every conversation. No repeated questions, no dropped context. Continuous, human-quality communication at scale.</p>
             </div>
           </div>
-          <div class="feature-point">
-            <div class="feature-icon">🔁</div>
-            <div class="feature-point-text">
-              <h4>Follows Up on No-Shows & Cancellations</h4>
-              <p>Automatically reschedules no-shows and recovers canceled appointments before they go to a competitor.</p>
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            </div>
+            <div class="feat-card-text">
+              <h4>Performance Tracking</h4>
+              <p>Every conversation, booking, and conversion tracked in a unified interface. Full visibility with zero manual reporting.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="chat-demo reveal reveal-delay-2">
-        <div class="chat-header">
-          <div class="chat-avatar">N</div>
-          <div>
-            <div class="chat-name">NCI AI Receptionist</div>
-            <div class="chat-status">Online — Responding instantly</div>
+      <div class="chat-window r0 d2">
+        <div class="chat-bar">
+          <div class="chat-bar-av">N</div>
+          <div class="chat-bar-info">
+            <div class="chat-bar-name">NCI AI Agent</div>
+            <div class="chat-bar-status">Online · Responding instantly</div>
           </div>
         </div>
-        <div class="chat-messages" id="chatMessages">
+        <div class="chat-body">
           <div class="msg">
-            <div class="bubble left">Hi, I have water damage in my basement — it's pretty bad, pipes burst overnight.</div>
-            <span class="msg-time">9:02 AM</span>
+            <div class="bubble l">Hi, I saw your ad. I'm interested in getting an AI system set up for my business — what does that look like?</div>
+            <span class="msg-ts">2:14 PM</span>
           </div>
-          <div class="msg right">
-            <div class="bubble right">I'm so sorry to hear that! We can get a technician out to you right away. What's the property address and are you available this morning?</div>
-            <span class="msg-time">9:02 AM</span>
-          </div>
-          <div class="msg">
-            <div class="bubble left">Yes, 4521 Oak Street. Morning works perfectly.</div>
-            <span class="msg-time">9:03 AM</span>
-          </div>
-          <div class="msg right">
-            <div class="bubble right">Perfect — I've booked you for 10:30 AM today with one of our senior techs. You'll receive a confirmation text shortly. Is there anything else I can help with?</div>
-            <span class="msg-time">9:03 AM</span>
+          <div class="msg r">
+            <div class="bubble r">Great timing — we specialize in building custom AI agents for businesses like yours. Typically we start with a free 15-minute call to map your current workflow and identify where automation can add the most revenue. Are you available this week?</div>
+            <span class="msg-ts">2:14 PM</span>
           </div>
           <div class="msg">
-            <div class="typing-indicator">
-              <div class="typing-dot"></div>
-              <div class="typing-dot"></div>
-              <div class="typing-dot"></div>
+            <div class="bubble l">Thursday afternoon works for me.</div>
+            <span class="msg-ts">2:15 PM</span>
+          </div>
+          <div class="msg r">
+            <div class="bubble r">Done — I've booked you for Thursday at 2:00 PM. You'll receive a calendar invite shortly. Looking forward to it.</div>
+            <span class="msg-ts">2:15 PM</span>
+          </div>
+          <div class="msg">
+            <div class="typing">
+              <div class="td"></div><div class="td"></div><div class="td"></div>
             </div>
           </div>
         </div>
@@ -893,414 +987,349 @@
   </div>
 </section>
 
-<!-- ═══ SCOPE GENERATOR ═══ -->
-<section style="background: var(--bg2);">
-  <div class="container">
-    <div class="feature-split reverse">
-      <div class="scope-card reveal">
-        <div class="scope-steps">
-          <div class="scope-step">
-            <div class="scope-step-num">1</div>
-            <div class="scope-step-content">
-              <h4>Fill Out the On-Site Form</h4>
-              <p>Damage type, rooms affected, moisture readings, equipment placed. Takes 3–5 minutes while you're still at the job.</p>
-              <span class="scope-badge">⏱ 3–5 minutes</span>
-            </div>
-          </div>
-          <div class="scope-step">
-            <div class="scope-step-num">2</div>
-            <div class="scope-step-content">
-              <h4>AI Generates the Scope Document</h4>
-              <p>Professional, industry-standard language. Room-by-room breakdown. Sounds like an experienced estimator wrote it.</p>
-              <span class="scope-badge">🤖 AI-powered</span>
-            </div>
-          </div>
-          <div class="scope-step">
-            <div class="scope-step-num">3</div>
-            <div class="scope-step-content">
-              <h4>Send to Insurance — Same Day</h4>
-              <p>Export as PDF. Email straight to the adjuster. Faster approval means faster payment.</p>
-              <span class="scope-badge">✅ Faster cash flow</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal reveal-delay-2">
-        <span class="section-tag">Scope Generator</span>
-        <h2 class="section-title">Get Paid<br /><span class="grad-text">Weeks Faster</span></h2>
-        <p class="section-sub">Stop spending 2–4 hours at 10pm trying to remember what the job looked like. Fill out a form on-site, hit generate, and send a professional scope to the adjuster the same day.</p>
-        <div class="feature-points" style="margin-top: 32px;">
-          <div class="feature-point">
-            <div class="feature-icon">📄</div>
-            <div class="feature-point-text">
-              <h4>Professional Insurance Language</h4>
-              <p>Adjusters take well-written scopes seriously. Less back-and-forth means faster claim approval.</p>
-            </div>
-          </div>
-          <div class="feature-point">
-            <div class="feature-icon">💰</div>
-            <div class="feature-point-text">
-              <h4>Faster Payments, Better Cash Flow</h4>
-              <p>Jobs that took 3–4 weeks to pay out now move in 10–14 days. On a $15k job, that matters.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="divider"></div>
 
-<!-- ═══ WORKFLOW ═══ -->
-<section>
-  <div class="container">
-    <div style="text-align: center;" class="reveal">
-      <span class="section-tag">Workflow Automations</span>
-      <h2 class="section-title">Everything <span class="grad-text">Connected</span></h2>
-      <p class="section-sub" style="margin: 0 auto;">Your AI system talks to your calendar, your CRM, and your phone — so nothing falls through the cracks.</p>
+<!-- ══ WORKFLOW AUTOMATIONS ══ -->
+<section class="section surface">
+  <div class="wrap">
+    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto 0;">
+      <span class="label">Workflow Automations</span>
+      <h2>Connected systems.<br /><span class="g">Zero manual work.</span></h2>
+      <p class="section-sub" style="margin: 18px auto 0;">We eliminate the gaps between your tools — so every lead, message, and booking flows automatically without anyone lifting a finger.</p>
     </div>
-    <div class="workflow-grid">
-      <div class="workflow-card reveal reveal-delay-1">
-        <span class="workflow-card-icon">🔗</span>
+    <div class="grid-4">
+      <div class="g4-card r0 d1">
+        <div class="g4-num">01</div>
         <h3>Seamless Integrations</h3>
-        <p>Connects with your existing calendar, GHL, and phone system. No ripping out what already works.</p>
+        <p>Connects to your existing CRM, calendar, and communication stack — no ripping out what already works.</p>
       </div>
-      <div class="workflow-card reveal reveal-delay-2">
-        <span class="workflow-card-icon">⚡</span>
-        <h3>Instant Triggers</h3>
-        <p>New call comes in — AI responds in seconds. Voicemail left — AI calls back within minutes.</p>
+      <div class="g4-card r0 d2">
+        <div class="g4-num">02</div>
+        <h3>Custom Triggers</h3>
+        <p>Every action — a new lead, a missed call, a reply — fires the right automated response immediately.</p>
       </div>
-      <div class="workflow-card reveal reveal-delay-3">
-        <span class="workflow-card-icon">⏰</span>
-        <h3>Time Recovered Daily</h3>
-        <p>Eliminate hours of manual follow-up, documentation, and scheduling every single day.</p>
+      <div class="g4-card r0 d3">
+        <div class="g4-num">03</div>
+        <h3>Time Optimization</h3>
+        <p>Hours recovered every week. Your team does high-value work. The AI handles the repetitive work at scale.</p>
       </div>
-      <div class="workflow-card reveal reveal-delay-4">
-        <span class="workflow-card-icon">📊</span>
+      <div class="g4-card r0 d4">
+        <div class="g4-num">04</div>
         <h3>Unified Dashboard</h3>
-        <p>Every call, booking, and scope document tracked in one place. Full visibility, zero guesswork.</p>
+        <p>Every agent, automation, and outcome visible in one interface. Full control, full clarity.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ DASHBOARD ═══ -->
-<section class="dashboard-section" id="dashboard">
-  <div class="container">
-    <div style="text-align: center;" class="reveal">
-      <span class="section-tag">Command Center</span>
-      <h2 class="section-title">Your Business,<br /><span class="grad-text">At a Glance</span></h2>
-      <p class="section-sub" style="margin: 0 auto;">Real-time visibility across every AI agent. See what's working, what's booked, and what's been recovered — all in one dashboard.</p>
-    </div>
-    <div class="dashboard-mockup reveal reveal-delay-1">
-      <div class="dash-topbar">
-        <div class="dash-dot red"></div>
-        <div class="dash-dot yellow"></div>
-        <div class="dash-dot green"></div>
-        <span style="margin-left: 12px; font-size: 13px; color: var(--muted);">NCI Dashboard — Noone Capital</span>
-      </div>
-      <div class="dash-body">
-        <div class="dash-metric">
-          <div class="dash-metric-label">Calls Answered This Month</div>
-          <div class="dash-metric-value green">312</div>
-          <div class="dash-metric-change">↑ 41% vs last month</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Jobs Booked</div>
-          <div class="dash-metric-value blue">87</div>
-          <div class="dash-metric-change">↑ 28% vs last month</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Scopes Generated</div>
-          <div class="dash-metric-value purple">64</div>
-          <div class="dash-metric-change">↑ Avg 8 min each</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Revenue Recovered</div>
-          <div class="dash-metric-value white">$94,200</div>
-          <div class="dash-metric-change">↑ From missed calls</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="divider"></div>
 
-<!-- ═══ CASE STUDIES ═══ -->
-<section id="results">
-  <div class="container">
-    <div class="reveal">
-      <span class="section-tag">Client Results</span>
-      <h2 class="section-title">Real Companies.<br /><span class="grad-text">Real Numbers.</span></h2>
+<!-- ══ DASHBOARD / COMMAND CENTER ══ -->
+<section class="section" id="dashboard">
+  <div class="wrap">
+    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto;">
+      <span class="label">Dashboard</span>
+      <h2>The command center.<br /><span class="g">Your business, made visible.</span></h2>
+      <p class="section-sub" style="margin: 18px auto 0;">Real-time intelligence across every agent and automation. Know exactly what's working, what's converting, and where to scale next.</p>
     </div>
-    <div class="cases-grid">
-      <div class="case-card reveal reveal-delay-1">
-        <p class="case-quote">We were losing 8 to 10 jobs a month to missed after-hours calls. Within 30 days of going live with Noone Capital, we recovered every single after-hours lead and booked 41% more jobs. The scope tool alone saves my crew 3 hours every day.</p>
-        <div class="case-author">
-          <div class="case-avatar">M</div>
-          <div>
-            <div class="case-author-name">Marcus T.</div>
-            <div class="case-author-role">Owner — Apex Water Damage Restoration, Phoenix AZ</div>
-          </div>
+    <div class="dash r0 d1">
+      <div class="dash-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="dash-title">NCI Intelligence Dashboard · Noone Capital</span>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-metric">
+          <div class="dash-metric-l">Conversations Handled</div>
+          <div class="dash-metric-v c-blue">2,841</div>
+          <div class="dash-metric-d">↑ 34% month over month</div>
         </div>
-        <div class="case-results">
-          <span class="case-result-pill">+41% booked jobs</span>
-          <span class="case-result-pill">0 missed calls</span>
-          <span class="case-result-pill">3 hrs/day saved</span>
+        <div class="dash-metric">
+          <div class="dash-metric-l">Appointments Booked</div>
+          <div class="dash-metric-v c-green">387</div>
+          <div class="dash-metric-d">↑ 41% month over month</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-l">Response Time</div>
+          <div class="dash-metric-v c-purple">&lt; 12s</div>
+          <div class="dash-metric-d">↓ From 4.5 hours avg</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-l">Revenue Attributed</div>
+          <div class="dash-metric-v c-white">$218k</div>
+          <div class="dash-metric-d">↑ This quarter</div>
         </div>
       </div>
-      <div class="case-card reveal reveal-delay-2">
-        <p class="case-quote">Insurance documentation used to take my guys 2 to 3 hours after every job. Now they fill out the form on-site in 8 minutes and the adjuster gets a professional scope same day. Our cash flow improved overnight — adjusters are approving claims in days, not weeks.</p>
-        <div class="case-author">
-          <div class="case-avatar">J</div>
-          <div>
-            <div class="case-author-name">Jennifer R.</div>
-            <div class="case-author-role">Operations Manager — Coastal Restoration Services, Tampa FL</div>
-          </div>
+      <div class="dash-feats">
+        <div class="dash-feat">
+          <h4>Unified Intelligence</h4>
+          <p>All agent data consolidated in a single view. No tab-switching, no reporting delays.</p>
         </div>
-        <div class="case-results">
-          <span class="case-result-pill">8 min scope generation</span>
-          <span class="case-result-pill">2x faster approvals</span>
-          <span class="case-result-pill">$28k recovered month 1</span>
+        <div class="dash-feat">
+          <h4>Real-Time Insights</h4>
+          <p>Live performance metrics updated continuously — conversations, conversions, and outcomes as they happen.</p>
+        </div>
+        <div class="dash-feat">
+          <h4>Total Control</h4>
+          <p>Adjust agent behavior, update knowledge bases, and manage automations directly from the dashboard.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ PROCESS ═══ -->
-<section style="background: var(--bg2);" id="process">
-  <div class="container">
-    <div style="text-align: center;" class="reveal">
-      <span class="section-tag">How It Works</span>
-      <h2 class="section-title">Up and Running<br /><span class="grad-text">In Days, Not Months</span></h2>
-      <p class="section-sub" style="margin: 0 auto;">No long onboarding. No technical headaches. We handle everything — you just fill out one form and start capturing more jobs.</p>
+<div class="divider"></div>
+
+<!-- ══ RESULTS ══ -->
+<section class="section surface" id="results">
+  <div class="wrap">
+    <div class="r0">
+      <span class="label">Results</span>
+      <h2>Proof in motion.<br /><span class="g">Clarity in numbers.</span></h2>
+    </div>
+    <div class="stats-strip r0 d1" style="margin-top: 60px;">
+      <div class="stat-box">
+        <div class="stat-val" data-count="300" data-suffix="+">300+</div>
+        <p class="stat-desc">Hours of manual communication recovered every month per client</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" data-count="41" data-suffix="%">41%</div>
+        <p class="stat-desc">Average increase in booked appointments within 60 days</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" data-count="12" data-suffix="s">&lt;12s</div>
+        <p class="stat-desc">Average AI response time versus the industry average of 4+ hours</p>
+      </div>
+    </div>
+    <div class="testimonial-block r0 d2">
+      <p class="testimonial-quote">Our AI agent never misses a client. Bookings doubled in the first month, response times essentially disappeared, and our front desk finally runs itself. Noone Capital built something that actually works — not a demo, a real system.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-av">A</div>
+        <div>
+          <div class="testimonial-name">Ava Martinez</div>
+          <div class="testimonial-role">Operations Director · Ironclad Group</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PROCESS ══ -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="r0" style="text-align: center; max-width: 600px; margin: 0 auto;">
+      <span class="label">Process</span>
+      <h2>The blueprint.<br /><span class="g">Behind every system.</span></h2>
+      <p class="section-sub" style="margin: 18px auto 0;">A structured, repeatable process that removes guesswork and delivers a working AI system — fast.</p>
     </div>
     <div class="process-grid">
-      <div class="process-card reveal reveal-delay-1">
-        <div class="process-num">1</div>
-        <h3>Analyze Your Operations</h3>
-        <p>We map your current workflow — how calls come in, how jobs get booked, how you handle insurance — and identify every dollar being left on the table.</p>
+      <div class="process-step r0 d1">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Analyze Operations</div>
+        <p class="step-body">We map your full workflow — how leads come in, how they're handled, where they drop off. Every gap becomes an opportunity.</p>
       </div>
-      <div class="process-card reveal reveal-delay-2">
-        <div class="process-num">2</div>
-        <h3>Build Your AI System</h3>
-        <p>Custom AI receptionist and scope generator built specifically for your business. Trained on your services, your calendar, your process.</p>
+      <div class="process-step r0 d2">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Design Frameworks</div>
+        <p class="step-body">Custom AI frameworks engineered for your specific use case. Built on your data, your tone, your process — not a template.</p>
       </div>
-      <div class="process-card reveal reveal-delay-3">
-        <div class="process-num">3</div>
-        <h3>Optimize and Scale</h3>
-        <p>Real-time performance tracking, continuous improvements, and measurable results you can see every single month.</p>
+      <div class="process-step r0 d3">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Optimize Performance</div>
+        <p class="step-body">Continuous monitoring, A/B testing, and optimization after launch. We don't set it and leave — we improve it until the numbers prove it.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ BENEFITS ═══ -->
-<section class="benefits-section">
-  <div class="container">
-    <div style="text-align: center;" class="reveal">
-      <span class="section-tag">Why Noone Capital</span>
-      <h2 class="section-title">Built for the<br /><span class="grad-text">Way You Work</span></h2>
+<div class="divider"></div>
+
+<!-- ══ BENEFITS ══ -->
+<section class="section surface">
+  <div class="wrap">
+    <div class="r0" style="text-align: center; max-width: 560px; margin: 0 auto;">
+      <span class="label">Benefits</span>
+      <h2>Every benefit.<br /><span class="g">Backed by design.</span></h2>
     </div>
     <div class="benefits-grid">
-      <div class="benefit-card reveal reveal-delay-1">
-        <span class="benefit-icon">🌙</span>
-        <h3>24/7 Call Coverage</h3>
-        <p>Never miss a job again — day, night, weekend, or holiday. Water damage doesn't wait and neither does your AI.</p>
+      <div class="benefit r0 d1">
+        <div class="benefit-line"></div>
+        <h3>Increased Efficiency</h3>
+        <p>Eliminate hours of manual follow-up, scheduling, and communication. Your team focuses on what only humans can do.</p>
       </div>
-      <div class="benefit-card reveal reveal-delay-2">
-        <span class="benefit-icon">💸</span>
-        <h3>Faster Insurance Payments</h3>
-        <p>Professional scopes that adjusters approve quickly. Stop waiting 3–4 weeks to get paid on jobs you already completed.</p>
+      <div class="benefit r0 d2">
+        <div class="benefit-line"></div>
+        <h3>Smarter Decisions</h3>
+        <p>Real-time data from every agent interaction surfaces insights that help you make faster, more confident decisions.</p>
       </div>
-      <div class="benefit-card reveal reveal-delay-3">
-        <span class="benefit-icon">🔄</span>
-        <h3>Zero Manual Follow-Up</h3>
-        <p>AI handles voicemails, no-shows, and cancellations automatically. Nothing slips through the cracks.</p>
-      </div>
-      <div class="benefit-card reveal reveal-delay-1">
-        <span class="benefit-icon">🔌</span>
+      <div class="benefit r0 d3">
+        <div class="benefit-line"></div>
         <h3>Seamless Integration</h3>
-        <p>Works with your existing calendar and systems. No ripping out what works — just making it smarter.</p>
+        <p>Works within your existing stack. No ripping and replacing — just intelligent layers added on top of what you already use.</p>
       </div>
-      <div class="benefit-card reveal reveal-delay-2">
-        <span class="benefit-icon">📈</span>
+      <div class="benefit r0 d1">
+        <div class="benefit-line"></div>
+        <h3>Consistent Communication</h3>
+        <p>Every message, every time. Your brand voice, your standards, delivered with zero variance across every channel.</p>
+      </div>
+      <div class="benefit r0 d2">
+        <div class="benefit-line"></div>
         <h3>Scalable Growth</h3>
-        <p>Handle more jobs without hiring more admin staff. Your AI scales with your business automatically.</p>
+        <p>Handle 10x the volume without 10x the headcount. Your AI infrastructure grows with demand, automatically.</p>
       </div>
-      <div class="benefit-card reveal reveal-delay-3">
-        <span class="benefit-icon">✅</span>
-        <h3>Proven ROI</h3>
-        <p>Average client sees 35%+ revenue increase within 60 days. One recovered job covers months of service.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FAQ ═══ -->
-<section id="faq">
-  <div class="container" style="max-width: 780px;">
-    <div style="text-align: center;" class="reveal">
-      <span class="section-tag">FAQ</span>
-      <h2 class="section-title">Common <span class="grad-text">Questions</span></h2>
-    </div>
-    <div class="faq-list reveal reveal-delay-1">
-      <div class="faq-item">
-        <button class="faq-question">
-          What types of restoration companies do you work with?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">We work exclusively with restoration companies — water damage, fire damage, mold remediation, and general property restoration. Our system is built around how restoration businesses actually operate, not generic templates.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          How long does it take to get set up?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">Most clients are fully live within 3–5 business days. You fill out one onboarding form, we handle the rest. No technical knowledge required on your end.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          What makes Noone Capital different from other agencies?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">We only work with restoration companies. We built the scope document generator specifically for this industry. Most agencies give you generic tools — we give you systems built around the exact problems restoration companies face every day.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          Do I need any technical experience?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">None at all. If you can send a text message, you can use our system. We build it, we manage it, we optimize it. You just run your business and watch the results.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          What results can I realistically expect?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">Most clients see a measurable increase in booked jobs within the first 30 days from recovered missed calls alone. The scope generator typically accelerates insurance payment timelines by 1–2 weeks per claim. Combined, clients average 35–41% revenue increases within 60 days.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          How does the scope document generator work exactly?
-          <span class="faq-arrow">▾</span>
-        </button>
-        <div class="faq-answer">Your tech fills out a simple form on-site — damage type, rooms affected, moisture readings, equipment placed. Takes 3–5 minutes. Our AI then generates a complete, professional scope of work document in insurance-standard language. You export it as a PDF and email it to the adjuster the same day. Faster approval, faster payment.</div>
+      <div class="benefit r0 d3">
+        <div class="benefit-line"></div>
+        <h3>Cost Reduction</h3>
+        <p>Replace costly manual processes with automation that runs 24/7 at a fraction of the operational cost.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ FINAL CTA ═══ -->
-<section class="final-cta">
-  <div class="final-cta-bg"></div>
-  <div style="position: relative; z-index: 1;" class="reveal">
-    <span class="section-tag">Get Started</span>
-    <h2>Ready to Capture<br /><span class="grad-text">Every Job?</span></h2>
-    <p>Book a free 20-minute demo. We'll show you exactly how the system works and what it would look like for your business.</p>
-    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-primary" style="font-size: 17px; padding: 18px 40px;">Book a Free Demo</a>
+<div class="divider"></div>
+
+<!-- ══ FAQ ══ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="r0" style="text-align: center;">
+      <span class="label">FAQ</span>
+      <h2>Everything clear.<br /><span class="g">Before the first call.</span></h2>
+    </div>
+    <div class="faq-wrap r0 d1">
+      <div class="faq-item">
+        <button class="faq-btn">
+          What businesses can benefit from AI consulting?
+          <span class="faq-icon"></span>
+        </button>
+        <div class="faq-answer">Any business that handles inbound leads, books appointments, or communicates with clients at scale. Our systems perform best in service-based businesses, professional services, and any operation where response time and follow-up consistency directly impact revenue.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">
+          How long does implementation take?
+          <span class="faq-icon"></span>
+        </button>
+        <div class="faq-answer">Most systems are fully live within 5–10 business days. We handle the entire build — you fill out one onboarding form, review the agent before launch, and we deploy. No technical involvement required on your end.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">
+          What makes your process different?
+          <span class="faq-icon"></span>
+        </button>
+        <div class="faq-answer">We don't sell software — we build operational systems. Every engagement starts with a workflow audit, not a product demo. The AI we deploy is purpose-built for your specific business, not a configured off-the-shelf tool.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">
+          Do I need technical knowledge to get started?
+          <span class="faq-icon"></span>
+        </button>
+        <div class="faq-answer">None. We handle all technical implementation, integration, and maintenance. Your only responsibility is approving the system before launch and communicating any business changes that should update the agent's knowledge.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">
+          What kind of results can I expect?
+          <span class="faq-icon"></span>
+        </button>
+        <div class="faq-answer">Clients typically see measurable improvements within the first 30 days — faster response times, more booked appointments, and recovered leads that previously fell through the cracks. Long-term, our clients average 35–41% increases in qualified conversions within 60 days of launch.</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<div class="divider"></div>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="cta-section">
+  <div class="cta-orb"></div>
+  <div class="r0">
+    <span class="label" style="display:block; margin-bottom: 20px;">Get Started</span>
+    <h2>Simple systems.<br /><span class="g">Powerful outcomes.</span></h2>
+    <p>Book a free 15-minute consultation. We'll walk through your current workflow and show you exactly where AI can add the most value.</p>
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="cta-primary">
+      Book a Consultation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <span class="footer-logo">NCI | Noone Capital</span>
-      <p>AI systems built exclusively for restoration companies. Capture more jobs, get paid faster, and scale without the overhead.</p>
+      <span class="footer-brand-logo"><span>NCI</span> · Noone Capital</span>
+      <p>We design and implement custom AI systems that automate operations, accelerate growth, and reduce overhead for ambitious businesses.</p>
     </div>
-    <div class="footer-links">
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="#solutions">AI Receptionist</a>
-        <a href="#solutions">Scope Generator</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#process">How It Works</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="#results">Results</a>
-        <a href="#faq">FAQ</a>
-        <a href="mailto:infonoone@noonecapital.net">Contact</a>
-        <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes">Book a Demo</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-      </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#frameworks">Frameworks</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#process">Process</a>
+      <a href="#results">Results</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#faq">FAQ</a>
+      <a href="mailto:infonoone@noonecapital.net">Contact Us</a>
+      <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes">Book a Consultation</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Noone Capital. All rights reserved.</p>
-    <p style="color: var(--muted); font-size: 13px;">AI Built for Restoration.</p>
+    <p>© 2026 Noone Capital Inc. All rights reserved.</p>
+    <p>Built for performance.</p>
   </div>
 </footer>
 
 <script>
-  // ─── NAV SCROLL ───
+  /* NAV */
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+  const onScroll = () => nav.classList.toggle('solid', scrollY > 50);
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* REVEAL */
+  const els = document.querySelectorAll('.r0');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+
+  /* FAQ */
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const open = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!open) item.classList.add('open');
+    });
   });
 
-  // ─── SCROLL REVEAL ───
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  /* COUNTERS — fire once on scroll into view */
+  const counters = document.querySelectorAll('.stat-val[data-count]');
+  const co = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => observer.observe(el));
-
-  // ─── COUNTER ANIMATION ───
-  function animateCounter(el, target, suffix = '+') {
-    let start = 0;
-    const duration = 1800;
-    const step = (timestamp) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target) + (progress < 1 ? '' : suffix);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
-
-  const statNums = document.querySelectorAll('.stat-num[data-target]');
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const target = parseInt(e.target.dataset.target);
-        const suffix = e.target.dataset.suffix || '+';
-        animateCounter(e.target, target, suffix);
-        counterObserver.unobserve(e.target);
-      }
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const end = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      let start = null;
+      const tick = ts => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / 1600, 1);
+        const v = Math.floor(p < 1 ? end * (1 - Math.pow(1 - p, 3)) : end);
+        el.textContent = (el.dataset.count === '12' ? '<' : '') + v + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      co.unobserve(el);
     });
   }, { threshold: 0.5 });
-  statNums.forEach(el => counterObserver.observe(el));
-
-  // ─── FAQ ACCORDION ───
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-
-  // ─── CHAT TYPING LOOP ───
-  const chatMsgs = document.getElementById('chatMessages');
-  const lastMsg = chatMsgs?.querySelector('.msg:last-child');
-  if (lastMsg) {
-    setInterval(() => {
-      lastMsg.style.opacity = '0';
-      setTimeout(() => { lastMsg.style.opacity = '1'; }, 1000);
-    }, 4000);
-  }
+  counters.forEach(el => co.observe(el));
 </script>
 </body>
 </html>
