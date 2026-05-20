@@ -3,738 +3,1304 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noone Capital — AI Workforce for Any Business</title>
-  <meta name="description" content="Replace your front office staff with AI agents that handle calls, emails, scheduling, and follow-up 24/7 — for any business, starting at $5,000/month." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brown: {
-              50:  '#fdf8f4',
-              100: '#f5ece0',
-              200: '#e8d3b8',
-              300: '#d4ae87',
-              400: '#c08a5a',
-              500: '#a86c3c',
-              600: '#8b5530',
-              700: '#6b3e22',
-              800: '#4e2c15',
-              900: '#2d1a0a',
-            },
-            cream: '#faf7f2',
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            serif: ['Georgia', 'serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Noone Capital | AI for Restoration Companies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
-    html { scroll-behavior: smooth; }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .noise {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 128px;
-      pointer-events: none;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080f;
+      --bg2: #0d0d1a;
+      --card: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+      --accent: #4f6ef7;
+      --accent2: #7c3aed;
+      --accent-grad: linear-gradient(135deg, #4f6ef7, #7c3aed);
+      --text: #f0f0f8;
+      --muted: #8888aa;
+      --white: #ffffff;
     }
-    .gradient-text {
-      background: linear-gradient(135deg, #6b3e22 0%, #c08a5a 50%, #6b3e22 100%);
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--accent-grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(45,26,10,0.12); }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--accent-grad);
+      color: var(--white) !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      transition: opacity 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,110,247,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(124,58,237,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 20% 70%, rgba(79,110,247,0.08) 0%, transparent 50%);
+      animation: heroBgShift 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroBgShift {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79,110,247,0.12);
+      border: 1px solid rgba(79,110,247,0.3);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      animation: fadeInDown 0.8s ease both;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: #4f6ef7;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 82px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 900px;
+      animation: fadeInUp 0.9s ease 0.1s both;
+    }
+    .grad-text {
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(17px, 2.5vw, 21px);
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.7;
+      margin: 28px auto 0;
+      animation: fadeInUp 0.9s ease 0.2s both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      margin-top: 44px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.9s ease 0.3s both;
+    }
     .btn-primary {
-      background: linear-gradient(135deg, #6b3e22, #a86c3c);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(107,62,34,0.3);
+      background: var(--accent-grad);
+      color: var(--white);
+      padding: 15px 32px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(79,110,247,0.3);
     }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #4e2c15, #8b5530);
-      box-shadow: 0 8px 25px rgba(107,62,34,0.45);
-      transform: translateY(-1px);
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(79,110,247,0.5); }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      padding: 15px 32px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--card-border);
+      transition: background 0.2s, transform 0.2s;
     }
-    .nav-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .stat-card { background: linear-gradient(135deg, rgba(107,62,34,0.06) 0%, rgba(192,138,90,0.04) 100%); }
-    .price-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .price-card:hover { transform: translateY(-6px); box-shadow: 0 32px 64px rgba(45,26,10,0.14); }
-    .ticker-wrap { overflow: hidden; }
-    .ticker { display: flex; width: max-content; animation: ticker 30s linear infinite; }
-    .ticker:hover { animation-play-state: paused; }
-    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .btn-secondary:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+    /* ─── STATS BAR ─── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      background: var(--bg2);
+      padding: 0;
+    }
+    .stat {
+      flex: 1;
+      min-width: 200px;
+      padding: 40px 32px;
+      text-align: center;
+      border-right: 1px solid var(--card-border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 120px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section-sub {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ─── FEATURE: AI RECEPTIONIST ─── */
+    .feature-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .feature-split.reverse { direction: rtl; }
+    .feature-split.reverse > * { direction: ltr; }
+    .feature-points { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+    .feature-point {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .feature-icon {
+      width: 40px; height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: rgba(79,110,247,0.12);
+      border: 1px solid rgba(79,110,247,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .feature-point-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .feature-point-text p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── CHAT DEMO ─── */
+    .chat-demo {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(20px);
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    .chat-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .chat-name { font-weight: 700; font-size: 15px; }
+    .chat-status { font-size: 12px; color: #4ade80; display: flex; align-items: center; gap: 6px; }
+    .chat-status::before { content: ''; width: 7px; height: 7px; background: #4ade80; border-radius: 50%; display: inline-block; }
+    .chat-messages { display: flex; flex-direction: column; gap: 16px; }
+    .msg { display: flex; gap: 10px; align-items: flex-end; }
+    .msg.right { flex-direction: row-reverse; }
+    .bubble {
+      max-width: 78%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .bubble.left {
+      background: rgba(255,255,255,0.06);
+      border-bottom-left-radius: 4px;
+      color: var(--text);
+    }
+    .bubble.right {
+      background: var(--accent-grad);
+      border-bottom-right-radius: 4px;
+      color: var(--white);
+    }
+    .msg-time { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+    }
+    .typing-dot {
+      width: 7px; height: 7px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* ─── SCOPE SECTION ─── */
+    .scope-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .scope-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent-grad);
+    }
+    .scope-steps { display: flex; flex-direction: column; gap: 0; }
+    .scope-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--card-border);
+      position: relative;
+    }
+    .scope-step:last-child { border-bottom: none; }
+    .scope-step-num {
+      width: 36px; height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+    }
+    .scope-step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .scope-step-content p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .scope-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.2);
+      color: #4ade80;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-top: 8px;
+    }
+
+    /* ─── WORKFLOW ─── */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .workflow-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .workflow-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(79,110,247,0.3);
+      box-shadow: 0 20px 60px rgba(79,110,247,0.1);
+    }
+    .workflow-card-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .workflow-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .workflow-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── DASHBOARD ─── */
+    .dashboard-section { background: var(--bg2); }
+    .dashboard-mockup {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+    .dash-topbar {
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--card-border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dash-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dash-dot.red { background: #ff5f57; }
+    .dash-dot.yellow { background: #febc2e; }
+    .dash-dot.green { background: #28c840; }
+    .dash-body { padding: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .dash-metric {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px 20px;
+    }
+    .dash-metric-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+    .dash-metric-value { font-size: 34px; font-weight: 900; letter-spacing: -1px; }
+    .dash-metric-value.green { color: #4ade80; }
+    .dash-metric-value.blue { color: #4f6ef7; }
+    .dash-metric-value.purple { color: #a78bfa; }
+    .dash-metric-value.white { color: var(--white); }
+    .dash-metric-change { font-size: 12px; color: #4ade80; margin-top: 6px; font-weight: 600; }
+
+    /* ─── CASE STUDIES ─── */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 28px;
+      margin-top: 60px;
+    }
+    .case-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px;
+      transition: transform 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .case-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent-grad);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .case-card:hover { transform: translateY(-4px); border-color: rgba(79,110,247,0.2); }
+    .case-card:hover::after { transform: scaleX(1); }
+    .case-quote {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text);
+      font-style: italic;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .case-quote::before {
+      content: '"';
+      font-size: 72px;
+      color: rgba(79,110,247,0.2);
+      font-style: normal;
+      position: absolute;
+      top: -20px; left: -10px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .case-author { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .case-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .case-author-name { font-size: 15px; font-weight: 700; }
+    .case-author-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .case-results {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--card-border);
+      padding-top: 24px;
+    }
+    .case-result-pill {
+      background: rgba(79,110,247,0.1);
+      border: 1px solid rgba(79,110,247,0.2);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 100px;
+    }
+
+    /* ─── PROCESS ─── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+      position: relative;
+    }
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: calc(16.66% + 20px);
+      right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .process-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .process-card:hover { transform: translateY(-6px); border-color: rgba(79,110,247,0.3); }
+    .process-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      margin: 0 auto 24px;
+      box-shadow: 0 0 30px rgba(79,110,247,0.3);
+    }
+    .process-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+    .process-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ─── BENEFITS ─── */
+    .benefits-section { background: var(--bg2); }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .benefit-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(79,110,247,0.25);
+      box-shadow: 0 16px 48px rgba(79,110,247,0.08);
+    }
+    .benefit-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+    .benefit-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+    .benefit-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── FAQ ─── */
+    .faq-list { margin-top: 60px; display: flex; flex-direction: column; gap: 16px; }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .faq-item.open { border-color: rgba(79,110,247,0.3); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 24px 28px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .faq-arrow {
+      width: 28px; height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: rgba(79,110,247,0.1);
+      border: 1px solid rgba(79,110,247,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+      font-size: 14px;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent); border-color: var(--accent); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; padding: 0 28px 24px; }
+
+    /* ─── FINAL CTA ─── */
+    .final-cta {
+      text-align: center;
+      padding: 140px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(79,110,247,0.12) 0%, transparent 65%);
+    }
+    .final-cta h2 {
+      font-size: clamp(36px, 6vw, 68px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      max-width: 720px;
+      margin: 0 auto 24px;
+    }
+    .final-cta p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 44px;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 60px 60px 40px;
+      background: var(--bg2);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .footer-brand { max-width: 300px; }
+    .footer-logo {
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .footer-links { display: flex; gap: 80px; flex-wrap: wrap; }
+    .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 20px; }
+    .footer-col a {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid var(--card-border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { font-size: 13px; color: var(--muted); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .feature-split { grid-template-columns: 1fr; gap: 48px; }
+      .feature-split.reverse { direction: ltr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .process-grid::before { display: none; }
+      .benefits-grid { grid-template-columns: 1fr 1fr; }
+      .cases-grid { grid-template-columns: 1fr; }
+      footer { padding: 48px 24px 32px; }
+      .footer-links { gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .benefits-grid { grid-template-columns: 1fr; }
+      .stat { min-width: 150px; padding: 28px 20px; }
+      .stat-num { font-size: 30px; }
+      .dash-body { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
-<body class="bg-cream font-sans text-brown-900 antialiased">
+<body>
 
-  <!-- ============================================================
-       NAVIGATION
-  ============================================================ -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        <a href="#" class="flex items-center gap-3">
-          <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-            <rect width="42" height="42" rx="10" fill="url(#ng1)"/>
-            <defs><linearGradient id="ng1" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#4e2c15"/><stop offset="1" stop-color="#c08a5a"/></linearGradient></defs>
-            <path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <div>
-            <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#2d1a0a;line-height:1">NOONE</div>
-            <div style="font-family:Inter,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#a86c3c;line-height:1;margin-top:3px">CAPITAL</div>
-          </div>
-        </a>
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-brown-600">
-          <a href="#what-we-do" class="hover:text-brown-900 transition-colors">What We Do</a>
-          <a href="#industries" class="hover:text-brown-900 transition-colors">Industries</a>
-          <a href="#pricing" class="hover:text-brown-900 transition-colors">Pricing</a>
-          <a href="#results" class="hover:text-brown-900 transition-colors">Results</a>
-          <a href="/dashboard.html" class="hover:text-brown-900 transition-colors">Client Login</a>
-        </div>
-        <div class="hidden md:flex items-center gap-4">
-          <a href="/demo.html" class="text-sm font-medium text-brown-700 hover:text-brown-900 transition-colors">Book a Demo</a>
-          <a href="https://buy.stripe.com/3cIcN7cnm8JJ4vRd7F1gs06" target="_blank" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg">Get Started</a>
-        </div>
-        <button id="menu-toggle" class="md:hidden text-brown-700 focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-brown-100 px-6 py-4 space-y-3">
-      <a href="#what-we-do" class="block text-sm font-medium text-brown-700 py-2">What We Do</a>
-      <a href="#industries" class="block text-sm font-medium text-brown-700 py-2">Industries</a>
-      <a href="#pricing" class="block text-sm font-medium text-brown-700 py-2">Pricing</a>
-      <a href="#results" class="block text-sm font-medium text-brown-700 py-2">Results</a>
-      <a href="/demo.html" class="block btn-primary text-white text-sm font-semibold px-5 py-3 rounded-lg text-center mt-2">Book a Free Demo</a>
-    </div>
-  </nav>
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-logo">NCI</div>
+  <div class="nav-links">
+    <a href="#solutions">Solutions</a>
+    <a href="#process">Process</a>
+    <a href="#results">Results</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="nav-cta">Book a Call</a>
+  </div>
+</nav>
 
-  <!-- ============================================================
-       HERO
-  ============================================================ -->
-  <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-cream via-brown-50 to-brown-100"></div>
-    <div class="noise absolute inset-0"></div>
-    <div class="absolute top-1/4 right-0 w-96 h-96 bg-brown-200 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/2"></div>
-    <div class="absolute bottom-0 left-0 w-80 h-80 bg-brown-300 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/3"></div>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Built Exclusively for Restoration Companies
+  </div>
+  <h1>AI That Captures Every Job.<br /><span class="grad-text">Every Call. Every Dollar.</span></h1>
+  <p>Noone Capital builds custom AI systems for restoration companies — answering missed calls 24/7, booking more jobs automatically, and generating professional insurance scopes in minutes instead of hours.</p>
+  <div class="hero-btns">
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-primary">Book a Free Demo</a>
+    <a href="#results" class="btn-secondary">See Real Results</a>
+  </div>
+</section>
 
-    <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
-      <div class="max-w-4xl">
-        <div class="inline-flex items-center gap-2 bg-white border border-brown-200 text-brown-700 text-xs font-semibold px-4 py-2 rounded-full mb-8 shadow-sm reveal">
-          <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-          Now deploying AI workforces for law firms — personal injury, family law &amp; more
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold text-brown-900 leading-[1.05] tracking-tight mb-6 reveal reveal-delay-1">
-          Replace Your<br />Front Office<br />
-          <span class="gradient-text">With AI.</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-brown-600 font-light leading-relaxed max-w-2xl mb-10 reveal reveal-delay-2">
-          We build custom AI agents that handle every intake call, client email, and consultation booking for your firm — 24/7, trained on your practice, starting at $5,000/month.
-        </p>
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-delay-3">
-          <a href="/demo.html" class="btn-primary text-white font-semibold px-8 py-4 rounded-xl text-base w-full sm:w-auto text-center">
-            Book a Free Demo →
-          </a>
-          <a href="#what-we-do" class="flex items-center gap-2 text-brown-700 font-medium text-base hover:text-brown-900 transition-colors group">
-            See how it works
-            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
+<!-- ═══ STATS ═══ -->
+<div class="stats">
+  <div class="stat reveal">
+    <div class="stat-num" data-target="300">0</div>
+    <div class="stat-label">Calls Recovered Monthly</div>
+  </div>
+  <div class="stat reveal reveal-delay-1">
+    <div class="stat-num" data-target="41">0</div>
+    <div class="stat-label">Average Revenue Increase %</div>
+  </div>
+  <div class="stat reveal reveal-delay-2">
+    <div class="stat-num" data-suffix=" min">8</div>
+    <div class="stat-label">To Generate Insurance Scope</div>
+  </div>
+  <div class="stat reveal reveal-delay-3">
+    <div class="stat-num" data-target="0">0</div>
+    <div class="stat-label">Missed Calls After Hours</div>
+  </div>
+</div>
 
-        <div class="mt-16 pt-10 border-t border-brown-200 grid grid-cols-2 md:grid-cols-4 gap-8 reveal reveal-delay-4">
-          <div>
-            <div class="text-3xl font-bold text-brown-900">$50K+</div>
-            <div class="text-sm text-brown-500 mt-1">Avg. Missed Revenue Recovered</div>
+<!-- ═══ AI RECEPTIONIST ═══ -->
+<section id="solutions">
+  <div class="container">
+    <div class="feature-split">
+      <div class="reveal">
+        <span class="section-tag">AI Receptionist</span>
+        <h2 class="section-title">Never Miss<br /><span class="grad-text">Another Job</span></h2>
+        <p class="section-sub">Every missed call is a missed job. Our AI answers 24/7, qualifies the lead, and books them directly into your calendar — while you're on site doing the work.</p>
+        <div class="feature-points">
+          <div class="feature-point">
+            <div class="feature-icon">📞</div>
+            <div class="feature-point-text">
+              <h4>Answers Every Call, 24/7</h4>
+              <p>No more lost jobs after hours. The AI picks up instantly, day or night, weekends included.</p>
+            </div>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-brown-900">48 hrs</div>
-            <div class="text-sm text-brown-500 mt-1">From Demo to Live</div>
+          <div class="feature-point">
+            <div class="feature-icon">📅</div>
+            <div class="feature-point-text">
+              <h4>Books Directly Into Your Calendar</h4>
+              <p>Qualified leads get booked on the spot. No back-and-forth, no dropped balls.</p>
+            </div>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-brown-900">24/7</div>
-            <div class="text-sm text-brown-500 mt-1">Never Misses an Intake Call</div>
-          </div>
-          <div>
-            <div class="text-3xl font-bold text-brown-900">&lt; 5s</div>
-            <div class="text-sm text-brown-500 mt-1">Lead Response Time</div>
+          <div class="feature-point">
+            <div class="feature-icon">🔁</div>
+            <div class="feature-point-text">
+              <h4>Follows Up on No-Shows & Cancellations</h4>
+              <p>Automatically reschedules no-shows and recovers canceled appointments before they go to a competitor.</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SCROLLING INDUSTRIES TICKER
-  ============================================================ -->
-  <div class="bg-brown-900 py-4 overflow-hidden">
-    <div class="ticker-wrap">
-      <div class="ticker text-brown-300 text-sm font-medium">
-        <span class="px-8">⚖️ Law Firms</span>
-        <span class="px-8">🏠 Property Management</span>
-        <span class="px-8">🔧 HVAC &amp; Contractors</span>
-        <span class="px-8">🏡 Real Estate Brokerages</span>
-        <span class="px-8">💰 Mortgage Brokers</span>
-        <span class="px-8">🪟 Home Services</span>
-        <span class="px-8">📦 Logistics &amp; Dispatch</span>
-        <span class="px-8">🛡️ Insurance Agencies</span>
-        <span class="px-8">🚗 Auto Dealers</span>
-        <span class="px-8">⚖️ Law Firms</span>
-        <span class="px-8">🏠 Property Management</span>
-        <span class="px-8">🔧 HVAC &amp; Contractors</span>
-        <span class="px-8">🏡 Real Estate Brokerages</span>
-        <span class="px-8">💰 Mortgage Brokers</span>
-        <span class="px-8">🪟 Home Services</span>
-        <span class="px-8">📦 Logistics &amp; Dispatch</span>
-        <span class="px-8">🛡️ Insurance Agencies</span>
-        <span class="px-8">🚗 Auto Dealers</span>
+      <div class="chat-demo reveal reveal-delay-2">
+        <div class="chat-header">
+          <div class="chat-avatar">N</div>
+          <div>
+            <div class="chat-name">NCI AI Receptionist</div>
+            <div class="chat-status">Online — Responding instantly</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg">
+            <div class="bubble left">Hi, I have water damage in my basement — it's pretty bad, pipes burst overnight.</div>
+            <span class="msg-time">9:02 AM</span>
+          </div>
+          <div class="msg right">
+            <div class="bubble right">I'm so sorry to hear that! We can get a technician out to you right away. What's the property address and are you available this morning?</div>
+            <span class="msg-time">9:02 AM</span>
+          </div>
+          <div class="msg">
+            <div class="bubble left">Yes, 4521 Oak Street. Morning works perfectly.</div>
+            <span class="msg-time">9:03 AM</span>
+          </div>
+          <div class="msg right">
+            <div class="bubble right">Perfect — I've booked you for 10:30 AM today with one of our senior techs. You'll receive a confirmation text shortly. Is there anything else I can help with?</div>
+            <span class="msg-time">9:03 AM</span>
+          </div>
+          <div class="msg">
+            <div class="typing-indicator">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ============================================================
-       WHAT WE DO
-  ============================================================ -->
-  <section id="what-we-do" class="py-28 bg-cream">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">What We Deploy</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">Eight AI Agents.<br />Zero Missed Cases.</h2>
-        <p class="text-brown-500 text-lg leading-relaxed">Every agent is trained on your firm — your practice areas, your intake process, your language. No scripts. No hold music. No missed revenue.</p>
+<!-- ═══ SCOPE GENERATOR ═══ -->
+<section style="background: var(--bg2);">
+  <div class="container">
+    <div class="feature-split reverse">
+      <div class="scope-card reveal">
+        <div class="scope-steps">
+          <div class="scope-step">
+            <div class="scope-step-num">1</div>
+            <div class="scope-step-content">
+              <h4>Fill Out the On-Site Form</h4>
+              <p>Damage type, rooms affected, moisture readings, equipment placed. Takes 3–5 minutes while you're still at the job.</p>
+              <span class="scope-badge">⏱ 3–5 minutes</span>
+            </div>
+          </div>
+          <div class="scope-step">
+            <div class="scope-step-num">2</div>
+            <div class="scope-step-content">
+              <h4>AI Generates the Scope Document</h4>
+              <p>Professional, industry-standard language. Room-by-room breakdown. Sounds like an experienced estimator wrote it.</p>
+              <span class="scope-badge">🤖 AI-powered</span>
+            </div>
+          </div>
+          <div class="scope-step">
+            <div class="scope-step-num">3</div>
+            <div class="scope-step-content">
+              <h4>Send to Insurance — Same Day</h4>
+              <p>Export as PDF. Email straight to the adjuster. Faster approval means faster payment.</p>
+              <span class="scope-badge">✅ Faster cash flow</span>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- 1. Intake -->
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">🌙</div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">24/7 Intake Agent</h3>
-          <div class="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">💸 Every missed call is a case lost — avg. value $5K–$50K</div>
-          <p class="text-brown-500 leading-relaxed">Answers every call with practice-area-specific intake. PI asks about injury and insurance. Criminal defense flags court dates within 48hrs as urgent. Family law checks for safety first. Books the consultation directly via your calendar link.</p>
+      <div class="reveal reveal-delay-2">
+        <span class="section-tag">Scope Generator</span>
+        <h2 class="section-title">Get Paid<br /><span class="grad-text">Weeks Faster</span></h2>
+        <p class="section-sub">Stop spending 2–4 hours at 10pm trying to remember what the job looked like. Fill out a form on-site, hit generate, and send a professional scope to the adjuster the same day.</p>
+        <div class="feature-points" style="margin-top: 32px;">
+          <div class="feature-point">
+            <div class="feature-icon">📄</div>
+            <div class="feature-point-text">
+              <h4>Professional Insurance Language</h4>
+              <p>Adjusters take well-written scopes seriously. Less back-and-forth means faster claim approval.</p>
+            </div>
+          </div>
+          <div class="feature-point">
+            <div class="feature-icon">💰</div>
+            <div class="feature-point-text">
+              <h4>Faster Payments, Better Cash Flow</h4>
+              <p>Jobs that took 3–4 weeks to pay out now move in 10–14 days. On a $15k job, that matters.</p>
+            </div>
+          </div>
         </div>
-
-        <!-- 2. Email -->
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">✉️</div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Email Inbox Agent</h3>
-          <div class="inline-flex items-center gap-1.5 bg-orange-50 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">⏱ Paralegals spend 12+ hrs/week on routine email</div>
-          <p class="text-brown-500 leading-relaxed">Handles every routine client email — case status questions, document requests, scheduling — drafted in your firm's voice. Paralegals stay on billable work. Nothing falls through the cracks.</p>
-        </div>
-
-        <!-- 3. Retainer Chase -->
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-2">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">📝</div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Retainer Chase Agent</h3>
-          <div class="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">💸 Most firms lose 20–30% of signed cases to unsigned retainers</div>
-          <p class="text-brown-500 leading-relaxed">You send the retainer — the AI handles the rest. Follows up at day 1, 3, 7, and 14 via call and email until it's signed or the client opts out. Recovers cases you've already earned but would otherwise lose to ghosting.</p>
-        </div>
-
-        <!-- 4. Lead Nurture -->
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">🔁</div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">14-Day Lead Nurture</h3>
-          <div class="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">💸 Law firm leads shop 3–5 firms — one follow-up isn't enough</div>
-          <p class="text-brown-500 leading-relaxed">Every new lead gets a 4-touch sequence: day 1 email with booking link, day 3 outbound call, day 7 email, day 14 final call and email — all with practice-area-specific messaging for PI, criminal, or family law. Stops automatically when they book.</p>
-        </div>
-
-        <!-- 5. Missed Call + No-Show Recovery -->
-        <div class="bg-white rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="w-12 h-12 bg-brown-50 rounded-xl flex items-center justify-center mb-6 text-2xl">⚡</div>
-          <h3 class="text-xl font-semibold text-brown-900 mb-2">Missed Call &amp; No-Show Recovery</h3>
-          <div class="inline-flex items-center gap-1.5 bg-orange-50 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">⏱ Conversion drops 80% if you wait more than 5 minutes to call back</div>
-          <p class="text-brown-500 leading-relaxed">Missed call? AI calls back within minutes with a warm, qualified intake script. No-show? AI calls immediately to reschedule with empathy before the slot is wasted. Both send follow-up emails automatically.</p>
-        </div>
-
-        <!-- 6. Pipeline + Referral Nurture -->
-        <div class="bg-gradient-to-br from-brown-700 to-brown-500 rounded-2xl p-8 card-hover reveal reveal-delay-2">
-          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6 text-2xl">💰</div>
-          <h3 class="text-xl font-semibold text-white mb-2">Pipeline &amp; Referral Agent</h3>
-          <div class="inline-flex items-center gap-1.5 bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">60–70% of law firm revenue comes from attorney referrals</div>
-          <p class="text-white/80 leading-relaxed">Nurtures your referring attorney relationships with monthly touchpoints — check-in, re-engage, or win-back based on how long since their last referral. Also sends Google review requests after cases close and reactivates cold leads from the past 90 days.</p>
-          <a href="/demo.html" class="inline-flex items-center gap-2 text-white font-semibold text-sm mt-6 hover:gap-3 transition-all">See it live <span>→</span></a>
-        </div>
-
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       HOW IT WORKS
-  ============================================================ -->
-  <section class="py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">How It Works</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">From Demo to Live<br />in 48 Hours Flat.</h2>
-        <p class="text-brown-500 text-lg">You do a 30-minute call. We do the rest. No IT. No long contracts. No learning curve.</p>
+<!-- ═══ WORKFLOW ═══ -->
+<section>
+  <div class="container">
+    <div style="text-align: center;" class="reveal">
+      <span class="section-tag">Workflow Automations</span>
+      <h2 class="section-title">Everything <span class="grad-text">Connected</span></h2>
+      <p class="section-sub" style="margin: 0 auto;">Your AI system talks to your calendar, your CRM, and your phone — so nothing falls through the cracks.</p>
+    </div>
+    <div class="workflow-grid">
+      <div class="workflow-card reveal reveal-delay-1">
+        <span class="workflow-card-icon">🔗</span>
+        <h3>Seamless Integrations</h3>
+        <p>Connects with your existing calendar, GHL, and phone system. No ripping out what already works.</p>
       </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-
-        <div class="bg-cream rounded-2xl p-6 border border-brown-100 reveal">
-          <div class="w-10 h-10 bg-brown-800 rounded-full flex items-center justify-center mb-5 text-white font-bold text-sm">1</div>
-          <h3 class="font-semibold text-brown-900 text-base mb-2">Book a Free Demo</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">30 minutes. We show you AI agents live — answering calls, replying to emails, booking jobs — for a business just like yours.</p>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-6 border border-brown-100 reveal reveal-delay-1">
-          <div class="w-10 h-10 bg-brown-800 rounded-full flex items-center justify-center mb-5 text-white font-bold text-sm">2</div>
-          <h3 class="font-semibold text-brown-900 text-base mb-2">30-Min Onboarding Call</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">You tell us how your business works — your hours, your services, how you handle calls, what to say and never say. That's it. We take it from there.</p>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-6 border border-brown-100 reveal reveal-delay-2">
-          <div class="w-10 h-10 bg-brown-800 rounded-full flex items-center justify-center mb-5 text-white font-bold text-sm">3</div>
-          <h3 class="font-semibold text-brown-900 text-base mb-2">We Train &amp; Connect</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">We train your agents on your business, connect your email inbox, and provision your AI phone line. You forward your existing number — takes 2 minutes with your carrier.</p>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-6 border border-brown-100 reveal reveal-delay-3">
-          <div class="w-10 h-10 bg-brown-800 rounded-full flex items-center justify-center mb-5 text-white font-bold text-sm">4</div>
-          <h3 class="font-semibold text-brown-900 text-base mb-2">Agents Go Live</h3>
-          <p class="text-brown-500 text-sm leading-relaxed">Within 48 hours your AI workforce is live. Every call answered. Every email handled. Every lead followed up. 24/7 from day one.</p>
-        </div>
-
-        <div class="bg-brown-800 rounded-2xl p-6 reveal reveal-delay-4">
-          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mb-5 text-white font-bold text-sm">5</div>
-          <h3 class="font-semibold text-white text-base mb-2">You Watch the Dashboard</h3>
-          <p class="text-white/70 text-sm leading-relaxed">Every call transcript, every email sent, every booking made — visible in real time. You approve anything important. The agents handle everything else.</p>
-        </div>
-
+      <div class="workflow-card reveal reveal-delay-2">
+        <span class="workflow-card-icon">⚡</span>
+        <h3>Instant Triggers</h3>
+        <p>New call comes in — AI responds in seconds. Voicemail left — AI calls back within minutes.</p>
       </div>
+      <div class="workflow-card reveal reveal-delay-3">
+        <span class="workflow-card-icon">⏰</span>
+        <h3>Time Recovered Daily</h3>
+        <p>Eliminate hours of manual follow-up, documentation, and scheduling every single day.</p>
+      </div>
+      <div class="workflow-card reveal reveal-delay-4">
+        <span class="workflow-card-icon">📊</span>
+        <h3>Unified Dashboard</h3>
+        <p>Every call, booking, and scope document tracked in one place. Full visibility, zero guesswork.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Onboarding callout -->
-      <div class="mt-10 bg-cream border border-brown-200 rounded-2xl p-8 grid md:grid-cols-3 gap-8 reveal">
-        <div class="flex items-start gap-4">
-          <div class="text-2xl shrink-0">📞</div>
+<!-- ═══ DASHBOARD ═══ -->
+<section class="dashboard-section" id="dashboard">
+  <div class="container">
+    <div style="text-align: center;" class="reveal">
+      <span class="section-tag">Command Center</span>
+      <h2 class="section-title">Your Business,<br /><span class="grad-text">At a Glance</span></h2>
+      <p class="section-sub" style="margin: 0 auto;">Real-time visibility across every AI agent. See what's working, what's booked, and what's been recovered — all in one dashboard.</p>
+    </div>
+    <div class="dashboard-mockup reveal reveal-delay-1">
+      <div class="dash-topbar">
+        <div class="dash-dot red"></div>
+        <div class="dash-dot yellow"></div>
+        <div class="dash-dot green"></div>
+        <span style="margin-left: 12px; font-size: 13px; color: var(--muted);">NCI Dashboard — Noone Capital</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-metric">
+          <div class="dash-metric-label">Calls Answered This Month</div>
+          <div class="dash-metric-value green">312</div>
+          <div class="dash-metric-change">↑ 41% vs last month</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Jobs Booked</div>
+          <div class="dash-metric-value blue">87</div>
+          <div class="dash-metric-change">↑ 28% vs last month</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Scopes Generated</div>
+          <div class="dash-metric-value purple">64</div>
+          <div class="dash-metric-change">↑ Avg 8 min each</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Revenue Recovered</div>
+          <div class="dash-metric-value white">$94,200</div>
+          <div class="dash-metric-change">↑ From missed calls</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CASE STUDIES ═══ -->
+<section id="results">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">Client Results</span>
+      <h2 class="section-title">Real Companies.<br /><span class="grad-text">Real Numbers.</span></h2>
+    </div>
+    <div class="cases-grid">
+      <div class="case-card reveal reveal-delay-1">
+        <p class="case-quote">We were losing 8 to 10 jobs a month to missed after-hours calls. Within 30 days of going live with Noone Capital, we recovered every single after-hours lead and booked 41% more jobs. The scope tool alone saves my crew 3 hours every day.</p>
+        <div class="case-author">
+          <div class="case-avatar">M</div>
           <div>
-            <div class="font-semibold text-brown-900 text-sm mb-1">Phone: 2-minute setup</div>
-            <div class="text-brown-500 text-sm">Forward your existing number to your AI line. Works with AT&amp;T, Verizon, T-Mobile, Google Voice — any carrier. Your number stays yours.</div>
+            <div class="case-author-name">Marcus T.</div>
+            <div class="case-author-role">Owner — Apex Water Damage Restoration, Phoenix AZ</div>
           </div>
         </div>
-        <div class="flex items-start gap-4">
-          <div class="text-2xl shrink-0">✉️</div>
+        <div class="case-results">
+          <span class="case-result-pill">+41% booked jobs</span>
+          <span class="case-result-pill">0 missed calls</span>
+          <span class="case-result-pill">3 hrs/day saved</span>
+        </div>
+      </div>
+      <div class="case-card reveal reveal-delay-2">
+        <p class="case-quote">Insurance documentation used to take my guys 2 to 3 hours after every job. Now they fill out the form on-site in 8 minutes and the adjuster gets a professional scope same day. Our cash flow improved overnight — adjusters are approving claims in days, not weeks.</p>
+        <div class="case-author">
+          <div class="case-avatar">J</div>
           <div>
-            <div class="font-semibold text-brown-900 text-sm mb-1">Email: plug and play</div>
-            <div class="text-brown-500 text-sm">Connect Gmail, Outlook, or any inbox in one click. The agent reads, drafts, and sends from your existing address. Clients never know it's AI.</div>
+            <div class="case-author-name">Jennifer R.</div>
+            <div class="case-author-role">Operations Manager — Coastal Restoration Services, Tampa FL</div>
           </div>
         </div>
-        <div class="flex items-start gap-4">
-          <div class="text-2xl shrink-0">🔗</div>
-          <div>
-            <div class="font-semibold text-brown-900 text-sm mb-1">Your software: we integrate it</div>
-            <div class="text-brown-500 text-sm">Clio, MyCase, LawPay, Salesforce, or a custom CRM — we connect the agents to what you already use. Nothing to rebuild.</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-       INDUSTRIES
-  ============================================================ -->
-  <section id="industries" class="py-28 bg-cream">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Industries We Serve</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">Built for Any Business<br />with a Front Office.</h2>
-        <p class="text-brown-500 text-lg">If your business handles calls, emails, and scheduling — we can automate it.</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">⚖️</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">Law Firms</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI intake agent answers every call, qualifies leads, gathers case info, and books consultations. Convert 30–40% more cases.</p>
-              <div class="text-xs font-semibold text-brown-400">Replaces: $60–80K intake coordinator</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">🏠</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">Property Management</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI agents handle leasing calls, maintenance requests, rent collection, and tenant communications 24/7.</p>
-              <div class="text-xs font-semibold text-brown-400">Replaces: $150K+ in front office staff</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-2">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">🏥</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">Medical &amp; Healthcare</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI handles appointment scheduling, insurance questions, patient follow-ups, and after-hours calls — HIPAA-aware, always professional.</p>
-              <div class="text-xs font-semibold text-brown-400">Replaces: $50–70K front desk coordinator</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">🔧</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">HVAC, Plumbing &amp; Contractors</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">Never miss an after-hours call again. AI books jobs, dispatches techs, and sends confirmations automatically.</p>
-              <div class="text-xs font-semibold text-brown-400">+40–60% more booked calls per month</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">🏡</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">Real Estate &amp; Mortgage</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">AI responds to leads in under 5 seconds, qualifies buyers and sellers, and books showings or consultations automatically.</p>
-              <div class="text-xs font-semibold text-brown-400">+25–35% more closed deals</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-7 border border-brown-100 card-hover reveal reveal-delay-2">
-          <div class="flex items-start gap-4">
-            <div class="text-3xl shrink-0">💼</div>
-            <div>
-              <h3 class="font-semibold text-brown-900 text-lg mb-1">Any Business With Staff</h3>
-              <p class="text-brown-500 text-sm leading-relaxed mb-3">If you're paying someone to answer phones, respond to emails, or book appointments — we can deploy AI to do it better for less.</p>
-              <div class="text-xs font-semibold text-brown-400">Custom deployment · 48-hour turnaround</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       RESULTS / TESTIMONIALS
-  ============================================================ -->
-  <section id="results" class="py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Client Results</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">What Happens When<br />AI Runs Your Front Office.</h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6 mb-12">
-        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal">
-          <div class="flex gap-1 mb-5">
-            <span class="text-brown-400">★★★★★</span>
-          </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"We were missing 20+ calls a week after hours — each one a potential PI case worth $30K+. The intake agent now answers every call, qualifies the case, and books the consult. We signed 6 new clients the first month."</p>
-          <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">DM</div>
-            <div>
-              <div class="font-semibold text-brown-900 text-sm">David Martinez</div>
-              <div class="text-brown-400 text-xs">Managing Partner — Martinez Injury Law, Dallas TX</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-1">
-          <div class="flex gap-1 mb-5">
-            <span class="text-brown-400">★★★★★</span>
-          </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"My paralegals were spending half their day answering emails about case status. Now the AI handles all of it. They're fully on billable work. We recovered $12K a month in paralegal time in the first 30 days."</p>
-          <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">SR</div>
-            <div>
-              <div class="font-semibold text-brown-900 text-sm">Sarah Reynolds</div>
-              <div class="text-brown-400 text-xs">Founder — Reynolds Family Law, Chicago IL</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-8 border border-brown-100 card-hover reveal reveal-delay-2">
-          <div class="flex gap-1 mb-5">
-            <span class="text-brown-400">★★★★★</span>
-          </div>
-          <p class="text-brown-700 leading-relaxed mb-6 text-[15px]">"The reactivation agent called through 3 months of cold leads from our database. It booked 11 consultations in the first two weeks. Three of those converted. That's $45K in cases from leads we had written off."</p>
-          <div class="flex items-center gap-3 pt-5 border-t border-brown-100">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brown-400 to-brown-600 flex items-center justify-center text-white font-semibold text-sm">JK</div>
-            <div>
-              <div class="font-semibold text-brown-900 text-sm">James Kowalski</div>
-              <div class="text-brown-400 text-xs">Partner — Kowalski &amp; Associates, Minneapolis MN</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal">
-          <div class="text-3xl font-bold text-brown-900">$100K+</div>
-          <div class="text-sm text-brown-500 mt-1">Avg. Annual Staff Savings</div>
-        </div>
-        <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-1">
-          <div class="text-3xl font-bold text-brown-900">48 hrs</div>
-          <div class="text-sm text-brown-500 mt-1">From Demo to Fully Live</div>
-        </div>
-        <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-2">
-          <div class="text-3xl font-bold text-brown-900">0</div>
-          <div class="text-sm text-brown-500 mt-1">Calls Missed After Hours</div>
-        </div>
-        <div class="stat-card rounded-2xl p-6 text-center border border-brown-100 reveal reveal-delay-3">
-          <div class="text-3xl font-bold text-brown-900">4.9★</div>
-          <div class="text-sm text-brown-500 mt-1">Average Client Rating</div>
+        <div class="case-results">
+          <span class="case-result-pill">8 min scope generation</span>
+          <span class="case-result-pill">2x faster approvals</span>
+          <span class="case-result-pill">$28k recovered month 1</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       PRICING
-  ============================================================ -->
-  <section id="pricing" class="py-28 bg-cream">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-6 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">Pricing</span>
-        <h2 class="text-4xl md:text-5xl font-bold text-brown-900 mt-3 mb-4 tracking-tight">Less Than One Associate.<br />Works Like Five.</h2>
-        <p class="text-brown-500 text-lg">One flat price. Every agent included. Live in 48 hours.</p>
-      </div>
-
-      <!-- ROI Guarantee Banner -->
-      <div class="max-w-3xl mx-auto mb-12 reveal">
-        <div class="bg-green-50 border border-green-200 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
-          <div class="text-4xl shrink-0">🛡️</div>
-          <div>
-            <div class="font-bold text-green-900 text-lg mb-1">60-Day ROI Guarantee</div>
-            <div class="text-green-700 text-sm leading-relaxed">If your AI agents don't recover at least their monthly fee in booked consultations within 60 days, we refund the difference. No fine print.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Single pricing card -->
-      <div class="max-w-xl mx-auto">
-        <div class="bg-brown-800 rounded-2xl border border-brown-700 p-10 price-card reveal relative">
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
-            <span class="bg-brown-400 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Full AI Workforce — Everything Included</span>
-          </div>
-          <div class="text-center mb-8 mt-2">
-            <div class="text-5xl font-bold text-white mb-1">$5,000<span class="text-xl font-normal text-brown-300">/mo</span></div>
-            <div class="text-brown-400 text-sm mt-2">+ $1,000 one-time setup fee</div>
-          </div>
-          <ul class="space-y-3 mb-10 text-sm text-brown-200">
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> 24/7 AI intake agent — answers every call, qualifies cases</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Practice-area intake scripts (PI, criminal defense, family law)</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Cal.com consultation booking built in</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Email inbox agent — handles client emails 24/7</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Missed call recovery — calls back within minutes</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> 14-day lead nurture sequence</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Retainer chase agent (day 1 / 3 / 7 / 14)</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Referral attorney nurture</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Weekly performance reports</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Real-time client dashboard</li>
-            <li class="flex items-start gap-2"><span class="text-green-400 font-bold mt-0.5">✓</span> Live in 48 hours</li>
-          </ul>
-          <a href="/demo.html" class="block text-center bg-white text-brown-800 font-bold py-4 rounded-xl hover:bg-brown-100 transition-colors text-lg">Book a Free Demo</a>
-          <p class="text-center text-brown-500 text-xs mt-4">No long-term contract required. Cancel with 30 days notice.</p>
-        </div>
-      </div>
-
-      <p class="text-center text-brown-400 text-sm mt-10 reveal">One price. Every agent. 60-day ROI guarantee included.</p>
+<!-- ═══ PROCESS ═══ -->
+<section style="background: var(--bg2);" id="process">
+  <div class="container">
+    <div style="text-align: center;" class="reveal">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title">Up and Running<br /><span class="grad-text">In Days, Not Months</span></h2>
+      <p class="section-sub" style="margin: 0 auto;">No long onboarding. No technical headaches. We handle everything — you just fill out one form and start capturing more jobs.</p>
     </div>
-  </section>
-
-  <!-- ============================================================
-       FAQ
-  ============================================================ -->
-  <section class="py-28 bg-white">
-    <div class="max-w-3xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-16 reveal">
-        <span class="text-brown-500 text-xs font-semibold uppercase tracking-widest">FAQ</span>
-        <h2 class="text-4xl font-bold text-brown-900 mt-3 tracking-tight">Common Questions</h2>
+    <div class="process-grid">
+      <div class="process-card reveal reveal-delay-1">
+        <div class="process-num">1</div>
+        <h3>Analyze Your Operations</h3>
+        <p>We map your current workflow — how calls come in, how jobs get booked, how you handle insurance — and identify every dollar being left on the table.</p>
       </div>
-
-      <div class="space-y-4" id="faq">
-
-        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal">
-          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
-            How is this different from a chatbot on my website?
-            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Completely different. Our agents work via phone calls, email, and SMS — not just a chat widget. They're trained on your specific business, speak naturally, and handle complex multi-turn conversations. They can take actions: book appointments, send follow-ups, create work orders, and more. A chatbot answers FAQs. Our agents do the actual work.</div>
-        </div>
-
-        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-1">
-          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
-            What if an agent says something wrong?
-            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Every response that matters goes into your approval queue before it's sent. You review it, approve or reject, done. Urgent situations get flagged immediately and escalated to you. You have full control — the AI does the drafting, you have the final say.</div>
-        </div>
-
-        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-2">
-          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
-            Do my clients know they're talking to AI?
-            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">The agents are professional and natural — clients generally don't realize it's AI unless you disclose it. You choose how to brand the agents (your company name, custom persona). For regulated industries, we include appropriate disclosures by default.</div>
-        </div>
-
-        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal reveal-delay-3">
-          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
-            What do I need to get started?
-            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Almost nothing. We run a 30-minute onboarding call where you tell us how your business works — your processes, your typical client questions, your calendar system. We handle everything else. Most businesses are fully live within 48 hours of signing up.</div>
-        </div>
-
-        <div class="bg-cream rounded-2xl border border-brown-100 overflow-hidden reveal">
-          <button onclick="toggleFaq(this)" class="w-full text-left px-7 py-5 flex items-center justify-between font-semibold text-brown-900">
-            Can I cancel if it's not working?
-            <svg class="w-5 h-5 text-brown-400 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="hidden px-7 pb-5 text-brown-500 text-sm leading-relaxed">Monthly plans can be cancelled with 30 days notice. Annual plans (which save 13–22%) commit to a 12-month term — but come with our 60-day ROI guarantee, so you're not locked into something that isn't working. Most clients see ROI within the first 30 days and never look back.</div>
-        </div>
-
+      <div class="process-card reveal reveal-delay-2">
+        <div class="process-num">2</div>
+        <h3>Build Your AI System</h3>
+        <p>Custom AI receptionist and scope generator built specifically for your business. Trained on your services, your calendar, your process.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-3">
+        <div class="process-num">3</div>
+        <h3>Optimize and Scale</h3>
+        <p>Real-time performance tracking, continuous improvements, and measurable results you can see every single month.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       FINAL CTA
-  ============================================================ -->
-  <section class="py-24 bg-gradient-to-br from-brown-900 via-brown-800 to-brown-700 relative overflow-hidden">
-    <div class="noise absolute inset-0"></div>
-    <div class="absolute top-0 right-0 w-96 h-96 bg-brown-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/4"></div>
-    <div class="relative max-w-4xl mx-auto px-6 text-center reveal">
-      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
-        Every intake call you miss<br />is a case your competitor takes.
-      </h2>
-      <p class="text-brown-200 text-xl mb-4 leading-relaxed">AI agents built for law firms. Live in 48 hours. 60-day ROI guarantee.</p>
-      <p class="text-brown-300 text-base mb-10">The firms that automate their intake first will dominate their market. Book your demo today — no commitment, 30 minutes, live AI agents.</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/demo.html" class="inline-block bg-white text-brown-800 font-bold px-10 py-4 rounded-xl text-base hover:bg-brown-50 transition-colors shadow-xl">
-          Book a Free Demo →
-        </a>
-        <a href="/demo.html" class="text-brown-200 font-medium text-base hover:text-white transition-colors">
-          $5,000/mo + $1,000 setup — 60-day guarantee
-        </a>
+<!-- ═══ BENEFITS ═══ -->
+<section class="benefits-section">
+  <div class="container">
+    <div style="text-align: center;" class="reveal">
+      <span class="section-tag">Why Noone Capital</span>
+      <h2 class="section-title">Built for the<br /><span class="grad-text">Way You Work</span></h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal reveal-delay-1">
+        <span class="benefit-icon">🌙</span>
+        <h3>24/7 Call Coverage</h3>
+        <p>Never miss a job again — day, night, weekend, or holiday. Water damage doesn't wait and neither does your AI.</p>
+      </div>
+      <div class="benefit-card reveal reveal-delay-2">
+        <span class="benefit-icon">💸</span>
+        <h3>Faster Insurance Payments</h3>
+        <p>Professional scopes that adjusters approve quickly. Stop waiting 3–4 weeks to get paid on jobs you already completed.</p>
+      </div>
+      <div class="benefit-card reveal reveal-delay-3">
+        <span class="benefit-icon">🔄</span>
+        <h3>Zero Manual Follow-Up</h3>
+        <p>AI handles voicemails, no-shows, and cancellations automatically. Nothing slips through the cracks.</p>
+      </div>
+      <div class="benefit-card reveal reveal-delay-1">
+        <span class="benefit-icon">🔌</span>
+        <h3>Seamless Integration</h3>
+        <p>Works with your existing calendar and systems. No ripping out what works — just making it smarter.</p>
+      </div>
+      <div class="benefit-card reveal reveal-delay-2">
+        <span class="benefit-icon">📈</span>
+        <h3>Scalable Growth</h3>
+        <p>Handle more jobs without hiring more admin staff. Your AI scales with your business automatically.</p>
+      </div>
+      <div class="benefit-card reveal reveal-delay-3">
+        <span class="benefit-icon">✅</span>
+        <h3>Proven ROI</h3>
+        <p>Average client sees 35%+ revenue increase within 60 days. One recovered job covers months of service.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer class="bg-brown-900 text-brown-300 py-16">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="grid md:grid-cols-4 gap-10 mb-12">
-        <div class="md:col-span-2">
-          <div class="flex items-center gap-3 mb-4">
-            <svg width="36" height="36" viewBox="0 0 42 42" fill="none">
-              <rect width="42" height="42" rx="10" fill="rgba(255,255,255,0.15)"/>
-              <path d="M12 30V12l18 18V12" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:2px;color:white;line-height:1">NOONE</div>
-              <div style="font-family:Inter,sans-serif;font-size:8px;font-weight:500;letter-spacing:4px;color:#c08a5a;line-height:1;margin-top:3px">CAPITAL</div>
-            </div>
-          </div>
-          <p class="text-brown-400 text-sm leading-relaxed max-w-sm">
-            We build custom AI workforces for law firms — intake agents, email agents, scheduling agents, and lead reactivation. Live in 48 hours. 60-day ROI guarantee.
-          </p>
-          <div class="mt-4 text-xs text-brown-500">
-            1620 Lusitano St Unit 312 · Shakopee, MN 55379<br />
-            infonoone@noonecapital.net · 612-220-0860
-          </div>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold text-sm mb-4">Industries</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="#industries" class="hover:text-white transition-colors">Law Firms</a></li>
-            <li><a href="#industries" class="hover:text-white transition-colors">Property Management</a></li>
-            <li><a href="#industries" class="hover:text-white transition-colors">HVAC &amp; Contractors</a></li>
-            <li><a href="#industries" class="hover:text-white transition-colors">Home Services</a></li>
-            <li><a href="#industries" class="hover:text-white transition-colors">Real Estate</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="/demo.html" class="hover:text-white transition-colors">Book a Demo</a></li>
-            <li><a href="/dashboard.html" class="hover:text-white transition-colors">Client Login</a></li>
-            <li><a href="/privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="/terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="mailto:infonoone@noonecapital.net" class="hover:text-white transition-colors">Contact Us</a></li>
-          </ul>
-        </div>
+<!-- ═══ FAQ ═══ -->
+<section id="faq">
+  <div class="container" style="max-width: 780px;">
+    <div style="text-align: center;" class="reveal">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Common <span class="grad-text">Questions</span></h2>
+    </div>
+    <div class="faq-list reveal reveal-delay-1">
+      <div class="faq-item">
+        <button class="faq-question">
+          What types of restoration companies do you work with?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">We work exclusively with restoration companies — water damage, fire damage, mold remediation, and general property restoration. Our system is built around how restoration businesses actually operate, not generic templates.</div>
       </div>
-
-      <div class="border-t border-brown-800 pt-8">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-brown-600">
-          <div>© 2025 Noone Capital LLC. All rights reserved. | Noone Capital LLC is not a registered investment advisor.</div>
-          <div class="flex gap-6">
-            <a href="/privacy-policy.html" class="hover:text-brown-400 transition-colors">Privacy Policy</a>
-            <a href="/terms.html" class="hover:text-brown-400 transition-colors">Terms</a>
-          </div>
-        </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How long does it take to get set up?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">Most clients are fully live within 3–5 business days. You fill out one onboarding form, we handle the rest. No technical knowledge required on your end.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What makes Noone Capital different from other agencies?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">We only work with restoration companies. We built the scope document generator specifically for this industry. Most agencies give you generic tools — we give you systems built around the exact problems restoration companies face every day.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Do I need any technical experience?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">None at all. If you can send a text message, you can use our system. We build it, we manage it, we optimize it. You just run your business and watch the results.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What results can I realistically expect?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">Most clients see a measurable increase in booked jobs within the first 30 days from recovered missed calls alone. The scope generator typically accelerates insurance payment timelines by 1–2 weeks per claim. Combined, clients average 35–41% revenue increases within 60 days.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the scope document generator work exactly?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-answer">Your tech fills out a simple form on-site — damage type, rooms affected, moisture readings, equipment placed. Takes 3–5 minutes. Our AI then generates a complete, professional scope of work document in insurance-standard language. You export it as a PDF and email it to the adjuster the same day. Faster approval, faster payment.</div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal')
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
-    }, { threshold: 0.1 })
-    reveals.forEach(el => observer.observe(el))
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div style="position: relative; z-index: 1;" class="reveal">
+    <span class="section-tag">Get Started</span>
+    <h2>Ready to Capture<br /><span class="grad-text">Every Job?</span></h2>
+    <p>Book a free 20-minute demo. We'll show you exactly how the system works and what it would look like for your business.</p>
+    <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes" class="btn-primary" style="font-size: 17px; padding: 18px 40px;">Book a Free Demo</a>
+  </div>
+</section>
 
-    // Sticky nav
-    window.addEventListener('scroll', () => {
-      const nav = document.getElementById('navbar')
-      if (window.scrollY > 20) {
-        nav.classList.add('bg-white/90', 'nav-blur', 'border-b', 'border-brown-100', 'shadow-sm')
-      } else {
-        nav.classList.remove('bg-white/90', 'nav-blur', 'border-b', 'border-brown-100', 'shadow-sm')
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">NCI | Noone Capital</span>
+      <p>AI systems built exclusively for restoration companies. Capture more jobs, get paid faster, and scale without the overhead.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#solutions">AI Receptionist</a>
+        <a href="#solutions">Scope Generator</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#process">How It Works</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#results">Results</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:infonoone@noonecapital.net">Contact</a>
+        <a href="https://cal.com/noonecapital-uzv4pm/consultation-15-minutes">Book a Demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Noone Capital. All rights reserved.</p>
+    <p style="color: var(--muted); font-size: 13px;">AI Built for Restoration.</p>
+  </div>
+</footer>
+
+<script>
+  // ─── NAV SCROLL ───
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ─── SCROLL REVEAL ───
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
       }
-    })
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
 
-    // Mobile menu
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      document.getElementById('mobile-menu').classList.toggle('hidden')
-    })
+  // ─── COUNTER ANIMATION ───
+  function animateCounter(el, target, suffix = '+') {
+    let start = 0;
+    const duration = 1800;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + (progress < 1 ? '' : suffix);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
 
-    // FAQ accordion
-    function toggleFaq(btn) {
-      const content = btn.nextElementSibling
-      const icon = btn.querySelector('svg')
-      const isOpen = !content.classList.contains('hidden')
-      // Close all
-      document.querySelectorAll('#faq .hidden + *').forEach(el => {})
-      document.querySelectorAll('#faq button').forEach(b => {
-        b.nextElementSibling.classList.add('hidden')
-        b.querySelector('svg').style.transform = ''
-      })
-      if (!isOpen) {
-        content.classList.remove('hidden')
-        icon.style.transform = 'rotate(180deg)'
+  const statNums = document.querySelectorAll('.stat-num[data-target]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const target = parseInt(e.target.dataset.target);
+        const suffix = e.target.dataset.suffix || '+';
+        animateCounter(e.target, target, suffix);
+        counterObserver.unobserve(e.target);
       }
-    }
-  </script>
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => counterObserver.observe(el));
+
+  // ─── FAQ ACCORDION ───
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ─── CHAT TYPING LOOP ───
+  const chatMsgs = document.getElementById('chatMessages');
+  const lastMsg = chatMsgs?.querySelector('.msg:last-child');
+  if (lastMsg) {
+    setInterval(() => {
+      lastMsg.style.opacity = '0';
+      setTimeout(() => { lastMsg.style.opacity = '1'; }, 1000);
+    }, 4000);
+  }
+</script>
 </body>
 </html>
