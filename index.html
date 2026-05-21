@@ -446,71 +446,57 @@
           <!-- Workflow diagram -->
           <div class="wf-diagram">
             <div class="wf-diagram-inner">
-              <!-- Row 1: trigger -->
+              <!-- Node 1: Voice Agent -->
               <div class="wf-row">
                 <div class="wf-node trigger">
                   <div class="wf-node-ico">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Trigger</span><span class="wf-node-sub">New lead captured</span></div>
-                  <div class="wf-node-badge active">Live</div>
-                </div>
-              </div>
-              <div class="wf-line"></div>
-              <!-- Row 2: two parallel -->
-              <div class="wf-row two">
-                <div class="wf-node">
-                  <div class="wf-node-ico">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  </div>
-                  <div class="wf-node-text"><span class="wf-node-label">AI Outreach</span><span class="wf-node-sub">SMS + Email sent</span></div>
-                  <div class="wf-node-badge done">Done</div>
-                </div>
-                <div class="wf-node">
-                  <div class="wf-node-ico">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Voice Agent</span><span class="wf-node-sub">Call initiated</span></div>
+                  <div class="wf-node-text"><span class="wf-node-label">Voice Agent</span><span class="wf-node-sub">Call completed</span></div>
                   <div class="wf-node-badge done">Done</div>
                 </div>
               </div>
               <div class="wf-line"></div>
-              <!-- Row 3: qualify -->
+              <!-- Node 2: OpenAI / Transcription -->
               <div class="wf-row">
                 <div class="wf-node">
                   <div class="wf-node-ico">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
                   </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Qualify Lead</span><span class="wf-node-sub">AI scored: High intent</span></div>
+                  <div class="wf-node-text"><span class="wf-node-label">OpenAI / Transcription &amp; Intent Engine</span><span class="wf-node-sub">Summarize and extract details</span></div>
                   <div class="wf-node-badge done">Done</div>
                 </div>
               </div>
               <div class="wf-line"></div>
-              <!-- Row 4: book + crm -->
-              <div class="wf-row two">
-                <div class="wf-node">
-                  <div class="wf-node-ico">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Book Appointment</span><span class="wf-node-sub">Calendar updated</span></div>
-                  <div class="wf-node-badge active">Live</div>
-                </div>
+              <!-- Node 3: CRM / Google Sheets -->
+              <div class="wf-row">
                 <div class="wf-node">
                   <div class="wf-node-ico">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
                   </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Update CRM</span><span class="wf-node-sub">Record synced</span></div>
+                  <div class="wf-node-text"><span class="wf-node-label">CRM / Google Sheets Sync</span><span class="wf-node-sub">Update customer record</span></div>
                   <div class="wf-node-badge done">Done</div>
                 </div>
               </div>
               <div class="wf-line"></div>
-              <!-- Row 5: dashboard -->
+              <!-- Node 4: Gmail / WhatsApp -->
+              <div class="wf-row">
+                <div class="wf-node">
+                  <div class="wf-node-ico">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#738ef5" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  </div>
+                  <div class="wf-node-text"><span class="wf-node-label">Gmail / WhatsApp API</span><span class="wf-node-sub">Send follow-up message</span></div>
+                  <div class="wf-node-badge active">Live</div>
+                </div>
+              </div>
+              <div class="wf-line"></div>
+              <!-- Node 5: Calendar / Dashboard -->
               <div class="wf-row">
                 <div class="wf-node success">
                   <div class="wf-node-ico green">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                   </div>
-                  <div class="wf-node-text"><span class="wf-node-label">Dashboard Updated</span><span class="wf-node-sub">ROI logged · Workflow complete</span></div>
+                  <div class="wf-node-text"><span class="wf-node-label">Calendar / Dashboard</span><span class="wf-node-sub">Auto-schedule and confirm</span></div>
                   <div class="wf-node-badge done">Complete</div>
                 </div>
               </div>
